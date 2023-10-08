@@ -6,5 +6,15 @@ namespace skating_system
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void next_btn_Click(object sender, EventArgs e)
+        {
+            new dances().ShowDialog();
+        }
     }
 }
