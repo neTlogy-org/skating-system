@@ -22,6 +22,6 @@ namespace skating_system
         {
 
         }
-        
+
     }
 }

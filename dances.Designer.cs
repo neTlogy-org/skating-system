@@ -33,6 +33,7 @@
             dataGridView1 = new DataGridView();
             judge_id = new DataGridViewTextBoxColumn();
             couple1 = new DataGridViewTextBoxColumn();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -75,11 +76,21 @@
             couple1.HeaderText = "pár č. 1";
             couple1.Name = "couple1";
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(74, 110);
+            label2.Name = "label2";
+            label2.Size = new Size(714, 15);
+            label2.TabIndex = 3;
+            label2.Text = "https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridview?view=windowsdesktop-7.0&redirectedfrom=MSDN";
+            // 
             // dances
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label2);
             Controls.Add(dataGridView1);
             Controls.Add(textBox1);
             Controls.Add(label1);
@@ -97,5 +108,6 @@
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn judge_id;
         private DataGridViewTextBoxColumn couple1;
+        private Label label2;
     }
 }
