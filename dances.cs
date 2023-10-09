@@ -15,7 +15,7 @@ namespace skating_system
     public partial class dances : Form
     {
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
-        int[] spacing = { 120, 40 };
+        int[] spacing = { 40, 40 };
         int[] offset = { 20, 20 };
         public dances()
         {
@@ -27,6 +27,7 @@ namespace skating_system
                 {
                     textBoxArr[x, y] = new TextBox();
                     textBoxArr[x, y].Parent = panel1;
+                    textBoxArr[x, y].Size = new Size(30, 30);
                     textBoxArr[x, y].Visible = true;
                     textBoxArr[x, y].Location = new Point(x * spacing[0] + offset[0], y * spacing[1] + offset[1]);
                 }
