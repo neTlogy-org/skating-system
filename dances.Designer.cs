@@ -31,9 +31,9 @@
             label1 = new Label();
             textBox1 = new TextBox();
             groupBox1 = new GroupBox();
-            label2 = new Label();
             next_btn = new Button();
             back_btn = new Button();
+            label2 = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -65,16 +65,6 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Tabulka hodnocení";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(223, 124);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 15);
-            label2.TabIndex = 0;
-            label2.Text = "label2";
-            label2.Click += label2_Click;
-            // 
             // next_btn
             // 
             next_btn.Location = new Point(713, 420);
@@ -93,6 +83,16 @@
             back_btn.TabIndex = 6;
             back_btn.Text = "Zpět";
             back_btn.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(223, 124);
+            label2.Name = "label2";
+            label2.Size = new Size(38, 15);
+            label2.TabIndex = 0;
+            label2.Text = "label2";
+            label2.Click += label2_Click;
             // 
             // dances
             // 
