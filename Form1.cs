@@ -13,7 +13,7 @@ namespace skating_system
             InitializeComponent();
         }
 
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -22,10 +22,42 @@ namespace skating_system
 
         private void next_btn_Click(object sender, EventArgs e)
         {
-            CoupleCnt = Convert.ToInt32(coupleCnt_TB.Text);
+            if (!(int.TryParse(coupleCnt_TB.Text, out coupleCnt) && int.TryParse(judgeCnt_TB.Text, out judgeCnt) && int.TryParse(danceCnt_TB.Text, out danceCnt)))
+            {
+                MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             new dances().ShowDialog();
 
 
         }
+
+        private void coupleCnt_TB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                judgeCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+        private void judgeCnt_TB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                danceCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void danceCnt_TB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                next_btn.Focus();
+                e.Handled = true;
+            }
+        }
+
+       
     }
 }

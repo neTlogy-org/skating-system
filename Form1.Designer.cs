@@ -55,6 +55,7 @@
             coupleCnt_TB.Name = "coupleCnt_TB";
             coupleCnt_TB.Size = new Size(100, 23);
             coupleCnt_TB.TabIndex = 1;
+            coupleCnt_TB.KeyPress += coupleCnt_TB_KeyPress;
             // 
             // judgeCnt_TB
             // 
@@ -62,6 +63,7 @@
             judgeCnt_TB.Name = "judgeCnt_TB";
             judgeCnt_TB.Size = new Size(100, 23);
             judgeCnt_TB.TabIndex = 2;
+            judgeCnt_TB.KeyPress += judgeCnt_TB_KeyPress;
             // 
             // danceCnt_TB
             // 
@@ -69,6 +71,7 @@
             danceCnt_TB.Name = "danceCnt_TB";
             danceCnt_TB.Size = new Size(100, 23);
             danceCnt_TB.TabIndex = 3;
+            danceCnt_TB.KeyPress += danceCnt_TB_KeyPress;
             // 
             // label1
             // 
