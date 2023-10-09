@@ -51,7 +51,7 @@
             // 
             // coupleCnt_TB
             // 
-            coupleCnt_TB.Location = new Point(382, 152);
+            coupleCnt_TB.Location = new Point(382, 178);
             coupleCnt_TB.Name = "coupleCnt_TB";
             coupleCnt_TB.Size = new Size(100, 23);
             coupleCnt_TB.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // judgeCnt_TB
             // 
-            judgeCnt_TB.Location = new Point(382, 181);
+            judgeCnt_TB.Location = new Point(382, 207);
             judgeCnt_TB.Name = "judgeCnt_TB";
             judgeCnt_TB.Size = new Size(100, 23);
             judgeCnt_TB.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             // danceCnt_TB
             // 
-            danceCnt_TB.Location = new Point(382, 210);
+            danceCnt_TB.Location = new Point(382, 236);
             danceCnt_TB.Name = "danceCnt_TB";
             danceCnt_TB.Size = new Size(100, 23);
             danceCnt_TB.TabIndex = 3;
@@ -76,7 +76,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(309, 155);
+            label1.Location = new Point(309, 181);
             label1.Name = "label1";
             label1.Size = new Size(67, 15);
             label1.TabIndex = 4;
@@ -85,7 +85,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(288, 184);
+            label2.Location = new Point(288, 210);
             label2.Name = "label2";
             label2.Size = new Size(88, 15);
             label2.TabIndex = 5;
@@ -94,7 +94,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(303, 213);
+            label3.Location = new Point(303, 239);
             label3.Name = "label3";
             label3.Size = new Size(73, 15);
             label3.TabIndex = 6;
@@ -102,7 +102,7 @@
             // 
             // next_btn
             // 
-            next_btn.Location = new Point(394, 239);
+            next_btn.Location = new Point(394, 265);
             next_btn.Name = "next_btn";
             next_btn.Size = new Size(75, 23);
             next_btn.TabIndex = 7;

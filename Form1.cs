@@ -58,6 +58,6 @@ namespace skating_system
             }
         }
 
-       
+
     }
 }
