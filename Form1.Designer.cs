@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             prompt = new Label();
-            pairCnt_TB = new TextBox();
+            coupleCnt_TB = new TextBox();
             judgeCnt_TB = new TextBox();
             danceCnt_TB = new TextBox();
             label1 = new Label();
@@ -49,12 +49,12 @@
             prompt.TabIndex = 0;
             prompt.Text = "Vítejte v Artimo skating systému";
             // 
-            // pairCnt_TB
+            // coupleCnt_TB
             // 
-            pairCnt_TB.Location = new Point(382, 152);
-            pairCnt_TB.Name = "pairCnt_TB";
-            pairCnt_TB.Size = new Size(100, 23);
-            pairCnt_TB.TabIndex = 1;
+            coupleCnt_TB.Location = new Point(382, 152);
+            coupleCnt_TB.Name = "coupleCnt_TB";
+            coupleCnt_TB.Size = new Size(100, 23);
+            coupleCnt_TB.TabIndex = 1;
             // 
             // judgeCnt_TB
             // 
@@ -118,7 +118,7 @@
             Controls.Add(label1);
             Controls.Add(danceCnt_TB);
             Controls.Add(judgeCnt_TB);
-            Controls.Add(pairCnt_TB);
+            Controls.Add(coupleCnt_TB);
             Controls.Add(prompt);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
@@ -132,7 +132,7 @@
         #endregion
 
         private Label prompt;
-        private TextBox pairCnt_TB;
+        private TextBox coupleCnt_TB;
         private TextBox judgeCnt_TB;
         private TextBox danceCnt_TB;
         private Label label1;
