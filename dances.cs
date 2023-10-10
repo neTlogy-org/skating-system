@@ -23,6 +23,7 @@ namespace skating_system
         int headerSpace = 60;
         int headerOffset = 3;
         int size = 30;
+
         public dances()
         {
             InitializeComponent();
@@ -57,6 +58,7 @@ namespace skating_system
                         coupleNums[x - 1].Size = new Size(size, size);
                         coupleNums[x - 1].Visible = true;
                         coupleNums[x - 1].Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1]);
+                        coupleNums[x - 1].KeyDown += tb_btn_KeyDown;
                         continue;
 
                     }
@@ -73,7 +75,7 @@ namespace skating_system
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void tb_btn_KeyDown(object sender, EventArgs e)
         {
 
         }

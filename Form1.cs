@@ -27,7 +27,8 @@
                 MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if(coupleCnt > 70 ||  judgeCnt > 70 || danceCnt > 50) {
+            if (coupleCnt > 70 || judgeCnt > 70 || danceCnt > 50)
+            {
                 MessageBox.Show("Maximální počet párů, porotců nebo tancu překročen (70, 70, 50)", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -43,6 +44,7 @@
                 judgeCnt_TB.Focus();
                 e.Handled = true;
             }
+
         }
         private void judgeCnt_TB_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -60,8 +62,55 @@
                 next_btn.Focus();
                 e.Handled = true;
             }
+
         }
 
 
+        private void coupleCnt_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                judgeCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void judgeCnt_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                danceCnt_TB.Focus();
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                coupleCnt_TB.Focus();
+                e.Handled = true;
+            }
+
+        }
+
+        private void danceCnt_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                next_btn.Focus();
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                judgeCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void next_btn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                danceCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
     }
 }
