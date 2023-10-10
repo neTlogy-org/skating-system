@@ -1,4 +1,4 @@
-namespace skating_system
+﻿namespace skating_system
 {
     public partial class Form1 : Form
     {
@@ -24,7 +24,11 @@ namespace skating_system
         {
             if (!(int.TryParse(coupleCnt_TB.Text, out coupleCnt) && int.TryParse(judgeCnt_TB.Text, out judgeCnt) && int.TryParse(danceCnt_TB.Text, out danceCnt)))
             {
-                MessageBox.Show("�patn� vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if(coupleCnt > 70 ||  judgeCnt > 70 || danceCnt > 50) {
+                MessageBox.Show("Maximální počet párů, porotců nebo tancu překročen (70, 70, 50)", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             new dances().ShowDialog();

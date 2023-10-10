@@ -14,41 +14,57 @@ namespace skating_system
 {
     public partial class dances : Form
     {
+        TextBox[] coupleNums = new TextBox[Form1.CoupleCnt];
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
         int[] spacing = { 40, 40 };
         int[] offset = { 20, 20 };
+        int headerSpace = 60;
+        int headerOffset = 3;
+        int size = 30;
         public dances()
         {
             InitializeComponent();
 
             headerColumn = new Label();
             headerColumn.Parent = panel1;
+            headerColumn.Text = "Číslo páru:";
 
-            for (int y = 0; y < textBoxArr.GetLength(1); y++)
+            for (int y = 0; y < textBoxArr.GetLength(1) + 1; y++)
             {
-                for (int x = 0; x < textBoxArr.GetLength(0); x++)
+                for (int x = 0; x < textBoxArr.GetLength(0) + 1; x++)
                 {
                     if (x == 0 && y == 0)
                     {
                         headerColumn.Visible = true;
-                        headerColumn.Location = new Point(offset[0], offset[1]);
+                        headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
                         continue;
-                    }
+                    }   
                     if(x == 0)
                     {
-                        labelArr[y] = new Label();
-                        labelArr[y].Parent = panel1;
-                        labelArr[y].Text = "Porodce č.:";
-                        labelArr[y].Visible = true;
-                        labelArr[y].Location = new Point(x * spacing[0] + offset[0], offset[1]);
+                        labelArr[y - 1] = new Label();
+                        labelArr[y - 1].Parent = panel1;
+                        labelArr[y - 1].Text = $"Porodce č. {y}";
+                        labelArr[y - 1].Visible = true;
+                        labelArr[y - 1].Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset);
+                        continue;
                     }
-                    textBoxArr[x, y] = new TextBox();
-                    textBoxArr[x, y].Parent = panel1;
-                    textBoxArr[x, y].Size = new Size(30, 30);
-                    textBoxArr[x, y].Visible = true;
-                    textBoxArr[x, y].Location = new Point(x * spacing[0] + offset[0], y * spacing[1] + offset[1]);
+                    if(y == 0)
+                    {
+                        coupleNums[x - 1] = new TextBox();
+                        coupleNums[x - 1].Parent = panel1;
+                        coupleNums[x - 1].Size = new Size(size, size);
+                        coupleNums[x - 1].Visible = true;
+                        coupleNums[x - 1].Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1]);
+                        continue;
+
+                    }
+                    textBoxArr[x - 1, y - 1] = new TextBox();
+                    textBoxArr[x - 1, y - 1].Parent = panel1;
+                    textBoxArr[x - 1, y - 1].Size = new Size(size, size);
+                    textBoxArr[x - 1, y - 1].Visible = true;
+                    textBoxArr[x - 1, y - 1].Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]);
                 }
             }
 
