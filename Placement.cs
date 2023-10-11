@@ -11,6 +11,11 @@ namespace skating_system
         public int[] score;
         public int starting_number;
 
+        /// <summary>
+        /// Constructor for the Dancer class
+        /// </summary>
+        /// <param name="score">Array of scores achieved by this dancer</param>
+        /// <param name="starting_number">The starting number of dancer</param>
         public Dancer(int[] score, int starting_number)
         {
             this.score = score;
@@ -21,13 +26,24 @@ namespace skating_system
     internal class Placement
     {
         // tance, porotce - sloupec, tanecnik - radek
+        /// <summary>
+        /// A list of lists of dancers, which represents individual dances
+        /// </summary>
         List<List<Dancer>> rating;
 
+        /// <summary>
+        /// Constructor for the Placement class
+        /// </summary>
+        /// <param name="rating">A List containing another List of Dancers for each dance</param>
         public Placement(List<List<Dancer>> rating)
         {
             this.rating = rating;
         }
 
+        /// <summary>
+        /// Main method of this class
+        /// </summary>
+        /// <returns>Dictionary with total skore mapped to the Dancers number</returns>
         public Dictionary<int, int> Evaluate()
         {
             List<List<int>> results = new List<List<int>>();
@@ -56,7 +72,13 @@ namespace skating_system
             return final_results;
         }
 
-        public List<int> EvaluateDance(List<Dancer> dance)
+        /// <summary>
+        /// Evaluates a single dance
+        /// Can be used outside of class if the right input is guaranteed.
+        /// </summary>
+        /// <param name="dance">A dance you want to evaluate</param>
+        /// <returns>List of dancers numbers ordered by their mark</returns>
+        static private List<int> EvaluateDance(List<Dancer> dance)
         {
             List<int> order = new List<int>();
 
@@ -75,7 +97,13 @@ namespace skating_system
             return order;
         }
 
-        private int FindMajority(List<Dancer> dance, int stage)
+        /// <summary>
+        /// Finds the current best graded Dancer
+        /// </summary>
+        /// <param name="dance"></param>
+        /// <param name="stage"></param>
+        /// <returns>Index of dancer or -1 if no Dancer meets the requirements</returns>
+        static private int FindMajority(List<Dancer> dance, int stage)
         {
             int max_count = 0, index = 0;
 
