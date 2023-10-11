@@ -12,8 +12,17 @@ using System.Windows.Forms;
 
 namespace skating_system
 {
+    struct Dance
+    {
+        public Dance(string dance, int[] couples_ids, int judgeCnt, int[,] marks) {
+            
+        }
+    }
     public partial class dances : Form
     {
+
+        
+
         TextBox[] coupleNums = new TextBox[Form1.CoupleCnt];
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
@@ -96,7 +105,7 @@ namespace skating_system
                         labelArr[y - 1] = new Label
                         {
                             Parent = panel1,
-                            Text = $"Porodce {Convert.ToChar('A' + y - 1)}",
+                            Text = $"Porotce {Convert.ToChar('A' + y - 1)}",
                             Visible = true,
                             Width = 90,
                             Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
@@ -158,6 +167,7 @@ namespace skating_system
         private void next_btn_Click(object sender, EventArgs e)
         {
             dance++;
+
         }
     }
 }

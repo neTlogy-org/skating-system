@@ -90,9 +90,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(288, 210);
             label2.Name = "label2";
-            label2.Size = new Size(88, 15);
+            label2.Size = new Size(85, 15);
             label2.TabIndex = 5;
-            label2.Text = "Počet porodců:";
+            label2.Text = "Počet porotců:";
             // 
             // label3
             // 
