@@ -8,8 +8,8 @@ namespace skating_system
 {
     struct Dancer
     {
-        public int[] score;
-        public int starting_number;
+        public readonly int[] score;
+        public readonly int starting_number;
 
         /// <summary>
         /// Constructor for the Dancer class
