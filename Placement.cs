@@ -6,34 +6,34 @@ using System.Threading.Tasks;
 
 namespace skating_system
 {
-    struct Tanecnik
+    struct Dancer
     {
-        public int[] skore;
-        public int cislo;
+        public int[] score;
+        public int starting_number;
 
-        public Tanecnik(int[] skore, int cislo)
+        public Dancer(int[] score, int starting_number)
         {
-            this.skore = skore;
-            this.cislo = cislo;
+            this.score = score;
+            this.starting_number = starting_number;
         }
     }
 
     internal class Placement
     {
         // tance, porotce - sloupec, tanecnik - radek
-        List<List<Tanecnik>> hodnoceni;
+        List<List<Dancer>> rating;
 
-        public Placement(List<List<Tanecnik>> hodnoceni)
+        public Placement(List<List<Dancer>> rating)
         {
-            this.hodnoceni = hodnoceni;
+            this.rating = rating;
         }
 
-        public Dictionary<int, int> Vyhodnotit()
+        public Dictionary<int, int> Evaluate()
         {
             List<List<int>> results = new List<List<int>>();
-            for (int i = 0; i < hodnoceni.Count; i++)
+            for (int i = 0; i < rating.Count; i++)
             {
-                results.Add(VyhodnotitTanec(hodnoceni[i]));
+                results.Add(EvaluateDance(rating[i]));
             }
 
             Dictionary<int, int> final_results = new Dictionary<int, int>();
@@ -56,48 +56,48 @@ namespace skating_system
             return final_results;
         }
 
-        public List<int> VyhodnotitTanec(List<Tanecnik> tanec)
+        public List<int> EvaluateDance(List<Dancer> dance)
         {
-            List<int> poradi = new List<int>();
+            List<int> order = new List<int>();
 
             int stage = 1;
-            while (tanec.Count > 0)
+            while (dance.Count > 0)
             {
-                int i = NajitVetsinu(tanec, stage);
+                int i = FindMajority(dance, stage);
                 if (i >= 0)
                 {
-                    poradi.Add(tanec[i].cislo);
-                    tanec.RemoveAt(i);
+                    order.Add(dance[i].starting_number);
+                    dance.RemoveAt(i);
                 }
                 stage++;
             }
 
-            return poradi;
+            return order;
         }
 
-        private int NajitVetsinu(List<Tanecnik> tanec, int stage)
+        private int FindMajority(List<Dancer> dance, int stage)
         {
-            int max_pocet = 0, index = 0;
+            int max_count = 0, index = 0;
 
-            for (int i = 0; i < tanec.Count; i++)
+            for (int i = 0; i < dance.Count; i++)
             {
-                int pocet = 0;
-                foreach (int znamka in tanec[i].skore)
+                int count = 0;
+                foreach (int mark in dance[i].score)
                 {
-                    if (znamka <= stage)
+                    if (mark <= stage)
                     {
-                        pocet++;
+                        count++;
                     }
                 }
 
-                if (pocet > max_pocet)
+                if (count > max_count)
                 {
-                    max_pocet = pocet;
+                    max_count = count;
                     index = i;
                 }
             }
 
-            if (max_pocet >= tanec.Count / 2)
+            if (max_count >= dance.Count / 2)
             {
                 return index;
             }
