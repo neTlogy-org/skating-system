@@ -77,20 +77,29 @@ namespace skating_system
 
         private void next_btn_Click(object sender, EventArgs e)
         {
-            int[] coupleIDs = new int[coupleNums.Length];
-            for (int i = 0; i < coupleNums.Length; i++)
+            int[] coupleIDs = new int[Form1.CoupleCnt];
+            int[,] marks = new int[Form1.CoupleCnt, Form1.JudgeCnt];
+
+            for(int x = 0; x < Form1.CoupleCnt; x++)
+            {
+                for(int y = 0; y < Form1.JudgeCnt; y++)
+                {
+                    marks[x, y] = Convert.ToInt32(textBoxArr[x, y].Text);
+                    textBoxArr[x, y].Text = "";
+                }
+            }
+
+            for (int i = 0; i < Form1.CoupleCnt; i++)
             {
                 coupleIDs[i] = Convert.ToInt32(coupleNums[i].Text);
             }
 
-            dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, );
+
+            dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, marks);
+
             dance++;
 
-        }
-
-        private void initialize()
-        {
-            if(dance > 1)
+            if (dance > 1)
             {
                 back_btn.Enabled = true;
             }
@@ -106,6 +115,15 @@ namespace skating_system
             {
                 next_btn.Enabled = true;
             }
+
+            dance_TB.Text = dance.ToString();
+
+        }
+
+        
+        private void initialize()
+        {
+            back_btn.Enabled=false;
 
             dance_TB.Text = dance.ToString();
 
@@ -136,6 +154,7 @@ namespace skating_system
                             Visible = true,
                             Width = 90,
                             Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
+                            
                         };
                         continue;
                     }
