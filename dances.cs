@@ -14,9 +14,23 @@ namespace skating_system
 {
     struct Dance
     {
-        public Dance(string dance, int[] couples_ids, int judgeCnt, int[,] marks) {
-            
+        string dance_title;
+        int[] couples_nums;
+        int judgeCnt;
+        int[,] marks;
+
+        public string Dance_title { get => dance_title; set => dance_title = value; }
+        public int[] Couples_nums { get => couples_nums; set => couples_nums = value; }
+        public int JudgeCnt { get => judgeCnt; set => judgeCnt = value; }
+        public int[,] Marks { get => marks; set => marks = value; }
+
+        public Dance(string dance_title, int[] couples_nums, int judgeCnt, int[,] marks) {
+            this.dance_title = dance_title;
+            this.couples_nums = couples_nums;
+            this.judgeCnt = judgeCnt;
+            this.marks = marks;
         }
+       
     }
     public partial class dances : Form
     {
@@ -27,6 +41,7 @@ namespace skating_system
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
+        Dance[] dancesArr = new Dance[Form1.DanceCnt];
         int dance = 1;
 
         Pen pen = new Pen(Color.Black, 3);
@@ -43,7 +58,6 @@ namespace skating_system
 
             initialize();
 
-
         }
 
         private void tb_btn_KeyDown(object sender, KeyEventArgs e)
@@ -59,6 +73,19 @@ namespace skating_system
                 label1.Text = x.ToString();
                 //textBoxArr[x, 1].Focus();
             }*/
+        }
+
+        private void next_btn_Click(object sender, EventArgs e)
+        {
+            int[] coupleIDs = new int[coupleNums.Length];
+            for (int i = 0; i < coupleNums.Length; i++)
+            {
+                coupleIDs[i] = Convert.ToInt32(coupleNums[i].Text);
+            }
+
+            dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, );
+            dance++;
+
         }
 
         private void initialize()
@@ -164,10 +191,6 @@ namespace skating_system
             };
         }
 
-        private void next_btn_Click(object sender, EventArgs e)
-        {
-            dance++;
-
-        }
+        
     }
 }
