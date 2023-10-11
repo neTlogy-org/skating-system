@@ -27,9 +27,9 @@
                 MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (coupleCnt > 70 || judgeCnt > 70 || danceCnt > 50)
+            if (coupleCnt > 100 || judgeCnt > 26 || danceCnt > 50)
             {
-                MessageBox.Show("Maximální počet párů, porotců nebo tancu překročen (70, 70, 50)", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Maximální počet párů, porotců nebo tancu překročen (100, 26, 50)", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if(coupleCnt < 1 ||  judgeCnt < 1 || danceCnt < 1)

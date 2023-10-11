@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            textBox1 = new TextBox();
+            dance_TB = new TextBox();
             next_btn = new Button();
             back_btn = new Button();
             panel1 = new Panel();
@@ -40,20 +40,20 @@
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(244, 27);
+            label1.Location = new Point(292, 27);
             label1.Name = "label1";
-            label1.Size = new Size(91, 25);
+            label1.Size = new Size(55, 25);
             label1.TabIndex = 0;
-            label1.Text = "Tanec č. 1:";
+            label1.Text = "Tanec";
             // 
-            // textBox1
+            // dance_TB
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            textBox1.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(341, 24);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(230, 31);
-            textBox1.TabIndex = 1;
+            dance_TB.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            dance_TB.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            dance_TB.Location = new Point(353, 24);
+            dance_TB.Name = "dance_TB";
+            dance_TB.Size = new Size(156, 31);
+            dance_TB.TabIndex = 1;
             // 
             // next_btn
             // 
@@ -64,6 +64,7 @@
             next_btn.TabIndex = 5;
             next_btn.Text = "Další";
             next_btn.UseVisualStyleBackColor = true;
+            next_btn.Click += next_btn_Click;
             // 
             // back_btn
             // 
@@ -90,7 +91,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(textBox1);
+            Controls.Add(dance_TB);
             Controls.Add(label1);
             Controls.Add(panel1);
             Controls.Add(back_btn);
@@ -105,7 +106,7 @@
         #endregion
 
         private Label label1;
-        private TextBox textBox1;
+        private TextBox dance_TB;
         private Button next_btn;
         private Button back_btn;
         private Panel panel1;

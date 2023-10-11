@@ -18,6 +18,7 @@ namespace skating_system
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
+        int dance = 1;
 
         Pen pen = new Pen(Color.Black, 3);
 
@@ -30,6 +31,47 @@ namespace skating_system
         public dances()
         {
             InitializeComponent();
+
+            initialize();
+
+
+        }
+
+        private void tb_btn_KeyDown(object sender, KeyEventArgs e)
+        {
+            /*int x;
+            int y;
+            for (x = 0; x < textBoxArr.GetLength(0); x++)
+            {
+                y = Array.IndexOf(textBoxArr[x], sender);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                label1.Text = x.ToString();
+                //textBoxArr[x, 1].Focus();
+            }*/
+        }
+
+        private void initialize()
+        {
+            if(dance > 1)
+            {
+                back_btn.Enabled = true;
+            }
+            else
+            {
+                back_btn.Enabled = false;
+            }
+            if (dance == Form1.DanceCnt)
+            {
+                next_btn.Enabled = false;
+            }
+            else
+            {
+                next_btn.Enabled = true;
+            }
+
+            dance_TB.Text = dance.ToString();
 
             headerColumn = new Label
             {
@@ -54,7 +96,7 @@ namespace skating_system
                         labelArr[y - 1] = new Label
                         {
                             Parent = panel1,
-                            Text = $"Porodce č. {y}",
+                            Text = $"Porodce {Convert.ToChar('A' + y - 1)}",
                             Visible = true,
                             Width = 90,
                             Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
@@ -65,6 +107,7 @@ namespace skating_system
                     {
                         coupleNums[x - 1] = new TextBox
                         {
+                            Text = x.ToString(),
                             Parent = panel1,
                             Size = new Size(size, size),
                             Visible = true,
@@ -110,23 +153,11 @@ namespace skating_system
 
 
             };
-
-
         }
 
-        private void tb_btn_KeyDown(object sender, KeyEventArgs e)
+        private void next_btn_Click(object sender, EventArgs e)
         {
-            /*int x;
-            int y;
-            for (x = 0; x < textBoxArr.GetLength(0); x++)
-            {
-                y = Array.IndexOf(textBoxArr[x], sender);
-            }
-            if (e.KeyCode == Keys.Up)
-            {
-                label1.Text = x.ToString();
-                //textBoxArr[x, 1].Focus();
-            }*/
+            dance++;
         }
     }
 }
