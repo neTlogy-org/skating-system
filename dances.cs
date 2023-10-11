@@ -18,19 +18,25 @@ namespace skating_system
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
+
+        Pen pen = new Pen(Color.Black, 3);
+
         int[] spacing = { 40, 40 };
         int[] offset = { 20, 20 };
         int headerSpace = 60;
-        int headerOffset = 3;
+        int headerOffset = 4;
         int size = 30;
 
         public dances()
         {
             InitializeComponent();
 
-            headerColumn = new Label();
-            headerColumn.Parent = panel1;
-            headerColumn.Text = "Číslo páru:";
+            headerColumn = new Label
+            {
+                Parent = panel1,
+                Text = "Číslo páru:"
+            };
+
 
             for (int y = 0; y < textBoxArr.GetLength(1) + 1; y++)
             {
@@ -40,44 +46,87 @@ namespace skating_system
                     {
                         headerColumn.Visible = true;
                         headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
-                        continue;
-                    }   
-                    if(x == 0)
-                    {
-                        labelArr[y - 1] = new Label();
-                        labelArr[y - 1].Parent = panel1;
-                        labelArr[y - 1].Text = $"Porodce č. {y}";
-                        labelArr[y - 1].Visible = true;
-                        labelArr[y - 1].Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset);
+                        headerColumn.Width = 90;
                         continue;
                     }
-                    if(y == 0)
+                    if (x == 0)
                     {
-                        coupleNums[x - 1] = new TextBox();
-                        coupleNums[x - 1].Parent = panel1;
-                        coupleNums[x - 1].Size = new Size(size, size);
-                        coupleNums[x - 1].Visible = true;
-                        coupleNums[x - 1].Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1]);
+                        labelArr[y - 1] = new Label
+                        {
+                            Parent = panel1,
+                            Text = $"Porodce č. {y}",
+                            Visible = true,
+                            Width = 90,
+                            Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
+                        };
+                        continue;
+                    }
+                    if (y == 0)
+                    {
+                        coupleNums[x - 1] = new TextBox
+                        {
+                            Parent = panel1,
+                            Size = new Size(size, size),
+                            Visible = true,
+                            Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1])
+                        };
                         coupleNums[x - 1].KeyDown += tb_btn_KeyDown;
                         continue;
 
                     }
-                    textBoxArr[x - 1, y - 1] = new TextBox();
-                    textBoxArr[x - 1, y - 1].Parent = panel1;
-                    textBoxArr[x - 1, y - 1].Size = new Size(size, size);
-                    textBoxArr[x - 1, y - 1].Visible = true;
-                    textBoxArr[x - 1, y - 1].Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]);
+                    textBoxArr[x - 1, y - 1] = new TextBox
+                    {
+                        Parent = panel1,
+                        Size = new Size(size, size),
+                        Visible = true,
+                        Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1])
+                    };
                 }
             }
 
+            Label line_x = new Label
+            {
+                AutoSize = false,
+                Text = "",
+                Parent = panel1,
+                Location = new Point(offset[0], offset[1] + size),
+                Height = 2,
+                Width = Form1.CoupleCnt * spacing[0] + headerColumn.Width,
+                Visible = true,
+                BorderStyle = BorderStyle.Fixed3D
 
+
+            };
+            Label line_y = new Label
+            {
+                AutoSize = false,
+                Text = "",
+                Parent = panel1,
+                Location = new Point(headerColumn.Width + offset[0], offset[1]),
+                Height = Form1.JudgeCnt * spacing[1] + size,
+                Width = 2,
+                Visible = true,
+                BorderStyle = BorderStyle.Fixed3D
+
+
+            };
 
 
         }
 
-        private void tb_btn_KeyDown(object sender, EventArgs e)
+        private void tb_btn_KeyDown(object sender, KeyEventArgs e)
         {
-
+            /*int x;
+            int y;
+            for (x = 0; x < textBoxArr.GetLength(0); x++)
+            {
+                y = Array.IndexOf(textBoxArr[x], sender);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                label1.Text = x.ToString();
+                //textBoxArr[x, 1].Focus();
+            }*/
         }
     }
 }

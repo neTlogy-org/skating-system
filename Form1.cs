@@ -32,6 +32,11 @@
                 MessageBox.Show("Maximální počet párů, porotců nebo tancu překročen (70, 70, 50)", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if(coupleCnt < 1 ||  judgeCnt < 1 || danceCnt < 1)
+            {
+                MessageBox.Show("Počet párů, porotců nebo tanců musí být větší než nula", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             new dances().ShowDialog();
 
 
