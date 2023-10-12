@@ -37,7 +37,7 @@
                 MessageBox.Show("Počet párů, porotců nebo tanců musí být větší než nula", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            new dances().ShowDialog();
+            new paramsForm().ShowDialog();
 
 
         }
