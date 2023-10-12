@@ -30,6 +30,7 @@ namespace skating_system
         /// A list of lists of dancers, which represents individual dances
         /// </summary>
         List<List<Dancer>> rating;
+        List<Dictionary<string, Dictionary<int, int[]>>> rating_tmp;
 
         /// <summary>
         /// Constructor for the Placement class
@@ -38,6 +39,23 @@ namespace skating_system
         public Placement(List<List<Dancer>> rating)
         {
             this.rating = rating;
+        }
+
+        public Placement(Dance[] dances)
+        {
+            // TODO:
+
+            List<Dictionary<string, Dictionary<int, int[]>>> rating_tmp = new List<Dictionary<string, Dictionary<int, int[]>>>();
+            foreach (Dance dance in dances)
+            {
+                Dictionary<int, int[]> pairs = new Dictionary<int, int[]>();
+                for (int i = 0; i < dance.Couples_nums.Length; i++)
+                {
+                    pairs.Add(dance.Couples_nums[i], dance.Marks[i]);
+                }
+                rating_tmp.Add(new Dictionary<string, Dictionary<int, int[]>>{ { dance.Dance_title, pairs } });
+            }
+            this.rating_tmp = rating_tmp;
         }
 
         /// <summary>
