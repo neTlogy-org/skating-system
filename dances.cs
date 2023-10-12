@@ -17,14 +17,14 @@ namespace skating_system
         string dance_title;
         int[] couples_nums;
         int judgeCnt;
-        int[,] marks;
+        int[][] marks;
 
         public string Dance_title { get => dance_title; set => dance_title = value; }
         public int[] Couples_nums { get => couples_nums; set => couples_nums = value; }
         public int JudgeCnt { get => judgeCnt; set => judgeCnt = value; }
-        public int[,] Marks { get => marks; set => marks = value; }
+        public int[][] Marks { get => marks; set => marks = value; }
 
-        public Dance(string dance_title, int[] couples_nums, int judgeCnt, int[,] marks) {
+        public Dance(string dance_title, int[] couples_nums, int judgeCnt, int[][] marks) {
             this.dance_title = dance_title;
             this.couples_nums = couples_nums;
             this.judgeCnt = judgeCnt;
@@ -34,9 +34,6 @@ namespace skating_system
     }
     public partial class dances : Form
     {
-
-        
-
         TextBox[] coupleNums = new TextBox[Form1.CoupleCnt];
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
@@ -78,13 +75,18 @@ namespace skating_system
         private void next_btn_Click(object sender, EventArgs e)
         {
             int[] coupleIDs = new int[Form1.CoupleCnt];
-            int[,] marks = new int[Form1.CoupleCnt, Form1.JudgeCnt];
+            int[][] marks = new int[Form1.CoupleCnt][];
+
+            for (int i = 0; i < Form1.CoupleCnt; i++)
+            {
+                marks[i] = new int[Form1.JudgeCnt];
+            }
 
             for(int x = 0; x < Form1.CoupleCnt; x++)
             {
                 for(int y = 0; y < Form1.JudgeCnt; y++)
                 {
-                    marks[x, y] = Convert.ToInt32(textBoxArr[x, y].Text);
+                    marks[x][y] = Convert.ToInt32(textBoxArr[x, y].Text);
                     textBoxArr[x, y].Text = "";
                 }
             }
