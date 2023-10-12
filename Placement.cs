@@ -6,70 +6,85 @@ using System.Threading.Tasks;
 
 namespace skating_system
 {
-    struct Dancer
+    /// <summary>
+    /// A struct containing the results of dances passed into the Placement class
+    /// Shouldn't be constructed anywhere else
+    /// </summary>
+    public struct Results
     {
-        public readonly int[] score;
-        public readonly int starting_number;
-
         /// <summary>
-        /// Constructor for the Dancer class
+        /// A dictionary containing results of individual dances mapped to name of dance as a key
         /// </summary>
-        /// <param name="score">Array of scores achieved by this dancer</param>
-        /// <param name="starting_number">The starting number of dancer</param>
-        public Dancer(int[] score, int starting_number)
+        public Dictionary<string, Dictionary<int, int>> individual;
+        /// <summary>
+        /// Total score accumulated by each pair mapped to the pairs number as a key
+        /// </summary>
+        public Dictionary<int, int> total;
+
+        public Results(Dictionary<string, Dictionary<int, int>> individual, Dictionary<int, int> total)
         {
-            this.score = score;
-            this.starting_number = starting_number;
+            this.total = total;
+            this.individual = individual;
         }
     }
 
     internal class Placement
     {
-        // tance, porotce - sloupec, tanecnik - radek
         /// <summary>
         /// A list of lists of dancers, which represents individual dances
         /// </summary>
-        List<List<Dancer>> rating;
+        Dictionary<string, Dictionary<int, int[]>> rating;
 
         /// <summary>
         /// Constructor for the Placement class
         /// </summary>
-        /// <param name="rating">A List containing another List of Dancers for each dance</param>
-        public Placement(List<List<Dancer>> rating)
+        /// <param name="rating">A dictionary containing name of dance as key and another dictionary with dancers number as key and array of marks as a value as value</param>
+        public Placement(Dictionary<string, Dictionary<int, int[]>> rating)
         {
             this.rating = rating;
         }
 
         /// <summary>
+        /// Constructor for the placement class with usage of the Dance class
+        /// </summary>
+        /// <param name="dances">Array of Dances</param>
+        public Placement(Dance[] dances)
+        {
+            Dictionary<string, Dictionary<int, int[]>> rating_tmp = new Dictionary<string, Dictionary<int, int[]>>();
+            foreach (Dance dance in dances)
+            {
+                Dictionary<int, int[]> pairs = new Dictionary<int, int[]>();
+                for (int i = 0; i < dance.Couples_nums.Length; i++)
+                {
+                    pairs.Add(dance.Couples_nums[i], dance.Marks[i]);
+                }
+                rating_tmp.Add(dance.Dance_title, pairs);
+            }
+            this.rating = rating_tmp;
+        }
+
+        /// <summary>
         /// Main method of this class
         /// </summary>
-        /// <returns>Dictionary with total skore mapped to the Dancers number</returns>
-        public Dictionary<int, int> Evaluate()
+        /// <returns>Dictionary with total score mapped to the Dancers number</returns>
+        public Results Evaluate()
         {
-            List<List<int>> results = new List<List<int>>();
-            for (int i = 0; i < rating.Count; i++)
+            Dictionary<string, Dictionary<int, int>> individual = new Dictionary<string, Dictionary<int, int>>();
+            foreach (var dance in rating)
             {
-                results.Add(EvaluateDance(rating[i]));
+                individual.Add(dance.Key, EvaluateDance(dance.Value));
             }
 
-            Dictionary<int, int> final_results = new Dictionary<int, int>();
-            for (int i = 0; i < results.Count; i++)
+            Dictionary<int, int> total = new Dictionary<int, int>();
+            foreach (var dance in individual)
             {
-                for (int j = 0; j < results[i].Count; j++)
+                foreach (var pair in dance.Value)
                 {
-                    int val;
-                    if (final_results.TryGetValue(results[i][j], out val))
-                    {
-                        final_results[results[i][j]] = val + j + 1;
-                    }
-                    else
-                    {
-                        final_results.Add(results[i][j], j + 1);
-                    }
+                    total.Add(pair.Key, pair.Value);
                 }
             }
 
-            return final_results;
+            return new Results(individual, total);
         }
 
         /// <summary>
@@ -77,19 +92,19 @@ namespace skating_system
         /// Can be used outside of class if the right input is guaranteed.
         /// </summary>
         /// <param name="dance">A dance you want to evaluate</param>
-        /// <returns>List of dancers numbers ordered by their mark</returns>
-        static private List<int> EvaluateDance(List<Dancer> dance)
+        /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
+        static private Dictionary<int, int> EvaluateDance(Dictionary<int, int[]> dance)
         {
-            List<int> order = new List<int>();
+            Dictionary<int, int> order = new Dictionary<int, int>();
 
             int stage = 1;
             while (dance.Count > 0)
             {
-                int i = FindMajority(dance, stage);
-                if (i >= 0)
+                int dancers_number = FindMajority(dance, stage);
+                if (dancers_number != -1)
                 {
-                    order.Add(dance[i].starting_number);
-                    dance.RemoveAt(i);
+                    order.Add(dancers_number, order.Count + 1);
+                    dance.Remove(dancers_number);
                 }
                 stage++;
             }
@@ -102,32 +117,31 @@ namespace skating_system
         /// </summary>
         /// <param name="dance"></param>
         /// <param name="stage"></param>
-        /// <returns>Index of dancer or -1 if no Dancer meets the requirements</returns>
-        static private int FindMajority(List<Dancer> dance, int stage)
+        /// <returns>Number of dancer or -1 if no Dancer meets the requirements</returns>
+        static private int FindMajority(Dictionary<int, int[]> dance, int stage)
         {
-            int max_count = 0, index = 0;
+            int max_count = 0;
+            int dancers_number = -1;
 
-            for (int i = 0; i < dance.Count; i++)
+            foreach (var dancer in dance)
             {
                 int count = 0;
-                foreach (int mark in dance[i].score)
+                foreach (int mark in dancer.Value)
                 {
                     if (mark <= stage)
-                    {
                         count++;
-                    }
                 }
 
                 if (count > max_count)
                 {
                     max_count = count;
-                    index = i;
+                    dancers_number = dancer.Key;
                 }
             }
 
             if (max_count >= dance.Count / 2)
             {
-                return index;
+                return dancers_number;
             }
             else
             {
