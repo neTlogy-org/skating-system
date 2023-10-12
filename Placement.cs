@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace skating_system
 {
+    /// <summary>
+    /// A struct containing the results of dances passed into the Placement class
+    /// Shouldn't be constructed anywhere else
+    /// </summary>
     public struct Results
     {
+        /// <summary>
+        /// A dictionary containing results of individual dances mapped to name of dance as a key
+        /// </summary>
         public Dictionary<string, Dictionary<int, int>> individual;
+        /// <summary>
+        /// Total score accumulated by each pair mapped to the pairs number as a key
+        /// </summary>
         public Dictionary<int, int> total;
 
         public Results(Dictionary<string, Dictionary<int, int>> individual, Dictionary<int, int> total)
@@ -20,7 +30,6 @@ namespace skating_system
 
     internal class Placement
     {
-        // tance, porotce - sloupec, tanecnik - radek
         /// <summary>
         /// A list of lists of dancers, which represents individual dances
         /// </summary>
