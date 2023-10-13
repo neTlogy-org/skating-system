@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,6 +41,7 @@ namespace skating_system
                 coupleNums[i].Parent = panel2;
                 coupleNums[i].Location = new Point((i % 12) * spacing[0] + offset[0], (int)Math.Floor((double)i / 12) * spacing[1] + offset[1]);
                 coupleNums[i].Width = size;
+                coupleNums[i].KeyDown += coupleNums_tb_KeyDown;
 
             }
         }
@@ -73,6 +75,43 @@ namespace skating_system
                 if (index > 0)
                 {
                     dancesNames[index - 1].Focus();
+                }
+            }
+        }
+        private void coupleNums_tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            int index = Array.IndexOf(coupleNums, sender);
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (index == coupleNums.Length - 1)
+                {
+                    next_btn.Focus();
+                }
+                else
+                {
+                    coupleNums[index + 1].Focus();
+                }
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                if (index == coupleNums.Length - 1)
+                {
+                    coupleNums[0].Focus();
+                }
+                else
+                {
+                    coupleNums[index + 1].Focus();
+                }
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                if (index > 0)
+                {
+                    coupleNums[index - 1].Focus();
+                }
+                else
+                {
+                    dancesNames[0].Focus();
                 }
             }
         }

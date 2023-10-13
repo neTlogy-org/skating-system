@@ -35,7 +35,7 @@ namespace skating_system
     }
     public partial class dances : Form
     {
-        TextBox[] coupleNums = new TextBox[Form1.CoupleCnt];
+        Label[] coupleNums = new Label[Form1.CoupleCnt];
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
@@ -65,7 +65,7 @@ namespace skating_system
 
         }
 
-        private void tb_btn_KeyDown(object sender, KeyEventArgs e)
+        private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             /*int x;
             int y;
@@ -141,7 +141,8 @@ namespace skating_system
             headerColumn = new Label
             {
                 Parent = panel1,
-                Text = "Číslo páru:"
+                Text = "Číslo páru:",
+                TextAlign = ContentAlignment.MiddleCenter
             };
 
 
@@ -164,22 +165,23 @@ namespace skating_system
                             Text = $"Porotce {Convert.ToChar('A' + y - 1)}",
                             Visible = true,
                             Width = 90,
-                            Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
+                            Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset),
+                            TextAlign = ContentAlignment.TopCenter
 
                         };
                         continue;
                     }
                     if (y == 0)
                     {
-                        coupleNums[x - 1] = new TextBox
+                        coupleNums[x - 1] = new Label
                         {
                             Text = paramsForm.CoupleNums[x - 1].Text.ToString(),
                             Parent = panel1,
                             Size = new Size(size, size),
                             Visible = true,
-                            Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1])
+                            Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1]),
+                            TextAlign = ContentAlignment.MiddleCenter
                         };
-                        coupleNums[x - 1].KeyDown += tb_btn_KeyDown;
                         continue;
 
                     }
@@ -188,8 +190,9 @@ namespace skating_system
                         Parent = panel1,
                         Size = new Size(size, size),
                         Visible = true,
-                        Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1])
+                        Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]),
                     };
+                    textBoxArr[x - 1, y - 1].KeyDown += tb_KeyDown;
                 }
             }
 
