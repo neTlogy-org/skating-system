@@ -106,6 +106,7 @@
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "paramsForm";
             Text = "Podrobnosti";
+            FormClosed += paramsForm_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

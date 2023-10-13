@@ -2,6 +2,7 @@
 {
     public partial class Form1 : Form
     {
+        public static paramsForm paramsFormIns = new paramsForm();
         static int coupleCnt;
         static int judgeCnt;
         static int danceCnt;
@@ -17,7 +18,7 @@
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void next_btn_Click(object sender, EventArgs e)
@@ -37,8 +38,8 @@
                 MessageBox.Show("Počet párů, porotců nebo tanců musí být větší než nula", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            new paramsForm().ShowDialog();
-
+            paramsFormIns = new paramsForm();
+            paramsFormIns.Show();
 
         }
 

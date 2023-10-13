@@ -24,13 +24,14 @@ namespace skating_system
         public int JudgeCnt { get => judgeCnt; set => judgeCnt = value; }
         public int[][] Marks { get => marks; set => marks = value; }
 
-        public Dance(string dance_title, int[] couples_nums, int judgeCnt, int[][] marks) {
+        public Dance(string dance_title, int[] couples_nums, int judgeCnt, int[][] marks)
+        {
             this.dance_title = dance_title;
             this.couples_nums = couples_nums;
             this.judgeCnt = judgeCnt;
             this.marks = marks;
         }
-       
+
     }
     public partial class dances : Form
     {
@@ -40,6 +41,8 @@ namespace skating_system
         Label headerColumn = new Label();
         Dance[] dancesArr = new Dance[Form1.DanceCnt];
         int dance = 1;
+
+        string[] dancesNames = new string[Form1.DanceCnt];
 
         Pen pen = new Pen(Color.Black, 3);
 
@@ -54,6 +57,11 @@ namespace skating_system
             InitializeComponent();
 
             initialize();
+
+            dancesNames = paramsForm.DancesNames.Select(e => e.Text).ToArray();
+
+            paramsForm.dancesOpened = true;
+            Form1.paramsFormIns.Close();
 
         }
 
@@ -82,9 +90,9 @@ namespace skating_system
                 marks[i] = new int[Form1.JudgeCnt];
             }
 
-            for(int x = 0; x < Form1.CoupleCnt; x++)
+            for (int x = 0; x < Form1.CoupleCnt; x++)
             {
-                for(int y = 0; y < Form1.JudgeCnt; y++)
+                for (int y = 0; y < Form1.JudgeCnt; y++)
                 {
                     marks[x][y] = Convert.ToInt32(textBoxArr[x, y].Text);
                     textBoxArr[x, y].Text = "";
@@ -98,6 +106,7 @@ namespace skating_system
 
 
             dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, marks);
+            dance_TB.Text = dancesNames[dance];
 
             dance++;
 
@@ -118,16 +127,16 @@ namespace skating_system
                 next_btn.Enabled = true;
             }
 
-            dance_TB.Text = dance.ToString();
+
 
         }
 
-        
+
         private void initialize()
         {
-            back_btn.Enabled=false;
+            back_btn.Enabled = false;
 
-            dance_TB.Text = dance.ToString();
+            dance_TB.Text = paramsForm.DancesNames[0].Text;
 
             headerColumn = new Label
             {
@@ -156,7 +165,7 @@ namespace skating_system
                             Visible = true,
                             Width = 90,
                             Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset)
-                            
+
                         };
                         continue;
                     }
@@ -164,7 +173,7 @@ namespace skating_system
                     {
                         coupleNums[x - 1] = new TextBox
                         {
-                            Text = x.ToString(),
+                            Text = paramsForm.CoupleNums[x - 1].Text.ToString(),
                             Parent = panel1,
                             Size = new Size(size, size),
                             Visible = true,
@@ -212,6 +221,9 @@ namespace skating_system
             };
         }
 
-        
+        private void dances_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Program.form1.Close();
+        }
     }
 }

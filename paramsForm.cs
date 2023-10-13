@@ -12,11 +12,12 @@ namespace skating_system
 {
     public partial class paramsForm : Form
     {
+        public static bool dancesOpened = false;
         static TextBox[] dancesNames = new TextBox[Form1.DanceCnt];
         static TextBox[] coupleNums = new TextBox[Form1.CoupleCnt];
 
         public static TextBox[] DancesNames { get => dancesNames; }
-        public TextBox[] CoupleNums { get => coupleNums; }
+        public static TextBox[] CoupleNums { get => coupleNums; }
 
         int[] spacing = { 41, 30 };
         int[] offset = { 20, 10 };
@@ -31,6 +32,7 @@ namespace skating_system
                 dancesNames[i].Location = new Point(offset[0], i * spacing[1] + offset[1]);
                 dancesNames[i].Width = panel1.Width - 2 * offset[0];
                 dancesNames[i].Visible = true;
+                dancesNames[i].KeyDown += dances_tb_keyDown;
             }
             for (int i = 0; i < Form1.CoupleCnt; i++)
             {
@@ -41,10 +43,69 @@ namespace skating_system
 
             }
         }
-
+        private void dances_tb_keyDown(object sender, KeyEventArgs e)
+        {
+            int index = Array.IndexOf(dancesNames, sender);
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (index == dancesNames.Length - 1)
+                {
+                    coupleNums[0].Focus();
+                }
+                else
+                {
+                    dancesNames[index + 1].Focus();
+                }
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                if (index == dancesNames.Length - 1)
+                {
+                    coupleNums[0].Focus();
+                }
+                else
+                {
+                    dancesNames[index + 1].Focus();
+                }
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                if (index > 0)
+                {
+                    dancesNames[index - 1].Focus();
+                }
+            }
+        }
         private void next_btn_Click(object sender, EventArgs e)
         {
-           new dances().ShowDialog();
+            foreach (TextBox danceName in dancesNames)
+            {
+                if (danceName.Text == "")
+                {
+                    MessageBox.Show("Špatný název tance", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            foreach (TextBox coupleNum in coupleNums)
+            {
+                try
+                {
+                    Convert.ToInt32(coupleNum.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Špatné číslo páru", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            new dances().ShowDialog();
+            
+        }
+
+        private void paramsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(!dancesOpened)
+                Program.form1.Close();
         }
     }
 }
