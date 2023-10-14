@@ -131,6 +131,12 @@ namespace skating_system
         {
             foreach (TextBox danceName in dancesNames)
             {
+                
+                if (Array.FindAll(dancesNames, e => e.Text == danceName.Text).Length > 1)
+                {
+                    MessageBox.Show($"Dva tance mají stejný název (\"{danceName.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (danceName.Text == "")
                 {
                     MessageBox.Show("Špatný název tance", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -139,6 +145,11 @@ namespace skating_system
             }
             foreach (TextBox coupleNum in coupleNums)
             {
+                if (Array.FindAll(coupleNums, e => e.Text == coupleNum.Text).Length > 1)
+                {
+                    MessageBox.Show($"Dva páry mají stejné číslo (\"{coupleNum.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 try
                 {
                     Convert.ToInt32(coupleNum.Text);

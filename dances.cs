@@ -101,7 +101,7 @@ namespace skating_system
                 {
                     if (!int.TryParse(textBoxArr[x, y].Text, out marks[x][y]))
                     {
-                        MessageBox.Show($"Špatně známka páru {coupleIDs[x+1]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x+1]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                 }
