@@ -87,6 +87,11 @@ namespace skating_system
 
             for (int i = 0; i < Form1.CoupleCnt; i++)
             {
+                coupleIDs[i] = Convert.ToInt32(coupleNums[i].Text);
+            }
+
+            for (int i = 0; i < Form1.CoupleCnt; i++)
+            {
                 marks[i] = new int[Form1.JudgeCnt];
             }
 
@@ -94,15 +99,20 @@ namespace skating_system
             {
                 for (int y = 0; y < Form1.JudgeCnt; y++)
                 {
-                    marks[x][y] = Convert.ToInt32(textBoxArr[x, y].Text);
-                    textBoxArr[x, y].Text = "";
+                    if (!int.TryParse(textBoxArr[x, y].Text, out marks[x][y]))
+                    {
+                        MessageBox.Show($"Špatně známka páru {coupleIDs[x+1]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                 }
             }
 
-            for (int i = 0; i < Form1.CoupleCnt; i++)
+            foreach(TextBox textBox in textBoxArr)
             {
-                coupleIDs[i] = Convert.ToInt32(coupleNums[i].Text);
+                textBox.Text = "";
             }
+
+            
 
 
             dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, marks);

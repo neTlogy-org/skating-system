@@ -50,6 +50,8 @@ namespace skating_system
             int index = Array.IndexOf(dancesNames, sender);
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 if (index == dancesNames.Length - 1)
                 {
                     coupleNums[0].Focus();
@@ -61,6 +63,8 @@ namespace skating_system
             }
             if (e.KeyCode == Keys.Down)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 if (index == dancesNames.Length - 1)
                 {
                     coupleNums[0].Focus();
@@ -72,6 +76,8 @@ namespace skating_system
             }
             if (e.KeyCode == Keys.Up)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 if (index > 0)
                 {
                     dancesNames[index - 1].Focus();
@@ -83,6 +89,8 @@ namespace skating_system
             int index = Array.IndexOf(coupleNums, sender);
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 if (index == coupleNums.Length - 1)
                 {
                     next_btn.Focus();
@@ -94,6 +102,8 @@ namespace skating_system
             }
             if (e.KeyCode == Keys.Right)
             {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
                 if (index == coupleNums.Length - 1)
                 {
                     coupleNums[0].Focus();
@@ -105,6 +115,8 @@ namespace skating_system
             }
             if (e.KeyCode == Keys.Left)
             {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
                 if (index > 0)
                 {
                     coupleNums[index - 1].Focus();
