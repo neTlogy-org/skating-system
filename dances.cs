@@ -84,6 +84,7 @@ namespace skating_system
         {
             int[] coupleIDs = new int[Form1.CoupleCnt];
             int[][] marks = new int[Form1.CoupleCnt][];
+            int[][] reversedMarks = new int[Form1.JudgeCnt][];
 
             for (int i = 0; i < Form1.CoupleCnt; i++)
             {
@@ -95,19 +96,57 @@ namespace skating_system
                 marks[i] = new int[Form1.JudgeCnt];
             }
 
+            for (int i = 0; i < Form1.JudgeCnt; i++)
+            {
+                reversedMarks[i] = new int[Form1.CoupleCnt];
+            }
+
             for (int x = 0; x < Form1.CoupleCnt; x++)
             {
                 for (int y = 0; y < Form1.JudgeCnt; y++)
                 {
                     if (!int.TryParse(textBoxArr[x, y].Text, out marks[x][y]))
                     {
-                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x+1]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    if (marks[x][y] == 0)
+                    {
+                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemže být 0", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+
+                    }
+                    if (marks[x][y] > Form1.CoupleCnt)
+                    {
+                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemůže být větší než počet párů", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                }
+            }
+            for(int x = 0; x < Form1.JudgeCnt; x++)
+            {
+                for (int y = 0; y < Form1.CoupleCnt; y++)
+                {
+                    reversedMarks[y][x] = marks[x][y];
+                }
+            }
+            for (int x = 0; x < Form1.JudgeCnt; x++)
+            {
+                for (int y = 0; y < Form1.CoupleCnt; y++)
+                {
+                    if (Array.FindAll(reversedMarks[x], e => e == reversedMarks[x][y]).Length > 1)
+                    {
+                        MessageBox.Show($"Špatně zadané známky od porotce {Convert.ToChar('A' + x)}, nemůže použít jednu známku víckrát", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                 }
             }
 
-            foreach(TextBox textBox in textBoxArr)
+
+
+                foreach (TextBox textBox in textBoxArr)
             {
                 textBox.Text = "";
             }
