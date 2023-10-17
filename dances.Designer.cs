@@ -76,6 +76,7 @@
             back_btn.TabIndex = 6;
             back_btn.Text = "Zpět";
             back_btn.UseVisualStyleBackColor = true;
+            back_btn.Click += back_btn_Click;
             // 
             // panel1
             // 

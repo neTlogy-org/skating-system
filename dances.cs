@@ -124,7 +124,7 @@ namespace skating_system
 
                 }
             }
-            for(int x = 0; x < Form1.JudgeCnt; x++)
+            for (int x = 0; x < Form1.JudgeCnt; x++)
             {
                 for (int y = 0; y < Form1.CoupleCnt; y++)
                 {
@@ -144,20 +144,34 @@ namespace skating_system
                 }
             }
 
-
-
-                foreach (TextBox textBox in textBoxArr)
-            {
-                textBox.Text = "";
-            }
-
-            
-
-
-            dancesArr[dance - 1] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, marks);
-            dance_TB.Text = dancesNames[dance];
-
             dance++;
+
+            if (dancesArr[dance - 1].Dance_title != null)
+            {
+                for (int x = 0; x < Form1.CoupleCnt; x++)
+                {
+                    for (int y = 0; y < Form1.JudgeCnt; y++)
+                    {
+                        textBoxArr[x, y].Text = dancesArr[dance - 1].Marks[x][y].ToString();
+                    }
+                }
+            }
+            else
+            {
+                foreach (TextBox textBox in textBoxArr)
+                {
+                    textBox.Text = "";
+                }
+            }
+       
+           
+
+
+
+
+            dancesArr[dance - 2] = new Dance(dance_TB.Text, coupleIDs, Form1.JudgeCnt, marks);
+            dance_TB.Text = dancesNames[dance - 1];
+
 
             if (dance > 1)
             {
@@ -178,6 +192,36 @@ namespace skating_system
 
 
 
+        }
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            dance--;
+            dance_TB.Text = dancesNames[dance - 1];
+
+            for(int x = 0; x < Form1.CoupleCnt; x++)
+            {
+                for(int y = 0; y < Form1.JudgeCnt; y++)
+                {
+                    textBoxArr[x, y].Text = dancesArr[dance - 1].Marks[x][y].ToString();
+                }
+            }
+
+            if (dance > 1)
+            {
+                back_btn.Enabled = true;
+            }
+            else
+            {
+                back_btn.Enabled = false;
+            }
+            if (dance == Form1.DanceCnt)
+            {
+                next_btn.Enabled = false;
+            }
+            else
+            {
+                next_btn.Enabled = true;
+            }
         }
 
 
@@ -277,5 +321,7 @@ namespace skating_system
         {
             Program.form1.Close();
         }
+
+        
     }
 }
