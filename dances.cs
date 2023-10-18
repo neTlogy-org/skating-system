@@ -261,6 +261,15 @@ namespace skating_system
         {
             back_btn.Enabled = false;
 
+            if (dance == Form1.DanceCnt)
+            {
+                next_btn.Text = "Dokončit";
+            }
+            else
+            {
+                next_btn.Text = "Další";
+            }
+
             dance_TB.Text = paramsForm.DancesNames[0].Text;
 
             headerColumn = new Label
