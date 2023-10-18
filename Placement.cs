@@ -80,7 +80,10 @@ namespace skating_system
             {
                 foreach (var pair in dance.Value)
                 {
-                    total.Add(pair.Key, pair.Value);
+                    if (!total.TryAdd(pair.Key, pair.Value))
+                    {
+                        total[pair.Key] += pair.Value;
+                    }
                 }
             }
 
