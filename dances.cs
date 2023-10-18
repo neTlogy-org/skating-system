@@ -40,9 +40,7 @@ namespace skating_system
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
-        Dance[] dancesArr = new Dance[Form1.DanceCnt];
-        Placement placement;
-        static Results resultsStruct;
+        static Dance[] dancesArr = new Dance[Form1.DanceCnt];
 
         int dance = 1;
 
@@ -55,7 +53,7 @@ namespace skating_system
         int headerOffset = 4;
         int size = 30;
 
-        public static Results ResultsStruct { get => resultsStruct;}
+        internal static Dance[] DancesArr { get => dancesArr;}
 
         public dances()
         {
@@ -90,8 +88,6 @@ namespace skating_system
             if (!toDances()) return;
             if(next_btn.Text == "Dokončit")
             {
-                placement = new Placement(dancesArr);
-                resultsStruct = placement.Evaluate();
                 resultsIns = new results();
                 resultsIns.ShowDialog();
                 return;

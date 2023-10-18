@@ -12,12 +12,15 @@ namespace skating_system
 {
     public partial class results : Form
     {
-        Results resultsStruct = new Results();
+        Results resultsStruct;
+        Placement placement;
         public results()
         {
-            resultsStruct = dances.ResultsStruct;
-            label1.Text = resultsStruct.ToString();
+
             InitializeComponent();
+
+            placement = new Placement(dances.DancesArr);
+            label1.Text = placement.Evaluate().total[1].ToString();
         }
     }
 }
