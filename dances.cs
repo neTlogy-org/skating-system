@@ -35,11 +35,15 @@ namespace skating_system
     }
     public partial class dances : Form
     {
+        results resultsIns;
         Label[] coupleNums = new Label[Form1.CoupleCnt];
         TextBox[,] textBoxArr = new TextBox[Form1.CoupleCnt, Form1.JudgeCnt];
         Label[] labelArr = new Label[Form1.JudgeCnt];
         Label headerColumn = new Label();
         Dance[] dancesArr = new Dance[Form1.DanceCnt];
+        Placement placement;
+        static Results results;
+
         int dance = 1;
 
         string[] dancesNames = new string[Form1.DanceCnt];
@@ -50,6 +54,8 @@ namespace skating_system
         int headerSpace = 60;
         int headerOffset = 4;
         int size = 30;
+
+        public static Results Results { get => results;}
 
         public dances()
         {
@@ -82,6 +88,14 @@ namespace skating_system
         private void next_btn_Click(object sender, EventArgs e)
         {
             if (!toDances()) return;
+            if(next_btn.Text == "Dokončit")
+            {
+                placement = new Placement(dancesArr);
+                results = placement.Evaluate();
+                resultsIns = new results();
+                resultsIns.ShowDialog();
+                return;
+            }
 
             dance++;
 
@@ -125,11 +139,11 @@ namespace skating_system
             }
             if (dance == Form1.DanceCnt)
             {
-                next_btn.Enabled = false;
+                next_btn.Text = "Dokončit";
             }
             else
             {
-                next_btn.Enabled = true;
+                next_btn.Text = "Další";
             }
 
 
@@ -168,11 +182,11 @@ namespace skating_system
             }
             if (dance == Form1.DanceCnt)
             {
-                next_btn.Enabled = false;
+                next_btn.Text = "Dokončit";
             }
             else
             {
-                next_btn.Enabled = true;
+                next_btn.Text = "Další";
             }
         }
 

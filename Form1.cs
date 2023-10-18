@@ -2,7 +2,7 @@
 {
     public partial class Form1 : Form
     {
-        public static paramsForm paramsFormIns = new paramsForm();
+        public static paramsForm paramsFormIns;
         static int coupleCnt;
         static int judgeCnt;
         static int danceCnt;
@@ -39,7 +39,7 @@
                 return;
             }
             paramsFormIns = new paramsForm();
-            paramsFormIns.Show();
+            paramsFormIns.ShowDialog();
 
         }
 
