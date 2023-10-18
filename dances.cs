@@ -42,7 +42,7 @@ namespace skating_system
         Label headerColumn = new Label();
         Dance[] dancesArr = new Dance[Form1.DanceCnt];
         Placement placement;
-        static Results results;
+        static Results resultsStruct;
 
         int dance = 1;
 
@@ -55,7 +55,7 @@ namespace skating_system
         int headerOffset = 4;
         int size = 30;
 
-        public static Results Results { get => results;}
+        public static Results ResultsStruct { get => resultsStruct;}
 
         public dances()
         {
@@ -91,7 +91,7 @@ namespace skating_system
             if(next_btn.Text == "Dokončit")
             {
                 placement = new Placement(dancesArr);
-                results = placement.Evaluate();
+                resultsStruct = placement.Evaluate();
                 resultsIns = new results();
                 resultsIns.ShowDialog();
                 return;

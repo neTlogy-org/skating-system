@@ -12,10 +12,11 @@ namespace skating_system
 {
     public partial class results : Form
     {
-        
+        Results resultsStruct = new Results();
         public results()
         {
-            label1.Text = dances.Results.ToString();
+            resultsStruct = dances.ResultsStruct;
+            label1.Text = resultsStruct.ToString();
             InitializeComponent();
         }
     }
