@@ -38,6 +38,7 @@
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.AutoScroll = true;
             panel1.Location = new Point(12, 39);
             panel1.Name = "panel1";
             panel1.Size = new Size(776, 374);
