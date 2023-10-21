@@ -53,7 +53,7 @@ namespace skating_system
             }
 
             headerColumn.Parent = panel1;
-            headerColumn.Text = "Číslo páru:";
+            headerColumn.Text = "Název tance:";
             headerColumn.TextAlign = ContentAlignment.MiddleCenter;
             headerColumn.Visible = true;
             headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
