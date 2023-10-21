@@ -18,6 +18,7 @@ namespace skating_system
         Dance[] DancesArr = new Dance[dances.DancesArr.Length];
         Placement placement = new Placement(dances.DancesArr);
         Label headerColumn = new Label();
+        Label judge_lbl = new Label();
         Label[] lines_y = new Label[dances.DancesArr.Length];
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
@@ -54,10 +55,17 @@ namespace skating_system
 
             headerColumn.Parent = panel1;
             headerColumn.Text = "Název tance:";
-            headerColumn.TextAlign = ContentAlignment.MiddleCenter;
+            headerColumn.TextAlign = ContentAlignment.MiddleRight;
             headerColumn.Visible = true;
             headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
             headerColumn.Width = 90;
+
+            judge_lbl.Parent = panel1;
+            judge_lbl.Text = "Porotce:";
+            judge_lbl.TextAlign = ContentAlignment.MiddleRight;
+            judge_lbl.Visible = true;
+            judge_lbl.Location = new Point(offset[0], offset[1] + headerOffset + spacing[1]);
+            judge_lbl.Width = 90;
 
             for (int x = 0; x < DancesArr.Length; x++)
             {
@@ -68,7 +76,7 @@ namespace skating_system
                     Text = "",
                     Parent = panel1,
                     Location = new Point(headerColumn.Width + offset[0] + x * (spacing[0] + maxTitleSize), offset[1]),
-                    Height = Form1.CoupleCnt * spacing[1] + size,
+                    Height = (Form1.CoupleCnt+1) * spacing[1] + size,
                     Width = 2,
                     Visible = true,
                     BorderStyle = BorderStyle.Fixed3D
