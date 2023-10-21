@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -131,25 +132,20 @@ namespace skating_system
         {
             foreach (TextBox danceName in dancesNames)
             {
-                
+                if (danceName.Text.Trim() == "")
+                {
+                    MessageBox.Show("Špatný název tance", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (Array.FindAll(dancesNames, e => e.Text == danceName.Text).Length > 1)
                 {
                     MessageBox.Show($"Dva tance mají stejný název (\"{danceName.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (danceName.Text == "")
-                {
-                    MessageBox.Show("Špatný název tance", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                
             }
             foreach (TextBox coupleNum in coupleNums)
             {
-                if (Array.FindAll(coupleNums, e => e.Text == coupleNum.Text).Length > 1)
-                {
-                    MessageBox.Show($"Dva páry mají stejné číslo (\"{coupleNum.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 try
                 {
                     Convert.ToInt32(coupleNum.Text);
@@ -157,6 +153,16 @@ namespace skating_system
                 catch
                 {
                     MessageBox.Show("Špatné číslo páru", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Array.FindAll(coupleNums, e => e.Text == coupleNum.Text).Length > 1)
+                {
+                    MessageBox.Show($"Dva páry mají stejné číslo (\"{coupleNum.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (coupleNum.Text.Length > 8)
+                {
+                    MessageBox.Show("Číslo páru může být maximálně 6 ciferné", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
