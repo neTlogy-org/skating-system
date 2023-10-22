@@ -24,6 +24,7 @@ namespace skating_system
         Label[,] judge_names = new Label[Form1.DanceCnt, Form1.JudgeCnt];
         Label[] couple_names = new Label[Form1.CoupleCnt];
         Label[,] couple_marks = new Label[Form1.JudgeCnt, Form1.CoupleCnt];
+        Label[,] couple_dance_placement = new Label[Form1.DanceCnt, Form1.CoupleCnt];
         int[] couple_order = new int[Form1.CoupleCnt];
         IEnumerable<KeyValuePair<int, int>> sorted_couples;
         Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
@@ -36,7 +37,7 @@ namespace skating_system
         int headerOffset = 4;
         int size = 30;
         int maxTitleSize = 0;
-        int judge_name_width = 25;
+        int judge_name_width = Form1.JudgeCnt > 1 ? 25 : 30;
         public results()
         {
 
@@ -52,13 +53,13 @@ namespace skating_system
             sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
             int a = 0;
-            foreach(KeyValuePair<int, int> couple in sorted_couples)
+            foreach (KeyValuePair<int, int> couple in sorted_couples)
             {
                 couple_order[a] = couple.Key;
                 a++;
             }
 
-            for(int i = 0; i < Form1.CoupleCnt; i++)
+            for (int i = 0; i < Form1.CoupleCnt; i++)
             {
                 couple_names_dict[DancesArr[0].Couples_nums[i]] = i;
             }
@@ -126,7 +127,7 @@ namespace skating_system
                         Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + z * judge_name_width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width + z * judge_name_width, offset[1] + spacing[1])
                     };
                 }
-                for (int y = 0;  y < Form1.CoupleCnt; y++)
+                for (int y = 0; y < Form1.CoupleCnt; y++)
                 {
                     if (x == 0)
                     {
@@ -137,10 +138,10 @@ namespace skating_system
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleRight,
                             Visible = true,
-                            Location = new Point(offset[0], Convert.ToInt32(offset[1] + (y+1.25) * spacing[1] * 1.5)),
+                            Location = new Point(offset[0], Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
                         };
                     }
-                    for(int z = 0;  z < Form1.JudgeCnt; z++)
+                    for (int z = 0; z < Form1.JudgeCnt; z++)
                     {
                         couple_marks[z, y] = new Label
                         {
@@ -153,6 +154,15 @@ namespace skating_system
 
                         };
                     }
+                    couple_dance_placement[x, y] = new Label
+                    {
+                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][couple_order[y]]})",
+                        Width = Form1.JudgeCnt * judge_name_width,
+                        Parent = panel1,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Visible = true,
+                        Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, Convert.ToInt32(offset[1] + size * 0.75 + (y + 1.25) * spacing[1] * 1.5)),
+                    };
 
                 }
             }
@@ -184,7 +194,7 @@ namespace skating_system
 
 
             };
-            
+
         }
     }
 }
