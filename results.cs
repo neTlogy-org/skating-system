@@ -24,6 +24,9 @@ namespace skating_system
         Label[,] judge_names = new Label[Form1.DanceCnt, Form1.JudgeCnt];
         Label[] couple_names = new Label[Form1.CoupleCnt];
         Label[,] couple_marks = new Label[Form1.JudgeCnt, Form1.CoupleCnt];
+        int[] couple_order = new int[Form1.CoupleCnt];
+        IEnumerable<KeyValuePair<int, int>> sorted_couples;
+        Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
 
@@ -46,7 +49,19 @@ namespace skating_system
 
             resultsStruct = placement.Evaluate();
 
+            sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
+            int a = 0;
+            foreach(KeyValuePair<int, int> couple in sorted_couples)
+            {
+                couple_order[a] = couple.Key;
+                a++;
+            }
+
+            for(int i = 0; i < Form1.CoupleCnt; i++)
+            {
+                couple_names_dict[DancesArr[0].Couples_nums[i]] = i;
+            }
 
 
             foreach (Dance dance in DancesArr)
@@ -117,7 +132,7 @@ namespace skating_system
                     {
                         couple_names[y] = new Label
                         {
-                            Text = $"Pár č. {DancesArr[0].Couples_nums[y]} ",
+                            Text = $"Pár č. {couple_order[y]} ",
                             Width = 90,
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleRight,
@@ -129,7 +144,7 @@ namespace skating_system
                     {
                         couple_marks[z, y] = new Label
                         {
-                            Text = DancesArr[x].Marks[y][z].ToString(),
+                            Text = DancesArr[x].Marks[couple_names_dict[couple_order[y]]][z].ToString(),
                             Width = judge_name_width,
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleCenter,
