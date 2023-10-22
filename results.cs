@@ -20,7 +20,10 @@ namespace skating_system
         Label headerColumn = new Label();
         Label judge_lbl = new Label();
         Label[] lines_y = new Label[dances.DancesArr.Length];
-        Label[,] judge_names = new Label[Form1.JudgeCnt, Form1.DanceCnt];
+        Label[] lines_x = new Label[2];
+        Label[,] judge_names = new Label[Form1.DanceCnt, Form1.JudgeCnt];
+        Label[] couple_names = new Label[Form1.CoupleCnt];
+        Label[,] couple_marks = new Label[Form1.JudgeCnt, Form1.CoupleCnt];
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
 
@@ -78,7 +81,7 @@ namespace skating_system
                     Text = "",
                     Parent = panel1,
                     Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? headerColumn.Width + offset[0] + x * (spacing[0] + maxTitleSize) : headerColumn.Width + offset[0] + x * (Form1.JudgeCnt * judge_name_width), offset[1]),
-                    Height = (Form1.CoupleCnt + 1) * spacing[1] + size,
+                    Height = Convert.ToInt32((Form1.CoupleCnt + 1) * 1.5 * spacing[1] + size),
                     Width = 2,
                     Visible = true,
                     BorderStyle = BorderStyle.Fixed3D
@@ -108,9 +111,38 @@ namespace skating_system
                         Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + z * judge_name_width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width + z * judge_name_width, offset[1] + spacing[1])
                     };
                 }
+                for (int y = 0;  y < Form1.CoupleCnt; y++)
+                {
+                    if (x == 0)
+                    {
+                        couple_names[y] = new Label
+                        {
+                            Text = $"Pár č. {DancesArr[0].Couples_nums[y]} ",
+                            Width = 90,
+                            Parent = panel1,
+                            TextAlign = ContentAlignment.MiddleRight,
+                            Visible = true,
+                            Location = new Point(offset[0], Convert.ToInt32(offset[1] + (y+1.25) * spacing[1] * 1.5)),
+                        };
+                    }
+                    for(int z = 0;  z < Form1.JudgeCnt; z++)
+                    {
+                        couple_marks[z, y] = new Label
+                        {
+                            Text = DancesArr[x].Marks[y][z].ToString(),
+                            Width = judge_name_width,
+                            Parent = panel1,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            Visible = true,
+                            Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + z * judge_name_width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width + z * judge_name_width, Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5))
+
+                        };
+                    }
+
+                }
             }
 
-            Label line_x = new Label
+            lines_x[0] = new Label
             {
                 AutoSize = false,
                 Text = "",
@@ -123,19 +155,21 @@ namespace skating_system
 
 
             };
-            /*Label line_y = new Label
+
+            lines_x[1] = new Label
             {
                 AutoSize = false,
                 Text = "",
                 Parent = panel1,
-                Location = new Point(headerColumn.Width + offset[0], offset[1]),
-                Height = Form1.JudgeCnt * spacing[1] + size,
-                Width = 2,
+                Location = new Point(offset[0], offset[1] + size + spacing[1]),
+                Height = 2,
+                Width = maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
 
 
-            };*/
+            };
+            
         }
     }
 }
