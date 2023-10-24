@@ -20,6 +20,14 @@ namespace skating_system
         Label headerColumn = new Label();
         Label judge_lbl = new Label();
         Label[] lines_y = new Label[dances.DancesArr.Length];
+        Label[] lines_x = new Label[2];
+        Label[,] judge_names = new Label[Form1.DanceCnt, Form1.JudgeCnt];
+        Label[] couple_names = new Label[Form1.CoupleCnt];
+        Label[,] couple_marks = new Label[Form1.JudgeCnt, Form1.CoupleCnt];
+        Label[,] couple_dance_placement = new Label[Form1.DanceCnt, Form1.CoupleCnt];
+        int[] couple_order = new int[Form1.CoupleCnt];
+        IEnumerable<KeyValuePair<int, int>> sorted_couples;
+        Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
 
@@ -29,6 +37,7 @@ namespace skating_system
         int headerOffset = 4;
         int size = 30;
         int maxTitleSize = 0;
+        int judge_name_width = Form1.JudgeCnt > 1 ? 25 : 30;
         public results()
         {
 
@@ -41,7 +50,19 @@ namespace skating_system
 
             resultsStruct = placement.Evaluate();
 
+            sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
+            int a = 0;
+            foreach (KeyValuePair<int, int> couple in sorted_couples)
+            {
+                couple_order[a] = couple.Key;
+                a++;
+            }
+
+            for (int i = 0; i < Form1.CoupleCnt; i++)
+            {
+                couple_names_dict[DancesArr[0].Couples_nums[i]] = i;
+            }
 
 
             foreach (Dance dance in DancesArr)
@@ -54,17 +75,17 @@ namespace skating_system
             }
 
             headerColumn.Parent = panel1;
-            headerColumn.Text = "Název tance:";
+            headerColumn.Text = "Název tance: ";
             headerColumn.TextAlign = ContentAlignment.MiddleRight;
             headerColumn.Visible = true;
             headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
             headerColumn.Width = 90;
 
             judge_lbl.Parent = panel1;
-            judge_lbl.Text = "Porotce:";
+            judge_lbl.Text = "Porotce: ";
             judge_lbl.TextAlign = ContentAlignment.MiddleRight;
             judge_lbl.Visible = true;
-            judge_lbl.Location = new Point(offset[0], offset[1] + headerOffset + spacing[1]);
+            judge_lbl.Location = new Point(offset[0], offset[1] + spacing[1]);
             judge_lbl.Width = 90;
 
             for (int x = 0; x < DancesArr.Length; x++)
@@ -75,8 +96,8 @@ namespace skating_system
                     AutoSize = false,
                     Text = "",
                     Parent = panel1,
-                    Location = new Point(headerColumn.Width + offset[0] + x * (spacing[0] + maxTitleSize), offset[1]),
-                    Height = (Form1.CoupleCnt+1) * spacing[1] + size,
+                    Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? headerColumn.Width + offset[0] + x * (spacing[0] + maxTitleSize) : headerColumn.Width + offset[0] + x * (Form1.JudgeCnt * judge_name_width), offset[1]),
+                    Height = Convert.ToInt32((Form1.CoupleCnt + 1) * 1.5 * spacing[1] + size),
                     Width = 2,
                     Visible = true,
                     BorderStyle = BorderStyle.Fixed3D
@@ -87,41 +108,93 @@ namespace skating_system
                 dancesNames[x] = new Label
                 {
                     Text = DancesArr[x].Dance_title.ToString(),
-                    Width = maxTitleSize + 5,
+                    Width = maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? maxTitleSize + 5 : Form1.JudgeCnt * judge_name_width,
                     Parent = panel1,
                     Visible = true,
-                    Location = new Point(x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + 18, offset[1] + headerOffset),
-                    TextAlign = ContentAlignment.MiddleCenter
+                    Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + 18 : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + headerOffset),
+                    TextAlign = ContentAlignment.MiddleCenter,
 
                 };
+                for (int z = 0; z < Form1.JudgeCnt; z++)
+                {
+                    judge_names[x, z] = new Label
+                    {
+                        Text = Convert.ToChar('A' + z).ToString(),
+                        Width = judge_name_width,
+                        Parent = panel1,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Visible = true,
+                        Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + z * judge_name_width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width + z * judge_name_width, offset[1] + spacing[1])
+                    };
+                }
+                for (int y = 0; y < Form1.CoupleCnt; y++)
+                {
+                    if (x == 0)
+                    {
+                        couple_names[y] = new Label
+                        {
+                            Text = $"Pár č. {couple_order[y]} ",
+                            Width = 90,
+                            Parent = panel1,
+                            TextAlign = ContentAlignment.MiddleRight,
+                            Visible = true,
+                            Location = new Point(offset[0], Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
+                        };
+                    }
+                    for (int z = 0; z < Form1.JudgeCnt; z++)
+                    {
+                        couple_marks[z, y] = new Label
+                        {
+                            Text = DancesArr[x].Marks[couple_names_dict[couple_order[y]]][z].ToString(),
+                            Width = judge_name_width,
+                            Parent = panel1,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            Visible = true,
+                            Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width + z * judge_name_width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width + z * judge_name_width, Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5))
+
+                        };
+                    }
+                    couple_dance_placement[x, y] = new Label
+                    {
+                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][couple_order[y]]})",
+                        Width = Form1.JudgeCnt * judge_name_width,
+                        Parent = panel1,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Visible = true,
+                        Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, Convert.ToInt32(offset[1] + size * 0.75 + (y + 1.25) * spacing[1] * 1.5)),
+                    };
+
+                }
             }
 
-            Label line_x = new Label
+            lines_x[0] = new Label
             {
                 AutoSize = false,
                 Text = "",
                 Parent = panel1,
                 Location = new Point(offset[0], offset[1] + size),
                 Height = 2,
-                Width = DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width,
+                Width = maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
 
 
             };
-            /*Label line_y = new Label
+
+            lines_x[1] = new Label
             {
                 AutoSize = false,
                 Text = "",
                 Parent = panel1,
-                Location = new Point(headerColumn.Width + offset[0], offset[1]),
-                Height = Form1.JudgeCnt * spacing[1] + size,
-                Width = 2,
+                Location = new Point(offset[0], offset[1] + size + spacing[1]),
+                Height = 2,
+                Width = maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
 
 
-            };*/
+            };
+
         }
     }
 }

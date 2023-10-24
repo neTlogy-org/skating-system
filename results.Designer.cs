@@ -46,6 +46,7 @@
             // 
             // export_btn
             // 
+            export_btn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             export_btn.Location = new Point(632, 421);
             export_btn.Name = "export_btn";
             export_btn.Size = new Size(75, 23);
@@ -55,6 +56,7 @@
             // 
             // exit_btn
             // 
+            exit_btn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             exit_btn.Location = new Point(713, 421);
             exit_btn.Name = "exit_btn";
             exit_btn.Size = new Size(75, 23);
@@ -64,6 +66,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             label1.Location = new Point(367, 9);
