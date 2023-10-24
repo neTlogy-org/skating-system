@@ -53,7 +53,7 @@ namespace skating_system
         int headerOffset = 4;
         int size = 30;
 
-        internal static Dance[] DancesArr { get => dancesArr;}
+        internal static Dance[] DancesArr { get => dancesArr; }
 
         public dances()
         {
@@ -66,27 +66,82 @@ namespace skating_system
             paramsForm.dancesOpened = true;
             Form1.paramsFormIns.Close();
 
+
         }
 
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
-            /*int x;
-            int y;
-            for (x = 0; x < textBoxArr.GetLength(0); x++)
+
+            if (sender == null) return;
+
+            int currentRow = -1;
+            int currentColumn = -1;
+
+            for (int x = 0; x < Form1.CoupleCnt; x++)
             {
-                y = Array.IndexOf(textBoxArr[x], sender);
+                for (int y = 0; y < Form1.JudgeCnt; y++)
+                {
+                    if (textBoxArr[x, y] == sender)
+                    {
+                        currentRow = x;
+                        currentColumn = y;
+                        break;
+                    }
+                }
             }
-            if (e.KeyCode == Keys.Up)
+
+            if (currentRow == -1 || currentColumn == -1) return;
+
+            switch (e.KeyCode)
             {
-                label1.Text = x.ToString();
-                //textBoxArr[x, 1].Focus();
-            }*/
+                case Keys.Left:
+                    if (currentRow > 0)
+                    {
+                        textBoxArr[currentRow - 1, currentColumn].Focus();
+                    }
+                    break;
+                case Keys.Right:
+                    if (currentRow < Form1.CoupleCnt - 1)
+                    {
+                        textBoxArr[currentRow + 1, currentColumn].Focus();
+                    }
+                    break;
+                case Keys.Up:
+                    if (currentColumn > 0)
+                    {
+                        textBoxArr[currentRow, currentColumn - 1].Focus();
+                    }
+                    break;
+                case Keys.Down:
+                    if (currentColumn < Form1.JudgeCnt - 1)
+                    {
+                        textBoxArr[currentRow, currentColumn + 1].Focus();
+                    }
+                    break;
+                case Keys.Enter:
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    if (currentColumn < Form1.JudgeCnt - 1)
+                    {
+                        textBoxArr[currentRow, currentColumn + 1].Focus();
+                    }
+                    else if (currentRow < Form1.CoupleCnt - 1)
+                    {
+                        textBoxArr[currentRow + 1, 0].Focus();
+                    }
+                    else
+                    {
+                        next_btn.Focus();
+                    }
+                    break;
+
+            }
         }
 
         private void next_btn_Click(object sender, EventArgs e)
         {
             if (!toDances()) return;
-            if(next_btn.Text == "Dokončit")
+            if (next_btn.Text == "Dokončit")
             {
                 resultsIns = new results();
                 resultsIns.ShowDialog();
@@ -94,6 +149,8 @@ namespace skating_system
             }
 
             dance++;
+
+            textBoxArr[0,0].Focus();
 
             if (dancesArr[dance - 1].Dance_title != null)
             {
@@ -112,8 +169,8 @@ namespace skating_system
                     textBox.Text = "";
                 }
             }
-       
-           
+
+
 
             if (dancesArr[dance - 1].Dance_title != null)
             {
@@ -150,19 +207,19 @@ namespace skating_system
             if (!toDances()) return;
 
             dance--;
-            if (dancesArr[dance-1].Dance_title != null)
+            if (dancesArr[dance - 1].Dance_title != null)
             {
-                dance_TB.Text = dancesArr[dance-1].Dance_title;
+                dance_TB.Text = dancesArr[dance - 1].Dance_title;
             }
             else
             {
                 dance_TB.Text = dancesNames[dance - 1];
             }
-            
 
-            for(int x = 0; x < Form1.CoupleCnt; x++)
+
+            for (int x = 0; x < Form1.CoupleCnt; x++)
             {
-                for(int y = 0; y < Form1.JudgeCnt; y++)
+                for (int y = 0; y < Form1.JudgeCnt; y++)
                 {
                     textBoxArr[x, y].Text = dancesArr[dance - 1].Marks[x][y].ToString();
                 }
@@ -323,7 +380,9 @@ namespace skating_system
                         Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]),
                     };
                     textBoxArr[x - 1, y - 1].KeyDown += tb_KeyDown;
+
                 }
+
             }
 
             Label line_x = new Label
@@ -352,6 +411,7 @@ namespace skating_system
 
 
             };
+
         }
 
         private void dances_FormClosed(object sender, FormClosedEventArgs e)
@@ -359,6 +419,18 @@ namespace skating_system
             Program.form1.Close();
         }
 
-        
+        private void dances_Shown(object sender, EventArgs e)
+        {
+            textBoxArr[0, 0].Focus();
+        }
+
+        private void dance_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter) {
+                textBoxArr[0, 0].Focus();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
     }
 }

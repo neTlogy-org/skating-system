@@ -63,6 +63,7 @@
             exit_btn.TabIndex = 2;
             exit_btn.Text = "Odejít";
             exit_btn.UseVisualStyleBackColor = true;
+            exit_btn.Click += exit_btn_Click;
             // 
             // label1
             // 

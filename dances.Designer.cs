@@ -54,6 +54,7 @@
             dance_TB.Name = "dance_TB";
             dance_TB.Size = new Size(156, 31);
             dance_TB.TabIndex = 1;
+            dance_TB.KeyDown += dance_TB_KeyDown;
             // 
             // next_btn
             // 
@@ -101,6 +102,7 @@
             Name = "dances";
             Text = "Tance";
             FormClosed += dances_FormClosed;
+            Shown += dances_Shown;
             ResumeLayout(false);
             PerformLayout();
         }
