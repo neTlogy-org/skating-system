@@ -239,18 +239,19 @@ namespace skating_system
             using (StreamWriter writer = new StreamWriter("test.txt"))
             {
                 writer.WriteLine("Kod souteze: "); // TODO:
-                writer.WriteLine("Datum: "); // TODO:
+                writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.mm.yyyy"));
                 writer.WriteLine();
                 writer.Write("Tanec\t\t");
                 foreach (var dance in dances.DancesArr)
                     writer.Write(dance.Dance_title + "\t\t");
+                writer.WriteLine();
 
                 resultsStruct.total.OrderBy(pair => pair.Value);
                 foreach (var pair in resultsStruct.total)
                 {
                     writer.Write(pair.Key + " (" + pair.Value + ")" + "\t\t");
                     foreach (var dance in dances.DancesArr)
-                        writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t\t");
+                        writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
                 }
             }
 
