@@ -20,11 +20,13 @@ namespace skating_system
         /// Total score accumulated by each pair mapped to the pairs number as a key
         /// </summary>
         public Dictionary<int, int> total;
+        public Dictionary<int, Dictionary<string, string>> rating;
 
-        public Results(Dictionary<string, Dictionary<int, int>> individual, Dictionary<int, int> total)
+        public Results(Dictionary<string, Dictionary<int, int>> individual, Dictionary<int, int> total, Dictionary<int, Dictionary<string, string>> rating)
         {
             this.total = total;
             this.individual = individual;
+            this.rating = rating;
         }
     }
 
@@ -73,8 +75,24 @@ namespace skating_system
         public Results Evaluate()
         {
             Dictionary<string, Dictionary<int, int>> individual = new Dictionary<string, Dictionary<int, int>>();
+            Dictionary<int, Dictionary<string, string>> rating_tmp = new Dictionary<int, Dictionary<string, string>>();
             foreach (var dance in rating)
             {
+                foreach (var pair in dance.Value)
+                {
+                    if (!rating_tmp.ContainsKey(pair.Key))
+                    {
+                        rating_tmp.Add(pair.Key, new Dictionary<string, string>());
+                    }
+
+                    string tmp = "";
+                    foreach (int mark in pair.Value)
+                    {
+                        tmp += mark;
+                    }
+                    rating_tmp[pair.Key].Add(dance.Key, tmp);
+                }
+
                 individual.Add(dance.Key, EvaluateDance(dance.Value));
             }
 
@@ -90,7 +108,7 @@ namespace skating_system
                 }
             }
 
-            return new Results(individual, total);
+            return new Results(individual, total, rating_tmp);
         }
 
         /// <summary>

@@ -5,13 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace skating_system
 {
@@ -239,18 +236,25 @@ namespace skating_system
 
         private void export_btn_Click(object sender, EventArgs e)
         {
-            Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook workbook = excelApp.Workbooks.Add();
-            Excel.Worksheet worksheet = workbook.Sheets.Add();
-            worksheet.Name = "Dance1";
+            using (StreamWriter writer = new StreamWriter("test.txt"))
+            {
+                writer.WriteLine("Kod souteze: "); // TODO:
+                writer.WriteLine("Datum: "); // TODO:
+                writer.WriteLine();
+                writer.Write("Tanec\t\t");
+                foreach (var dance in dances.DancesArr)
+                    writer.Write(dance.Dance_title + "\t\t");
 
+                resultsStruct.total.OrderBy(pair => pair.Value);
+                foreach (var pair in resultsStruct.total)
+                {
+                    writer.Write(pair.Key + " (" + pair.Value + ")" + "\t\t");
+                    foreach (var dance in dances.DancesArr)
+                        writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t\t");
+                }
+            }
 
-
-            workbook.SaveAs("dance_results.xlsx");
-            workbook.Close();
-            Marshal.ReleaseComObject(workbook);
-            excelApp.Quit();
-            Marshal.ReleaseComObject(excelApp);
+            MessageBox.Show("Export finished", "Export finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
