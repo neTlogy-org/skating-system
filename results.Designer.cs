@@ -53,6 +53,7 @@
             export_btn.TabIndex = 1;
             export_btn.Text = "Exportovat";
             export_btn.UseVisualStyleBackColor = true;
+            export_btn.Click += export_btn_Click;
             // 
             // exit_btn
             // 

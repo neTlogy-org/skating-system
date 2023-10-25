@@ -5,10 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace skating_system
 {
@@ -194,7 +197,22 @@ namespace skating_system
 
 
             };
+        }
 
+        private void export_btn_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.Sheets.Add();
+            worksheet.Name = "Dance1";
+
+
+
+            workbook.SaveAs("dance_results.xlsx");
+            workbook.Close();
+            Marshal.ReleaseComObject(workbook);
+            excelApp.Quit();
+            Marshal.ReleaseComObject(excelApp);
         }
     }
 }
