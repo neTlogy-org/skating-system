@@ -254,12 +254,13 @@ namespace skating_system
                 }
             }
 
-            MessageBox.Show("Export finished", "Export finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Export hotov", "Export hotov", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
         {
-            Program.form1.Close();
+            if (MessageBox.Show("Opravdu zavrit?", "Opravdu zavrit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                Program.form1.Close();
         }
     }
 }
