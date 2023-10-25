@@ -38,6 +38,11 @@
                 MessageBox.Show("Počet párů, porotců nebo tanců musí být větší než nula", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (JudgeCnt % 2 == 0)
+            {
+                MessageBox.Show("Počet porotců musí být lichý", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             paramsFormIns = new paramsForm();
             paramsFormIns.ShowDialog();
 
