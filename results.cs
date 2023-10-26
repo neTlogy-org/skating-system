@@ -225,7 +225,7 @@ namespace skating_system
             using (StreamWriter writer = new StreamWriter($"{Path.GetFullPath(@$"\Users\{user}\Documents\")}{Form1.ContestName}.txt"))
             {
                 writer.WriteLine($"Název soutěže: {Form1.ContestName}");
-                writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.MMMM.yyyy"));
+                writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
                 writer.WriteLine();
                 writer.Write("Název tance\t");
                 foreach (var dance in dances.DancesArr)

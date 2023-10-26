@@ -131,6 +131,8 @@
             contestName_TB.Name = "contestName_TB";
             contestName_TB.Size = new Size(100, 23);
             contestName_TB.TabIndex = 8;
+            contestName_TB.KeyDown += contestName_TB_KeyDown;
+            contestName_TB.KeyPress += contestName_TB_KeyPress;
             // 
             // Form1
             // 
@@ -152,6 +154,7 @@
             Name = "Form1";
             Text = "Skating system";
             FormClosing += Form1_FormClosing;
+            Shown += Form1_Shown;
             ResumeLayout(false);
             PerformLayout();
         }

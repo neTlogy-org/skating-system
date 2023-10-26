@@ -50,6 +50,15 @@
 
         }
 
+        private void contestName_TB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                coupleCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+
         private void coupleCnt_TB_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
@@ -78,12 +87,26 @@
 
         }
 
+        private void contestName_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                coupleCnt_TB.Focus();
+                e.Handled = true;
+            }
+        }
+
 
         private void coupleCnt_TB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
             {
                 judgeCnt_TB.Focus();
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                contestName_TB.Focus();
                 e.Handled = true;
             }
         }
@@ -135,5 +158,12 @@
                 e.Cancel = true;
             }
         }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            contestName_TB.Focus();
+        }
+
+
     }
 }
