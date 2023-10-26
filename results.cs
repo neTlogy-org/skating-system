@@ -227,9 +227,15 @@ namespace skating_system
                 writer.WriteLine($"Název soutěže: {Form1.ContestName}");
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
                 writer.WriteLine();
+
                 writer.Write("Název tance\t");
                 foreach (var dance in dances.DancesArr)
-                    writer.Write(dance.Dance_title + "\t\t");
+                {
+                    if (dance.Dance_title.Length > 7)
+                        writer.Write(dance.Dance_title + "\t");
+                    else
+                        writer.Write(dance.Dance_title + "\t\t");
+                }
                 writer.WriteLine("Součet");
 
                 var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
