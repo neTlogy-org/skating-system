@@ -40,7 +40,6 @@ namespace skating_system
         int judge_name_width = Form1.JudgeCnt > 1 ? 25 : 30;
         public results()
         {
-
             InitializeComponent();
 
             for (int i = 0; i < dances.DancesArr.Length; i++)
@@ -63,7 +62,6 @@ namespace skating_system
             {
                 couple_names_dict[DancesArr[0].Couples_nums[i]] = i;
             }
-
 
             foreach (Dance dance in DancesArr)
             {
@@ -98,8 +96,6 @@ namespace skating_system
                 Width = 2,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
 
             Label sum = new Label
@@ -110,12 +106,10 @@ namespace skating_system
                 Visible = true,
                 Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1] / 2),
                 Width = 50,
-
             };
 
             for (int x = 0; x < DancesArr.Length; x++)
             {
-
                 lines_y[x] = new Label
                 {
                     AutoSize = false,
@@ -126,8 +120,6 @@ namespace skating_system
                     Width = 2,
                     Visible = true,
                     BorderStyle = BorderStyle.Fixed3D
-
-
                 };
 
                 dancesNames[x] = new Label
@@ -198,11 +190,8 @@ namespace skating_system
                         Visible = true,
                         Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, Convert.ToInt32(offset[1] + size * 0.75 + (y + 1.25) * spacing[1] * 1.5)),
                     };
-
                 }
             }
-
-
 
             lines_x[0] = new Label
             {
@@ -214,8 +203,6 @@ namespace skating_system
                 Width = 2 + (maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width),
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
 
             lines_x[1] = new Label
@@ -228,8 +215,6 @@ namespace skating_system
                 Width = 50 + (maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width),
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
         }
 

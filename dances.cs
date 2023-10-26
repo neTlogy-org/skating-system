@@ -31,8 +31,8 @@ namespace skating_system
             this.judgeCnt = judgeCnt;
             this.marks = marks;
         }
-
     }
+
     public partial class dances : Form
     {
         results resultsIns;
@@ -45,7 +45,6 @@ namespace skating_system
         int dance = 1;
 
         string[] dancesNames = new string[Form1.DanceCnt];
-
 
         int[] spacing = { 40, 40 };
         int[] offset = { 20, 20 };
@@ -65,13 +64,10 @@ namespace skating_system
 
             paramsForm.dancesOpened = true;
             Form1.paramsFormIns.Close();
-
-
         }
 
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
-
             if (sender == null) return;
 
             int currentRow = -1;
@@ -134,7 +130,6 @@ namespace skating_system
                         next_btn.Focus();
                     }
                     break;
-
             }
         }
 
@@ -170,8 +165,6 @@ namespace skating_system
                 }
             }
 
-
-
             if (dancesArr[dance - 1].Dance_title != null)
             {
                 dance_TB.Text = dancesArr[dance - 1].Dance_title;
@@ -180,7 +173,6 @@ namespace skating_system
             {
                 dance_TB.Text = dancesNames[dance - 1];
             }
-
 
             if (dance > 1)
             {
@@ -198,10 +190,8 @@ namespace skating_system
             {
                 next_btn.Text = "Další";
             }
-
-
-
         }
+
         private void back_btn_Click(object sender, EventArgs e)
         {
             if (!toDances()) return;
@@ -302,7 +292,6 @@ namespace skating_system
                         MessageBox.Show($"Špatně zadané známky od porotce {Convert.ToChar('A' + x)}, nemůže použít jednu známku víckrát", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
-
                 }
             }
 
@@ -331,7 +320,6 @@ namespace skating_system
                 Text = "Číslo páru:",
                 TextAlign = ContentAlignment.MiddleCenter
             };
-
 
             for (int y = 0; y < textBoxArr.GetLength(1) + 1; y++)
             {
@@ -370,7 +358,6 @@ namespace skating_system
                             TextAlign = ContentAlignment.MiddleCenter
                         };
                         continue;
-
                     }
                     textBoxArr[x - 1, y - 1] = new TextBox
                     {
@@ -380,9 +367,7 @@ namespace skating_system
                         Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]),
                     };
                     textBoxArr[x - 1, y - 1].KeyDown += tb_KeyDown;
-
                 }
-
             }
 
             Label line_x = new Label
@@ -395,8 +380,6 @@ namespace skating_system
                 Width = Form1.CoupleCnt * spacing[0] + headerColumn.Width,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
             Label line_y = new Label
             {
@@ -408,8 +391,6 @@ namespace skating_system
                 Width = 2,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
 
         }

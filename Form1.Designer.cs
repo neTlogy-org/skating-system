@@ -131,7 +131,6 @@
             MaximizeBox = false;
             Name = "Form1";
             Text = "Skating system";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
