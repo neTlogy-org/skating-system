@@ -88,6 +88,7 @@
             Controls.Add(panel1);
             Name = "results";
             Text = "results";
+            FormClosed += results_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

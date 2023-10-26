@@ -108,7 +108,7 @@ namespace skating_system
                 Parent = panel1,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Visible = true,
-                Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1]/2),
+                Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1] / 2),
                 Width = 50,
 
             };
@@ -202,7 +202,7 @@ namespace skating_system
                 }
             }
 
-            
+
 
             lines_x[0] = new Label
             {
@@ -269,6 +269,12 @@ namespace skating_system
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Opravdu zavrit?", "Opravdu zavrit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                Program.form1.Close();
+        }
+
+        private void results_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (MessageBox.Show("Opravdu zavrit?", "Opravdu zavrit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 Program.form1.Close();
