@@ -33,7 +33,6 @@
             label1 = new Label();
             label2 = new Label();
             next_btn = new Button();
-            back_btn = new Button();
             SuspendLayout();
             // 
             // panel1
@@ -83,21 +82,11 @@
             next_btn.UseVisualStyleBackColor = true;
             next_btn.Click += next_btn_Click;
             // 
-            // back_btn
-            // 
-            back_btn.Location = new Point(12, 415);
-            back_btn.Name = "back_btn";
-            back_btn.Size = new Size(75, 23);
-            back_btn.TabIndex = 4;
-            back_btn.Text = "Zpět";
-            back_btn.UseVisualStyleBackColor = true;
-            // 
             // paramsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(back_btn);
             Controls.Add(next_btn);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -119,6 +108,5 @@
         private Label label1;
         private Label label2;
         private Button next_btn;
-        private Button back_btn;
     }
 }

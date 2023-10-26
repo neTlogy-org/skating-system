@@ -220,15 +220,17 @@ namespace skating_system
 
         private void export_btn_Click(object sender, EventArgs e)
         {
-            using (StreamWriter writer = new StreamWriter("test.txt"))
+            string[] pth = Path.GetFullPath(@"x").Split(@"\");
+            string user = pth[Array.IndexOf(pth, "Users") + 1];
+            using (StreamWriter writer = new StreamWriter($"{Path.GetFullPath(@$"\Users\{user}\Documents\")}{Form1.ContestName}.txt"))
             {
-                writer.WriteLine($"Kód soutěže: {Form1.ContestName}");
-                writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.mm.yyyy"));
+                writer.WriteLine($"Název soutěže: {Form1.ContestName}");
+                writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.MMMM.yyyy"));
                 writer.WriteLine();
-                writer.Write("Tanec\t\t");
+                writer.Write("Název tance\t");
                 foreach (var dance in dances.DancesArr)
                     writer.Write(dance.Dance_title + "\t\t");
-                writer.WriteLine("Soucet");
+                writer.WriteLine("Součet");
 
                 var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
                 int i = 0;
@@ -250,7 +252,7 @@ namespace skating_system
                 }
             }
 
-            MessageBox.Show("Export hotový", "Export hotový", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Exportováno do {Path.GetFullPath(@$"\Users\{user}\Documents\")}{Form1.ContestName}.txt", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exit_btn_Click(object sender, EventArgs e)

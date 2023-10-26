@@ -34,6 +34,7 @@
             saveFileDialog1 = new SaveFileDialog();
             label1 = new Label();
             back_btn = new Button();
+            saveFileDialog2 = new SaveFileDialog();
             SuspendLayout();
             // 
             // panel1
@@ -112,5 +113,6 @@
         private SaveFileDialog saveFileDialog1;
         private Label label1;
         private Button back_btn;
+        private SaveFileDialog saveFileDialog2;
     }
 }
