@@ -27,7 +27,6 @@ namespace skating_system
         Label[,] couple_dance_placement = new Label[Form1.DanceCnt, Form1.CoupleCnt];
         Label[] couple_totals = new Label[Form1.CoupleCnt];
         int[] couple_order = new int[Form1.CoupleCnt];
-        IEnumerable<KeyValuePair<int, int>> sorted_couples;
         Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
@@ -51,7 +50,7 @@ namespace skating_system
 
             resultsStruct = placement.Evaluate();
 
-            sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
+            var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
             int a = 0;
             foreach (KeyValuePair<int, int> couple in sorted_couples)
@@ -244,14 +243,25 @@ namespace skating_system
                 writer.Write("Tanec\t\t");
                 foreach (var dance in dances.DancesArr)
                     writer.Write(dance.Dance_title + "\t\t");
-                writer.WriteLine();
+                writer.WriteLine("Soucet");
 
-                resultsStruct.total.OrderBy(pair => pair.Value);
-                foreach (var pair in resultsStruct.total)
+                var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
+                int i = 0;
+                foreach (var pair in sorted_couples)
                 {
-                    writer.Write(pair.Key + " (" + pair.Value + ")" + "\t\t");
-                    foreach (var dance in dances.DancesArr)
-                        writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
+                    i++;
+                    writer.Write(pair.Key + " (" + i + ")" + "\t\t");
+                    if (Form1.JudgeCnt > 3)
+                    {
+                        foreach (var dance in dances.DancesArr)
+                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
+                    }
+                    else
+                    {
+                        foreach (var dance in dances.DancesArr)
+                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t\t");
+                    }
+                    writer.WriteLine(pair.Value);
                 }
             }
 
