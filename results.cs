@@ -27,7 +27,6 @@ namespace skating_system
         Label[,] couple_dance_placement = new Label[Form1.DanceCnt, Form1.CoupleCnt];
         Label[] couple_totals = new Label[Form1.CoupleCnt];
         int[] couple_order = new int[Form1.CoupleCnt];
-        IEnumerable<KeyValuePair<int, int>> sorted_couples;
         Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
@@ -41,7 +40,6 @@ namespace skating_system
         int judge_name_width = Form1.JudgeCnt > 1 ? 25 : 30;
         public results()
         {
-
             InitializeComponent();
 
             for (int i = 0; i < dances.DancesArr.Length; i++)
@@ -51,7 +49,7 @@ namespace skating_system
 
             resultsStruct = placement.Evaluate();
 
-            sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
+            var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
             int a = 0;
             foreach (KeyValuePair<int, int> couple in sorted_couples)
@@ -64,7 +62,6 @@ namespace skating_system
             {
                 couple_names_dict[DancesArr[0].Couples_nums[i]] = i;
             }
-
 
             foreach (Dance dance in DancesArr)
             {
@@ -99,8 +96,6 @@ namespace skating_system
                 Width = 2,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
 
             Label sum = new Label
@@ -111,12 +106,10 @@ namespace skating_system
                 Visible = true,
                 Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1] / 2),
                 Width = 50,
-
             };
 
             for (int x = 0; x < DancesArr.Length; x++)
             {
-
                 lines_y[x] = new Label
                 {
                     AutoSize = false,
@@ -127,8 +120,6 @@ namespace skating_system
                     Width = 2,
                     Visible = true,
                     BorderStyle = BorderStyle.Fixed3D
-
-
                 };
 
                 dancesNames[x] = new Label
@@ -199,11 +190,8 @@ namespace skating_system
                         Visible = true,
                         Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? x * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : x * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, Convert.ToInt32(offset[1] + size * 0.75 + (y + 1.25) * spacing[1] * 1.5)),
                     };
-
                 }
             }
-
-
 
             lines_x[0] = new Label
             {
@@ -215,8 +203,6 @@ namespace skating_system
                 Width = 2 + (maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width),
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
 
             lines_x[1] = new Label
@@ -229,8 +215,6 @@ namespace skating_system
                 Width = 50 + (maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + headerColumn.Width),
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
-
-
             };
         }
 
@@ -244,14 +228,25 @@ namespace skating_system
                 writer.Write("Tanec\t\t");
                 foreach (var dance in dances.DancesArr)
                     writer.Write(dance.Dance_title + "\t\t");
-                writer.WriteLine();
+                writer.WriteLine("Soucet");
 
-                resultsStruct.total.OrderBy(pair => pair.Value);
-                foreach (var pair in resultsStruct.total)
+                var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
+                int i = 0;
+                foreach (var pair in sorted_couples)
                 {
-                    writer.Write(pair.Key + " (" + pair.Value + ")" + "\t\t");
-                    foreach (var dance in dances.DancesArr)
-                        writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
+                    i++;
+                    writer.Write(pair.Key + " (" + i + ")" + "\t\t");
+                    if (Form1.JudgeCnt > 3)
+                    {
+                        foreach (var dance in dances.DancesArr)
+                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
+                    }
+                    else
+                    {
+                        foreach (var dance in dances.DancesArr)
+                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t\t");
+                    }
+                    writer.WriteLine(pair.Value);
                 }
             }
 

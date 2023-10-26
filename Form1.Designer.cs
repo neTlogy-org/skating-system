@@ -132,7 +132,6 @@
             Name = "Form1";
             Text = "Skating system";
             FormClosing += Form1_FormClosing;
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
