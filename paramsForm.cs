@@ -45,6 +45,18 @@ namespace skating_system
                 coupleNums[i].KeyDown += coupleNums_tb_KeyDown;
 
             }
+            if (Form1.DanceCnt < 4)
+            {
+                stt4_btn.Enabled = false;
+                stt5_btn.Enabled = false;
+                lat4_btn.Enabled = false;
+                lat5_btn.Enabled = false;
+            }
+            else if (Form1.DanceCnt < 5)
+            {
+                stt5_btn.Enabled = false;
+                lat5_btn.Enabled = false;
+            }
         }
         private void dances_tb_keyDown(object sender, KeyEventArgs e)
         {
@@ -183,7 +195,57 @@ namespace skating_system
             {
                 Application.Exit();
             }
+        }
 
+        string[] stt = { "Waltz", "Tango", "Valčík", "Slowfox", "Quickstep" };
+        string[] lat = { "Chacha", "Samba", "Rumba", "Paso Doble", "Jive" };
+
+        private void stt4_btn_Click(object sender, EventArgs e)
+        {
+            foreach (TextBox dance in dancesNames)
+            {
+                dance.Text = "";
+            }
+            for (int i = 0; i < 4; i++) 
+            {
+                dancesNames[i].Text = stt[i];
+            }
+        }
+
+        private void stt5_btn_Click(object sender, EventArgs e)
+        {
+            foreach(TextBox dance in dancesNames)
+            {
+                dance.Text = "";
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                dancesNames[i].Text = stt[i];
+            }
+        }
+
+        private void lat4_btn_Click(object sender, EventArgs e)
+        {
+            foreach (TextBox dance in dancesNames)
+            {
+                dance.Text = "";
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                dancesNames[i].Text = lat[i];
+            }
+        }
+
+        private void lat5_btn_Click(object sender, EventArgs e)
+        {
+            foreach (TextBox dance in dancesNames)
+            {
+                dance.Text = "";
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                dancesNames[i].Text = lat[i];
+            }
         }
     }
 }

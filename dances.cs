@@ -139,6 +139,19 @@ namespace skating_system
             if (!toDances()) return;
             if (next_btn.Text == "Dokončit")
             {
+                bool und = false;
+                foreach (Dance dance in dancesArr)
+                {
+                    if (dance.Dance_title == null)
+                    {
+                        und = true;
+                    }
+                }
+                if(und)
+                {
+                    MessageBox.Show($"Nelze dokončit, chybí jeden nebo více nevyplněných tanců", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 resultsIns = new results();
                 resultsIns.ShowDialog();
                 return;
@@ -207,12 +220,21 @@ namespace skating_system
                 dance_TB.Text = dancesNames[dance - 1];
             }
 
-
-            for (int x = 0; x < Form1.CoupleCnt; x++)
+            if (dancesArr[dance - 1].Dance_title != null)
             {
-                for (int y = 0; y < Form1.JudgeCnt; y++)
+                for (int x = 0; x < Form1.CoupleCnt; x++)
                 {
-                    textBoxArr[x, y].Text = dancesArr[dance - 1].Marks[x][y].ToString();
+                    for (int y = 0; y < Form1.JudgeCnt; y++)
+                    {
+                        textBoxArr[x, y].Text = dancesArr[dance - 1].Marks[x][y].ToString();
+                    }
+                }
+            }
+            else
+            {
+                foreach (TextBox textBox in textBoxArr)
+                {
+                    textBox.Text = "";
                 }
             }
 
@@ -225,7 +247,7 @@ namespace skating_system
                 back_btn.Enabled = false;
             }
             if (dance == Form1.DanceCnt)
-            {
+            { 
                 next_btn.Text = "Dokončit";
             }
             else
@@ -261,19 +283,33 @@ namespace skating_system
                 {
                     if (!int.TryParse(textBoxArr[x, y].Text, out marks[x][y]))
                     {
-                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
+                        var res = MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}\nPřesto pokračovat? (Veškeré změny v tomto tanci budou smazány)", "Chyba", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (res == DialogResult.Yes)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     if (marks[x][y] == 0)
                     {
-                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemže být 0", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        var res = MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemže být 0\nPřesto pokračovat? (Veškeré změny v tomto tanci budou smazány)", "Chyba", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         return false;
 
                     }
                     if (marks[x][y] > Form1.CoupleCnt)
                     {
-                        MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemůže být větší než počet párů", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
+                        var res = MessageBox.Show($"Špatně zadaná známka páru {coupleIDs[x]} od porotce {Convert.ToChar('A' + y)}; známka nemůže být větší než počet párů\nPřesto pokračovat? (Veškeré změny v tomto tanci budou smazány)", "Chyba", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (res == DialogResult.Yes)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -290,8 +326,15 @@ namespace skating_system
                 {
                     if (Array.FindAll(reversedMarks[x], e => e == reversedMarks[x][y]).Length > 1)
                     {
-                        MessageBox.Show($"Špatně zadané známky od porotce {Convert.ToChar('A' + x)}, nemůže použít jednu známku víckrát", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
+                        var res = MessageBox.Show($"Špatně zadané známky od porotce {Convert.ToChar('A' + x)}, nemůže použít jednu známku víckrát\nPřesto pokračovat? (Veškeré změny v tomto tanci budou smazány)", "Chyba", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (res == DialogResult.Yes)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
             }
