@@ -101,7 +101,7 @@
             MinimumSize = new Size(816, 489);
             Name = "dances";
             Text = "Tance";
-            FormClosed += dances_FormClosed;
+            FormClosing += dances_FormClosing;
             Shown += dances_Shown;
             ResumeLayout(false);
             PerformLayout();

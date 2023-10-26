@@ -104,9 +104,10 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
             Name = "paramsForm";
             Text = "Podrobnosti";
-            FormClosed += paramsForm_FormClosed;
+            FormClosing += paramsForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

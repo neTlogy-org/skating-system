@@ -142,7 +142,7 @@ namespace skating_system
                     MessageBox.Show($"Dva tance mají stejný název (\"{danceName.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
             }
             foreach (TextBox coupleNum in coupleNums)
             {
@@ -167,13 +167,23 @@ namespace skating_system
                 }
             }
             new dances().ShowDialog();
-            
+
         }
 
-        private void paramsForm_FormClosed(object sender, FormClosedEventArgs e)
+
+        private void paramsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!dancesOpened)
-                Program.form1.Close();
+            if (e.CloseReason != CloseReason.UserClosing) return;
+            DialogResult res = MessageBox.Show("Opravdu chcete odejít?", "Odejít", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                Application.Exit();
+            }
+
         }
     }
 }

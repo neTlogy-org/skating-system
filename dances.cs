@@ -64,7 +64,6 @@ namespace skating_system
             dancesNames = paramsForm.DancesNames.Select(e => e.Text).ToArray();
 
             paramsForm.dancesOpened = true;
-            Form1.paramsFormIns.Close();
 
 
         }
@@ -150,7 +149,7 @@ namespace skating_system
 
             dance++;
 
-            textBoxArr[0,0].Focus();
+            textBoxArr[0, 0].Focus();
 
             if (dancesArr[dance - 1].Dance_title != null)
             {
@@ -414,10 +413,6 @@ namespace skating_system
 
         }
 
-        private void dances_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Program.form1.Close();
-        }
 
         private void dances_Shown(object sender, EventArgs e)
         {
@@ -426,10 +421,25 @@ namespace skating_system
 
         private void dance_TB_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter) {
+            if (e.KeyCode == Keys.Enter)
+            {
                 textBoxArr[0, 0].Focus();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+        }
+
+        private void dances_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing) return;
+            DialogResult res = MessageBox.Show("Opravdu chcete odejít?", "Odejít", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                Application.Exit();
             }
         }
     }

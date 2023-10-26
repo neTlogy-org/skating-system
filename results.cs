@@ -109,7 +109,7 @@ namespace skating_system
                 Parent = panel1,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Visible = true,
-                Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1]/2),
+                Location = new Point(maxTitleSize + spacing[0] > Form1.JudgeCnt * judge_name_width ? DancesArr.Length * (spacing[0] + maxTitleSize) + offset[0] + headerColumn.Width : DancesArr.Length * (Form1.JudgeCnt * judge_name_width) + offset[0] + headerColumn.Width, offset[1] + spacing[1] / 2),
                 Width = 50,
 
             };
@@ -203,7 +203,7 @@ namespace skating_system
                 }
             }
 
-            
+
 
             lines_x[0] = new Label
             {
@@ -238,7 +238,7 @@ namespace skating_system
         {
             using (StreamWriter writer = new StreamWriter("test.txt"))
             {
-                writer.WriteLine("Kod souteze: "); // TODO:
+                writer.WriteLine("Kód soutěže: "); // TODO:
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.mm.yyyy"));
                 writer.WriteLine();
                 writer.Write("Tanec\t\t");
@@ -255,13 +255,16 @@ namespace skating_system
                 }
             }
 
-            MessageBox.Show("Export hotov", "Export hotov", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Export hotový", "Export hotový", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Opravdu zavrit?", "Opravdu zavrit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                Program.form1.Close();
+            DialogResult res = MessageBox.Show("Opravdu chcete odejít?", "Odejít", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
     }
 }

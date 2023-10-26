@@ -18,7 +18,7 @@
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void next_btn_Click(object sender, EventArgs e)
@@ -121,6 +121,16 @@
             {
                 danceCnt_TB.Focus();
                 e.Handled = true;
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing) return;
+            DialogResult res = MessageBox.Show("Opravdu chcete odejít?", "Odejít", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(res == DialogResult.No)
+            {
+            e.Cancel = true;
             }
         }
     }
