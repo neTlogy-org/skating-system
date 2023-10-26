@@ -261,5 +261,10 @@ namespace skating_system
                 Application.Exit();
             }
         }
+
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

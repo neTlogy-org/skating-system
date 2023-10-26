@@ -33,6 +33,7 @@
             exit_btn = new Button();
             saveFileDialog1 = new SaveFileDialog();
             label1 = new Label();
+            back_btn = new Button();
             SuspendLayout();
             // 
             // panel1
@@ -77,11 +78,22 @@
             label1.TabIndex = 3;
             label1.Text = "Výsledky";
             // 
+            // back_btn
+            // 
+            back_btn.Location = new Point(12, 421);
+            back_btn.Name = "back_btn";
+            back_btn.Size = new Size(75, 23);
+            back_btn.TabIndex = 4;
+            back_btn.Text = "Zpět";
+            back_btn.UseVisualStyleBackColor = true;
+            back_btn.Click += back_btn_Click;
+            // 
             // results
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(back_btn);
             Controls.Add(label1);
             Controls.Add(exit_btn);
             Controls.Add(export_btn);
@@ -99,5 +111,6 @@
         private Button exit_btn;
         private SaveFileDialog saveFileDialog1;
         private Label label1;
+        private Button back_btn;
     }
 }
