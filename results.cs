@@ -222,7 +222,7 @@ namespace skating_system
         {
             using (StreamWriter writer = new StreamWriter("test.txt"))
             {
-                writer.WriteLine("Kód soutěže: "); // TODO:
+                writer.WriteLine($"Kód soutěže: {Form1.ContestName}");
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd.mm.yyyy"));
                 writer.WriteLine();
                 writer.Write("Tanec\t\t");

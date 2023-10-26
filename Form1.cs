@@ -6,9 +6,11 @@
         static int coupleCnt;
         static int judgeCnt;
         static int danceCnt;
+        static string contestName;
         public static int CoupleCnt { get => coupleCnt; set => coupleCnt = value; }
         public static int JudgeCnt { get => judgeCnt; set => judgeCnt = value; }
         public static int DanceCnt { get => danceCnt; set => danceCnt = value; }
+        public static string ContestName { get => contestName; }
 
         public Form1()
         {
@@ -17,6 +19,11 @@
 
         private void next_btn_Click(object sender, EventArgs e)
         {
+            if (contestName_TB.Text.Trim() == "")
+            {
+                MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (!(int.TryParse(coupleCnt_TB.Text, out coupleCnt) && int.TryParse(judgeCnt_TB.Text, out judgeCnt) && int.TryParse(danceCnt_TB.Text, out danceCnt)))
             {
                 MessageBox.Show("Špatný vstup", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -37,6 +44,7 @@
                 MessageBox.Show("Počet porotců musí být lichý", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            contestName = contestName_TB.Text;
             paramsFormIns = new paramsForm();
             paramsFormIns.ShowDialog();
 
@@ -122,9 +130,9 @@
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
             DialogResult res = MessageBox.Show("Opravdu chcete odejít?", "Odejít", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(res == DialogResult.No)
+            if (res == DialogResult.No)
             {
-            e.Cancel = true;
+                e.Cancel = true;
             }
         }
     }

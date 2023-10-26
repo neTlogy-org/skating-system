@@ -36,6 +36,8 @@
             label2 = new Label();
             label3 = new Label();
             next_btn = new Button();
+            label4 = new Label();
+            contestName_TB = new TextBox();
             SuspendLayout();
             // 
             // prompt
@@ -114,11 +116,29 @@
             next_btn.Click += next_btn_Click;
             next_btn.KeyDown += next_btn_KeyDown;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(291, 152);
+            label4.Name = "label4";
+            label4.Size = new Size(85, 15);
+            label4.TabIndex = 9;
+            label4.Text = "Název soutěže:";
+            // 
+            // contestName_TB
+            // 
+            contestName_TB.Location = new Point(382, 149);
+            contestName_TB.Name = "contestName_TB";
+            contestName_TB.Size = new Size(100, 23);
+            contestName_TB.TabIndex = 8;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label4);
+            Controls.Add(contestName_TB);
             Controls.Add(next_btn);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -146,5 +166,7 @@
         private Label label2;
         private Label label3;
         private Button next_btn;
+        private Label label4;
+        private TextBox contestName_TB;
     }
 }
