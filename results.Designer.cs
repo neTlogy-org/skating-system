@@ -82,6 +82,7 @@
             // 
             // back_btn
             // 
+            back_btn.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             back_btn.Location = new Point(12, 421);
             back_btn.Name = "back_btn";
             back_btn.Size = new Size(75, 23);
