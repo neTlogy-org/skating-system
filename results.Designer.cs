@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(results));
             panel1 = new Panel();
             export_btn = new Button();
             exit_btn = new Button();
@@ -99,6 +100,7 @@
             Controls.Add(exit_btn);
             Controls.Add(export_btn);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "results";
             Text = "results";
             ResumeLayout(false);

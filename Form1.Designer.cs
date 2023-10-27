@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             prompt = new Label();
             coupleCnt_TB = new TextBox();
             judgeCnt_TB = new TextBox();
@@ -53,7 +54,7 @@
             // 
             // coupleCnt_TB
             // 
-            coupleCnt_TB.Location = new Point(382, 178);
+            coupleCnt_TB.Location = new Point(392, 158);
             coupleCnt_TB.Name = "coupleCnt_TB";
             coupleCnt_TB.Size = new Size(100, 23);
             coupleCnt_TB.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // judgeCnt_TB
             // 
-            judgeCnt_TB.Location = new Point(382, 207);
+            judgeCnt_TB.Location = new Point(392, 187);
             judgeCnt_TB.Name = "judgeCnt_TB";
             judgeCnt_TB.Size = new Size(100, 23);
             judgeCnt_TB.TabIndex = 2;
@@ -71,7 +72,7 @@
             // 
             // danceCnt_TB
             // 
-            danceCnt_TB.Location = new Point(382, 236);
+            danceCnt_TB.Location = new Point(392, 216);
             danceCnt_TB.Name = "danceCnt_TB";
             danceCnt_TB.Size = new Size(100, 23);
             danceCnt_TB.TabIndex = 3;
@@ -81,7 +82,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(309, 181);
+            label1.Location = new Point(319, 161);
             label1.Name = "label1";
             label1.Size = new Size(67, 15);
             label1.TabIndex = 4;
@@ -90,7 +91,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(288, 210);
+            label2.Location = new Point(298, 190);
             label2.Name = "label2";
             label2.Size = new Size(85, 15);
             label2.TabIndex = 5;
@@ -99,7 +100,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(303, 239);
+            label3.Location = new Point(313, 219);
             label3.Name = "label3";
             label3.Size = new Size(73, 15);
             label3.TabIndex = 6;
@@ -107,7 +108,7 @@
             // 
             // next_btn
             // 
-            next_btn.Location = new Point(394, 265);
+            next_btn.Location = new Point(404, 245);
             next_btn.Name = "next_btn";
             next_btn.Size = new Size(75, 23);
             next_btn.TabIndex = 7;
@@ -119,7 +120,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(291, 152);
+            label4.Location = new Point(301, 132);
             label4.Name = "label4";
             label4.Size = new Size(85, 15);
             label4.TabIndex = 9;
@@ -127,7 +128,7 @@
             // 
             // contestName_TB
             // 
-            contestName_TB.Location = new Point(382, 149);
+            contestName_TB.Location = new Point(392, 129);
             contestName_TB.Name = "contestName_TB";
             contestName_TB.Size = new Size(100, 23);
             contestName_TB.TabIndex = 8;
@@ -150,6 +151,7 @@
             Controls.Add(coupleCnt_TB);
             Controls.Add(prompt);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
             Text = "Skating system";

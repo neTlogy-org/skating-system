@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dances));
             label1 = new Label();
             dance_TB = new TextBox();
             next_btn = new Button();
@@ -98,6 +99,7 @@
             Controls.Add(panel1);
             Controls.Add(back_btn);
             Controls.Add(next_btn);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(816, 489);
             Name = "dances";
             Text = "Tance";

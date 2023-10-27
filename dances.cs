@@ -147,7 +147,7 @@ namespace skating_system
                         und = true;
                     }
                 }
-                if(und)
+                if (und)
                 {
                     MessageBox.Show($"Nelze dokončit, chybí jeden nebo více nevyplněných tanců", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -247,7 +247,7 @@ namespace skating_system
                 back_btn.Enabled = false;
             }
             if (dance == Form1.DanceCnt)
-            { 
+            {
                 next_btn.Text = "Dokončit";
             }
             else

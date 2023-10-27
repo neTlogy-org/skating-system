@@ -206,7 +206,7 @@ namespace skating_system
             {
                 dance.Text = "";
             }
-            for (int i = 0; i < 4; i++) 
+            for (int i = 0; i < 4; i++)
             {
                 dancesNames[i].Text = stt[i];
             }
@@ -214,7 +214,7 @@ namespace skating_system
 
         private void stt5_btn_Click(object sender, EventArgs e)
         {
-            foreach(TextBox dance in dancesNames)
+            foreach (TextBox dance in dancesNames)
             {
                 dance.Text = "";
             }
