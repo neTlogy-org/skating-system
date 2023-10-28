@@ -197,8 +197,8 @@ namespace skating_system
             }
         }
 
-        string[] stt = { "Waltz", "Tango", "Valčík", "Slowfox", "Quickstep" };
-        string[] lat = { "Chacha", "Samba", "Rumba", "Paso Doble", "Jive" };
+        string[] stt = { "Waltz", "Tango", "Valčík", "Quickstep", "Slowfox" };
+        string[] lat = { "Chacha", "Samba", "Rumba", "Jive", "Paso Doble" };
 
         private void stt4_btn_Click(object sender, EventArgs e)
         {

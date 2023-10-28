@@ -91,7 +91,7 @@
             // 
             stt4_btn.Location = new Point(38, 57);
             stt4_btn.Name = "stt4_btn";
-            stt4_btn.Size = new Size(44, 23);
+            stt4_btn.Size = new Size(46, 23);
             stt4_btn.TabIndex = 4;
             stt4_btn.Text = "STT 4";
             stt4_btn.UseVisualStyleBackColor = true;
@@ -101,7 +101,7 @@
             // 
             stt5_btn.Location = new Point(88, 57);
             stt5_btn.Name = "stt5_btn";
-            stt5_btn.Size = new Size(44, 23);
+            stt5_btn.Size = new Size(46, 23);
             stt5_btn.TabIndex = 5;
             stt5_btn.Text = "STT 5";
             stt5_btn.UseVisualStyleBackColor = true;
@@ -111,7 +111,7 @@
             // 
             lat4_btn.Location = new Point(138, 57);
             lat4_btn.Name = "lat4_btn";
-            lat4_btn.Size = new Size(44, 23);
+            lat4_btn.Size = new Size(46, 23);
             lat4_btn.TabIndex = 6;
             lat4_btn.Text = "LAT 4";
             lat4_btn.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             // 
             lat5_btn.Location = new Point(188, 57);
             lat5_btn.Name = "lat5_btn";
-            lat5_btn.Size = new Size(44, 23);
+            lat5_btn.Size = new Size(46, 23);
             lat5_btn.TabIndex = 7;
             lat5_btn.Text = "LAT 5";
             lat5_btn.UseVisualStyleBackColor = true;
