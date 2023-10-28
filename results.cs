@@ -52,7 +52,7 @@ namespace skating_system
             var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
 
             int a = 0;
-            foreach (KeyValuePair<int, int> couple in sorted_couples)
+            foreach (KeyValuePair<int, float> couple in sorted_couples)
             {
                 couple_order[a] = couple.Key;
                 a++;
@@ -239,22 +239,12 @@ namespace skating_system
                 writer.WriteLine("Součet");
 
                 var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
-                int i = 0;
                 foreach (var pair in sorted_couples)
                 {
-                    i++;
-                    writer.Write(pair.Key + " (" + i + ")" + "\t\t");
-                    if (Form1.JudgeCnt > 3)
-                    {
-                        foreach (var dance in dances.DancesArr)
-                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t");
-                    }
-                    else
-                    {
-                        foreach (var dance in dances.DancesArr)
-                            writer.Write(resultsStruct.rating[pair.Key][dance.Dance_title] + " (" + resultsStruct.individual[dance.Dance_title][pair.Key] + ")" + "\t\t");
-                    }
-                    writer.WriteLine(pair.Value);
+                    writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.0})\t\t");
+                    foreach (var dance in dances.DancesArr)
+                        writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
+                    writer.WriteLine($"{pair.Value:0.0}");
                 }
             }
 
