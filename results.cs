@@ -110,6 +110,9 @@ namespace skating_system
                 Width = (int)(scale * 50),
             };
 
+            int first_same = -1;
+            int last_same = 0;
+
             for (int x = 0; x < DancesArr.Length; x++)
             {
                 lines_y[x] = new Label
@@ -150,14 +153,52 @@ namespace skating_system
                 {
                     if (x == 0)
                     {
+                        if (first_same != -1)
+                        {
+                            if(resultsStruct.total[couple_order[y]].ToString() != resultsStruct.total[couple_order[y - 1]].ToString())
+                            {
+                                first_same = -1;
+                            }
+                        }
+                        for (int i = y+1; i < Form1.CoupleCnt; i++)
+                        {
+                            if (resultsStruct.total[couple_order[y]].ToString() == resultsStruct.total[couple_order[i]].ToString())
+                            {
+                                last_same = i;
+                                if(first_same == -1)
+                                {
+                                    first_same = y;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        string place;
+                        if(first_same == -1)
+                        {
+                            place = (y+1).ToString() + ".";
+                        }
+                        else
+                        {
+                            place = $"{first_same+1}-{last_same+1}.";
+                        }
+
+                        string spaces = "";
+                        for(int i = 0; i < 8 - place.Length; i++)
+                        {
+                            spaces += " ";
+                        }
+                        place += spaces;
                         couple_names[y] = new Label
                         {
-                            Text = $"Pár č. {couple_order[y]} ",
-                            Width = (int)(scale * 90),
+                            Text = $"{place}Pár č. {couple_order[y]} ",
+                            Width = (int)(scale * 100),
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleRight,
                             Visible = true,
-                            Location = new Point(offset[0], Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
+                            Location = new Point(offset[0] - (int)(scale * 10), Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
                         };
                     }
                     couple_totals[y] = new Label
@@ -265,6 +306,10 @@ namespace skating_system
         private void back_btn_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
         }
     }
 }
