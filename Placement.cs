@@ -15,14 +15,14 @@ namespace skating_system
         /// <summary>
         /// A dictionary containing results of individual dances mapped to name of dance as a key
         /// </summary>
-        public Dictionary<string, Dictionary<int, int>> individual;
+        public Dictionary<string, Dictionary<int, float>> individual;
         /// <summary>
         /// Total score accumulated by each pair mapped to the pairs number as a key
         /// </summary>
-        public Dictionary<int, int> total;
+        public Dictionary<int, float> total;
         public Dictionary<int, Dictionary<string, string>> rating;
 
-        public Results(Dictionary<string, Dictionary<int, int>> individual, Dictionary<int, int> total, Dictionary<int, Dictionary<string, string>> rating)
+        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating)
         {
             this.total = total;
             this.individual = individual;
@@ -74,7 +74,7 @@ namespace skating_system
         /// <returns>Dictionary with total score mapped to the Dancers number</returns>
         public Results Evaluate()
         {
-            Dictionary<string, Dictionary<int, int>> individual = new Dictionary<string, Dictionary<int, int>>();
+            Dictionary<string, Dictionary<int, float>> individual = new Dictionary<string, Dictionary<int, float>>();
             Dictionary<int, Dictionary<string, string>> rating_tmp = new Dictionary<int, Dictionary<string, string>>();
             foreach (var dance in rating)
             {
@@ -96,7 +96,7 @@ namespace skating_system
                 individual.Add(dance.Key, EvaluateDance(dance.Value));
             }
 
-            Dictionary<int, int> total = new Dictionary<int, int>();
+            Dictionary<int, float> total = new Dictionary<int, float>();
             foreach (var dance in individual)
             {
                 foreach (var pair in dance.Value)
@@ -108,6 +108,8 @@ namespace skating_system
                 }
             }
 
+            // TODO: Check for rule 10
+
             return new Results(individual, total, rating_tmp);
         }
 
@@ -117,18 +119,28 @@ namespace skating_system
         /// </summary>
         /// <param name="dance">A dance you want to evaluate</param>
         /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
-        private Dictionary<int, int> EvaluateDance(Dictionary<int, int[]> dance)
+        private Dictionary<int, float> EvaluateDance(Dictionary<int, int[]> dance)
         {
-            Dictionary<int, int> order = new Dictionary<int, int>();
+            Dictionary<int, float> order = new Dictionary<int, float>();
 
             int stage = 1;
             while (dance.Count > 0)
             {
-                int dancers_number = FindMajority(dance, stage);
-                if (dancers_number != -1)
+                List<int> dancers_numbers = FindMajority(dance, stage);
+                if (dancers_numbers.Count != 0)
                 {
-                    order.Add(dancers_number, order.Count + 1);
-                    dance.Remove(dancers_number);
+                    int total = 0;
+                    for (int i = 1; i <= dancers_numbers.Count; i++)
+                    {
+                        total += order.Count + i;
+                    }
+                    float placement = total / dancers_numbers.Count;
+
+                    foreach (int dancers_number in dancers_numbers)
+                    {
+                        order.Add(dancers_number, placement);
+                        dance.Remove(dancers_number);
+                    }
                     stage = 1;
                 }
                 stage++;
@@ -143,10 +155,10 @@ namespace skating_system
         /// <param name="dance"></param>
         /// <param name="stage"></param>
         /// <returns>Number of dancer or -1 if no Dancer meets the requirements</returns>
-        private int FindMajority(Dictionary<int, int[]> dance, int stage)
+        private List<int> FindMajority(Dictionary<int, int[]> dance, int stage)
         {
             int max_count = 0;
-            int dancers_number = -1;
+            List<int> dancers_numbers = new List<int>();
 
             foreach (var dancer in dance)
             {
@@ -160,17 +172,21 @@ namespace skating_system
                 if (count > max_count)
                 {
                     max_count = count;
-                    dancers_number = dancer.Key;
+                    dancers_numbers = new List<int> { dancer.Key };
+                }
+                else if (count == max_count)
+                {
+                    dancers_numbers.Add(dancer.Key);
                 }
             }
 
             if (max_count > number_of_judges / 2)
             {
-                return dancers_number;
+                return dancers_numbers;
             }
             else
             {
-                return -1;
+                return new List<int>();
             }
         }
     }
