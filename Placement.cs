@@ -133,7 +133,7 @@ namespace skating_system
             }
             else
             {
-                Check(collision, individual, total); // Check here
+                //Check(collision, individual, total); // Check here
             }
 
             return new Results(individual, total, rating_tmp, placement);
