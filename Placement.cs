@@ -22,11 +22,14 @@ namespace skating_system
         public Dictionary<int, float> total;
         public Dictionary<int, Dictionary<string, string>> rating;
 
-        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating)
+        public Dictionary<int, int> placement;
+
+        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating, Dictionary<int, int> placement)
         {
             this.total = total;
             this.individual = individual;
             this.rating = rating;
+            this.placement = placement;
         }
     }
 
@@ -109,8 +112,31 @@ namespace skating_system
             }
 
             // TODO: Check for rule 10
+            Dictionary<int, int> placement = new Dictionary<int, int>();
+            var ordered = total.OrderBy(x => x.Value).ToList();
+            List<int> collision = new List<int>();
+            for (int i = 0; i < ordered.Count - 1; i++)
+            {
+                if (ordered[i].Value == ordered[i + 1].Value)
+                {
+                    collision.Add(i);
+                    collision.Add(++i);
+                }
+            }
 
-            return new Results(individual, total, rating_tmp);
+            if (collision.Count == 0)
+            {
+                for (int i = 0; i < ordered.Count; i++)
+                {
+                    placement.Add(ordered[i].Key, i + 1);
+                }
+            }
+            else
+            {
+                Check(collision, individual, total); // Check here
+            }
+
+            return new Results(individual, total, rating_tmp, placement);
         }
 
         /// <summary>
@@ -126,6 +152,7 @@ namespace skating_system
             int stage = 1;
             while (dance.Count > 0)
             {
+                // TODO: Check for rule 7a
                 List<int> dancers_numbers = FindMajority(dance, stage);
                 if (dancers_numbers.Count != 0)
                 {
