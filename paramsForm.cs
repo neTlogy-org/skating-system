@@ -173,9 +173,9 @@ namespace skating_system
                     MessageBox.Show($"Dva páry mají stejné číslo (\"{coupleNum.Text}\")", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (coupleNum.Text.Length > 8)
+                if (coupleNum.Text.Length > 3)
                 {
-                    MessageBox.Show("Číslo páru může být maximálně 6 ciferné", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Číslo páru může být maximálně 3 ciferné", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
