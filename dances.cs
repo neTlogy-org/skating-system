@@ -43,6 +43,7 @@ namespace skating_system
         static Dance[] dancesArr = new Dance[Form1.DanceCnt];
 
         int dance = 1;
+        float scale;
 
         string[] dancesNames = new string[Form1.DanceCnt];
 
@@ -56,9 +57,13 @@ namespace skating_system
 
         public dances()
         {
+            scale = (float)DeviceDpi / 96;
+
             InitializeComponent();
 
             initialize();
+
+
 
             dancesNames = paramsForm.DancesNames.Select(e => e.Text).ToArray();
 
@@ -373,7 +378,7 @@ namespace skating_system
                     {
                         headerColumn.Visible = true;
                         headerColumn.Location = new Point(offset[0], offset[1] + headerOffset);
-                        headerColumn.Width = 90;
+                        headerColumn.Width = (int)(scale * 90);
                         continue;
                     }
                     if (x == 0)
@@ -383,7 +388,7 @@ namespace skating_system
                             Parent = panel1,
                             Text = $"Porotce {Convert.ToChar('A' + y - 1)}",
                             Visible = true,
-                            Width = 90,
+                            Width = (int)(90 * scale),
                             Location = new Point(offset[0], y * spacing[1] + offset[1] + headerOffset),
                             TextAlign = ContentAlignment.TopCenter
 
@@ -396,9 +401,9 @@ namespace skating_system
                         {
                             Text = paramsForm.CoupleNums[x - 1].Text.ToString(),
                             Parent = panel1,
-                            Size = new Size(size, size),
+                            Size = new Size((int)(scale * size), size),
                             Visible = true,
-                            Location = new Point(x * spacing[0] + offset[0] + headerSpace, offset[1]),
+                            Location = new Point((int)(scale * x * spacing[0]) + offset[0] + (int)(scale * headerSpace), offset[1]),
                             TextAlign = ContentAlignment.MiddleCenter
                         };
                         continue;
@@ -406,9 +411,9 @@ namespace skating_system
                     textBoxArr[x - 1, y - 1] = new TextBox
                     {
                         Parent = panel1,
-                        Size = new Size(size, size),
+                        Size = new Size((int)(scale * size), size),
                         Visible = true,
-                        Location = new Point(x * spacing[0] + offset[0] + headerSpace, y * spacing[1] + offset[1]),
+                        Location = new Point((int)(scale * x * spacing[0]) + offset[0] + (int)(scale * headerSpace), y * spacing[1] + offset[1]),
                     };
                     textBoxArr[x - 1, y - 1].KeyDown += tb_KeyDown;
                 }
@@ -421,7 +426,7 @@ namespace skating_system
                 Parent = panel1,
                 Location = new Point(offset[0], offset[1] + size),
                 Height = 2,
-                Width = Form1.CoupleCnt * spacing[0] + headerColumn.Width,
+                Width = (int)(scale * Form1.CoupleCnt * spacing[0]) + headerColumn.Width,
                 Visible = true,
                 BorderStyle = BorderStyle.Fixed3D
             };

@@ -24,14 +24,16 @@ namespace skating_system
         int[] spacing = { 41, 30 };
         int[] offset = { 20, 10 };
         int size = 30;
+        float scale; 
         public paramsForm()
         {
             InitializeComponent();
+            scale = (float)DeviceDpi / 96;
             for (int i = 0; i < Form1.DanceCnt; i++)
             {
                 dancesNames[i] = new TextBox();
                 dancesNames[i].Parent = panel1;
-                dancesNames[i].Location = new Point(offset[0], i * spacing[1] + offset[1]);
+                dancesNames[i].Location = new Point(offset[0], (int)(scale * i * spacing[1] + offset[1]));
                 dancesNames[i].Width = panel1.Width - 2 * offset[0];
                 dancesNames[i].Visible = true;
                 dancesNames[i].KeyDown += dances_tb_keyDown;
@@ -40,10 +42,9 @@ namespace skating_system
             {
                 coupleNums[i] = new TextBox();
                 coupleNums[i].Parent = panel2;
-                coupleNums[i].Location = new Point((i % 12) * spacing[0] + offset[0], (int)Math.Floor((double)i / 12) * spacing[1] + offset[1]);
-                coupleNums[i].Width = size;
+                coupleNums[i].Location = new Point((int)(scale * (i % 12) * spacing[0]) + offset[0], (int)Math.Floor((double)i / 12) * spacing[1] + offset[1]);
+                coupleNums[i].Width = (int)(scale * size);
                 coupleNums[i].KeyDown += coupleNums_tb_KeyDown;
-
             }
             if (Form1.DanceCnt < 4)
             {
