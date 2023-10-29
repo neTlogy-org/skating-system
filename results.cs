@@ -296,7 +296,7 @@ namespace skating_system
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
                 writer.WriteLine();
 
-                writer.Write("Název tance\t");
+                writer.Write("Název tance\t\t");
                 foreach (var dance in dances.DancesArr)
                 {
                     if (dance.Dance_title.Length > 7)
@@ -310,11 +310,11 @@ namespace skating_system
                 foreach (var pair in sorted_couples)
                 {
                     if (pair.Key <= 1) 
-                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t\t");
+                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t\t\t");
                     else
-                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t\t");
+                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t\t\t");
                     foreach (var dance in dances.DancesArr)
-                        writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
+                        writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t\t");
                     writer.WriteLine($"{pair.Value:0.0}");
                 }
             }
