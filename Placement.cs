@@ -126,6 +126,7 @@ namespace skating_system
                 }
             }
 
+            // Rule 10
             Dictionary<int, Dictionary<string, float>> individual_by_pairs = new Dictionary<int, Dictionary<string, float>>();
             foreach (var dance in individual)
             {
@@ -160,15 +161,37 @@ namespace skating_system
                     }
                     while (collision.Value.Count > 0)
                     {
-                        List<int> dancers_numbers = FindMajority(individual_by_pairs_only_colliding, collision.Key);
+                        Dictionary<int, int> dancers_numbers = FindMajority(individual_by_pairs_only_colliding, collision.Key);
                         if (dancers_numbers.Count == 1)
                         {
-                            placement.Add(dancers_numbers.First(), placement.Count + 1);
-                            collision.Value.Remove(dancers_numbers.First());
+                            placement.Add(dancers_numbers.Keys.First(), placement.Count + 1);
+                            collision.Value.Remove(dancers_numbers.Keys.First());
                         }
+                        // Rule 10b
                         else
                         {
-                            // TODO: 10b
+                            int lowest_sum = dancers_numbers.Values.First();
+                            List<int> same_sums = new List<int>();
+                            foreach (var pair in dancers_numbers)
+                            {
+                                if (pair.Value < lowest_sum)
+                                {
+                                    same_sums = new List<int> { pair.Key };
+                                }
+                                else if (pair.Value == lowest_sum)
+                                {
+                                    same_sums.Add(pair.Key);
+                                }
+                            }
+
+                            if (same_sums.Count == 1)
+                            {
+                                placement.Add(same_sums.First(), placement.Count + 1);
+                            }
+                            else
+                            {
+                                // Rule 11
+                            }
                         }
                     }
                 }
@@ -259,28 +282,32 @@ namespace skating_system
             }
         }
 
-        private List<int> FindMajority(Dictionary<int, List<float>> dancer, int place)
+        private Dictionary<int, int> FindMajority(Dictionary<int, List<float>> dancer, int place)
         {
             int max_count = 0;
-            List<int> dancers_numbers = new List<int>();
+            Dictionary<int, int> dancers_numbers = new Dictionary<int, int>();
 
             foreach (var dance in dancer)
             {
                 int count = 0;
+                int sum = 0;
                 foreach (int mark in dance.Value)
                 {
                     if (mark <= place)
+                    {
                         count++;
+                        sum += mark;
+                    }
                 }
 
                 if (count > max_count)
                 {
                     max_count = count;
-                    dancers_numbers = new List<int> { dance.Key };
+                    dancers_numbers = new Dictionary<int, int> { { dance.Key, sum } };
                 }
                 else if (count == max_count)
                 {
-                    dancers_numbers.Add(dance.Key);
+                    dancers_numbers.Add(dance.Key, sum);
                 }
             }
 
