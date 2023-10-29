@@ -187,10 +187,55 @@ namespace skating_system
                             if (same_sums.Count == 1)
                             {
                                 placement.Add(same_sums.First(), placement.Count + 1);
+                                collision.Value.Remove(same_sums.First());
                             }
                             else
                             {
                                 // Rule 11
+                                Dictionary<int, int[]> all_dances = new Dictionary<int, int[]>();
+                                foreach (var dance in rating)
+                                {
+                                    foreach (var pair in dance.Value)
+                                    {
+                                        if (collision.Value.Contains(pair.Key))
+                                        {
+                                            if (!all_dances.TryAdd(pair.Key, pair.Value))
+                                            {
+                                                all_dances[pair.Key].Concat(pair.Value);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var final_results = EvaluateDance(all_dances);
+                                bool collisions_final = false;
+                                var ordered_final = total.OrderBy(x => x.Value).ToList();
+                                for (int i = 0; i < ordered_final.Count - 1; i++)
+                                {
+                                    if (ordered_final[i].Value == ordered_final[i + 1].Value)
+                                    {
+                                        collisions_final = true;
+                                        break;
+                                    }
+                                }
+
+                                if (collisions_final)
+                                {
+                                    for (int i = 0; i < ordered_final.Count; i++)
+                                    {
+                                        placement.Add(ordered_final[i].Key, placement.Count + 1);
+                                    }
+                                }
+                                else
+                                {
+                                    int placement_count = placement.Count;
+                                    foreach (var pair in ordered_final)
+                                    {
+                                        placement.Add(pair.Key, placement_count + pair.Value);
+                                    }
+                                }
+
+                                collision.Value.Clear();
                             }
                         }
                     }
