@@ -292,7 +292,6 @@ namespace skating_system
             }
             using (StreamWriter writer = new StreamWriter(path))
             {
-                resultsStruct.placement.Reverse();
                 writer.WriteLine($"Název soutěže: {Form1.ContestName}");
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
                 writer.WriteLine();
@@ -311,9 +310,9 @@ namespace skating_system
                 foreach (var pair in sorted_couples)
                 {
                     if (pair.Key <= 1) 
-                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.0})\t\t");
+                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t\t");
                     else
-                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.0})\t");
+                        writer.Write($"{pair.Key} ({(Form1.CoupleCnt + 1 - resultsStruct.placement[pair.Key]):0.0})\t");
                     foreach (var dance in dances.DancesArr)
                         writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
                     writer.WriteLine($"{pair.Value:0.0}");
