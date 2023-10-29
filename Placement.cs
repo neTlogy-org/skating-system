@@ -153,6 +153,7 @@ namespace skating_system
             return new Results(individual, total, rating_tmp, placement, tied_pairs, tied_positions);
         }
 
+
         public static (Dictionary<int, int>, List<int>, Dictionary<int, List<int>>) CalculatePlacements(Dictionary<string, Dictionary<int, float>> individual)
         {
             // Vytvoření slovníku pro celkové umístění
@@ -212,10 +213,36 @@ namespace skating_system
                 }
             }
 
-            // Update final placement
+            // Update final placement and sharedPlacement
+            UpdatePlacementAndSharedPlacement(ref placement, ref sharedPlacement, sortedPairs);
+        }
+
+        private static void UpdatePlacementAndSharedPlacement(
+            ref Dictionary<int, int> placement,
+            ref Dictionary<int, List<int>> sharedPlacement,
+            List<KeyValuePair<int, int>> sortedPairs)
+        {
+            int currentPlacement = 1;
             for (int i = 0; i < sortedPairs.Count; i++)
             {
-                placement[sortedPairs[i].Key] = i + 1; // Upravit umístění na základě konečného řazení
+                int pairID = sortedPairs[i].Key;
+                placement[pairID] = currentPlacement;
+
+                // Check if this pair is tied with the next one
+                if (i < sortedPairs.Count - 1 && sortedPairs[i].Value == sortedPairs[i + 1].Value)
+                {
+                    AddToSharedPlacementAtAllTiedPositions(sharedPlacement, currentPlacement, sortedPairs, i);
+                    while (i < sortedPairs.Count - 1 && sortedPairs[i].Value == sortedPairs[i + 1].Value)
+                    {
+                        i++;
+                    }
+                    currentPlacement += i - currentPlacement + 1;
+                }
+                else
+                {
+                    AddToSharedPlacement(sharedPlacement, currentPlacement, pairID);
+                    currentPlacement++;
+                }
             }
         }
 
@@ -234,6 +261,28 @@ namespace skating_system
                 }
             }
         }
+
+        private static void AddToSharedPlacementAtAllTiedPositions(
+            Dictionary<int, List<int>> sharedPlacement,
+            int currentPlacement,
+            List<KeyValuePair<int, int>> sortedPairs,
+            int startIndex)
+        {
+            int endIndex = startIndex;
+            while (endIndex < sortedPairs.Count - 1 && sortedPairs[startIndex].Value == sortedPairs[endIndex + 1].Value)
+            {
+                endIndex++;
+            }
+
+            for (int placement = currentPlacement; placement <= currentPlacement + endIndex - startIndex; placement++)
+            {
+                for (int i = startIndex; i <= endIndex; i++)
+                {
+                    AddToSharedPlacement(sharedPlacement, placement, sortedPairs[i].Key);
+                }
+            }
+        }
+
 
         private static bool ResolveTie(
             Dictionary<string, Dictionary<int, float>> individual,
@@ -272,12 +321,12 @@ namespace skating_system
 
 
 
-    /// <summary>
-    /// Evaluates a single dance
-    /// Can be used outside of class if the right input is guaranteed.
-    /// </summary>
-    /// <param name="dance">A dance you want to evaluate</param>
-    /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
+        /// <summary>
+        /// Evaluates a single dance
+        /// Can be used outside of class if the right input is guaranteed.
+        /// </summary>
+        /// <param name="dance">A dance you want to evaluate</param>
+        /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
         private Dictionary<int, float> EvaluateDance(Dictionary<int, int[]> dance)
         {
             Dictionary<int, float> order = new Dictionary<int, float>();
