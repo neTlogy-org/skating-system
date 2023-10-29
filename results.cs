@@ -291,6 +291,7 @@ namespace skating_system
             }
             using (StreamWriter writer = new StreamWriter(path))
             {
+                resultsStruct.placement.Reverse();
                 writer.WriteLine($"Název soutěže: {Form1.ContestName}");
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
                 writer.WriteLine();
