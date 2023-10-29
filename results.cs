@@ -51,10 +51,10 @@ namespace skating_system
 
             resultsStruct = placement.Evaluate();
 
-            var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
+            var sorted_couples = resultsStruct.placement.OrderByDescending(pair => pair.Value);
 
             int a = 0;
-            foreach (KeyValuePair<int, float> couple in sorted_couples)
+            foreach (KeyValuePair<int, int> couple in sorted_couples)
             {
                 couple_order[a] = couple.Key;
                 a++;
@@ -111,7 +111,7 @@ namespace skating_system
             };
 
             int first_same = -1;
-            int last_same = 0;
+            string place = "";
 
             for (int x = 0; x < DancesArr.Length; x++)
             {
@@ -153,16 +153,16 @@ namespace skating_system
                 {
                     if (x == 0)
                     {
-                        if (first_same != -1)
+                        /*if (first_same != -1)
                         {
-                            if(resultsStruct.total[couple_order[y]].ToString() != resultsStruct.total[couple_order[y - 1]].ToString())
+                            if(resultsStruct.placement[couple_order[y]].ToString() != resultsStruct.placement[couple_order[y - 1]].ToString())
                             {
                                 first_same = -1;
                             }
                         }
                         for (int i = y+1; i < Form1.CoupleCnt; i++)
                         {
-                            if (resultsStruct.total[couple_order[y]].ToString() == resultsStruct.total[couple_order[i]].ToString())
+                            if (resultsStruct.placement[couple_order[y]].ToString() == resultsStruct.placement[couple_order[i]].ToString())
                             {
                                 last_same = i;
                                 if(first_same == -1)
@@ -174,15 +174,24 @@ namespace skating_system
                             {
                                 break;
                             }
+                        }*/
+                        if (resultsStruct.tied_pairs.Contains(couple_order[y]) && first_same == -1)
+                        {
+                            first_same = y;
                         }
-                        string place;
+                        if (!resultsStruct.tied_pairs.Contains(couple_order[y]))
+                        {
+                            first_same = -1;
+                            //place = "";
+                        }
+                        
                         if(first_same == -1)
                         {
                             place = (y+1).ToString() + ".";
                         }
-                        else
+                        else if(place == "")
                         {
-                            place = $"{first_same+1}-{last_same+1}.";
+                            place = $"{first_same + 1}-{first_same + resultsStruct.tied_positions[y+1].Count}.";
                         }
 
                         string spaces = "";
@@ -200,6 +209,10 @@ namespace skating_system
                             Visible = true,
                             Location = new Point(offset[0] - (int)(scale * 10), Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
                         };
+                        if (!resultsStruct.tied_pairs.Contains(couple_order[y]))
+                        {
+                            place = "";
+                        }
                     }
                     couple_totals[y] = new Label
                     {

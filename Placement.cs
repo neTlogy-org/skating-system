@@ -23,13 +23,18 @@ namespace skating_system
         public Dictionary<int, Dictionary<string, string>> rating;
 
         public Dictionary<int, int> placement;
+        public List<int> tied_pairs = new List<int>();
+        public Dictionary<int, List<int>> tied_positions = new Dictionary<int, List<int>>();
 
-        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating, Dictionary<int, int> placement)
+        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating, Dictionary<int, int> placement, List<int> tied_pairs, Dictionary<int, List<int>> tied_positions)
         {
             this.total = total;
             this.individual = individual;
             this.rating = rating;
             this.placement = placement;
+            this.tied_pairs = tied_pairs;
+            this.tied_positions = tied_positions;
+
         }
     }
 
@@ -113,7 +118,16 @@ namespace skating_system
 
             // TODO: Check for rule 10
             Dictionary<int, int> placement = new Dictionary<int, int>();
-            var ordered = total.OrderBy(x => x.Value).ToList();
+            List<int> tied_pairs = new List<int>();
+            Dictionary<int, List<int>> tied_positions = new Dictionary<int, List<int>>();
+
+            var res = CalculatePlacements(individual);
+            placement = res.Item1;
+            tied_pairs = res.Item2;
+            tied_positions = res.Item3;
+            
+
+            /*var ordered = total.OrderBy(x => x.Value).ToList();
             List<int> collision = new List<int>();
             for (int i = 0; i < ordered.Count - 1; i++)
             {
@@ -133,18 +147,137 @@ namespace skating_system
             }
             else
             {
-                //Check(collision, individual, total); // Check here
-            }
+                Check(collision, individual, total); // Check here
+            }*/
 
-            return new Results(individual, total, rating_tmp, placement);
+            return new Results(individual, total, rating_tmp, placement, tied_pairs, tied_positions);
         }
 
-        /// <summary>
-        /// Evaluates a single dance
-        /// Can be used outside of class if the right input is guaranteed.
-        /// </summary>
-        /// <param name="dance">A dance you want to evaluate</param>
-        /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
+        public static (Dictionary<int, int>, List<int>, Dictionary<int, List<int>>) CalculatePlacements(Dictionary<string, Dictionary<int, float>> individual)
+        {
+            // Vytvoření slovníku pro celkové umístění
+            Dictionary<int, int> placement = new Dictionary<int, int>();
+            List<int> tiedPairs = new List<int>();
+            Dictionary<int, List<int>> sharedPlacement = new Dictionary<int, List<int>>();
+
+            // Suma umístění pro každý pár
+            foreach (var dance in individual)
+            {
+                foreach (var pair in dance.Value)
+                {
+                    if (!placement.ContainsKey(pair.Key))
+                        placement[pair.Key] = 0;
+                    placement[pair.Key] += (int)pair.Value;
+                }
+            }
+
+            // Výpočet konečného umístění s rozlišením remíz
+            CalculateFinalPlacements(individual, ref placement, tiedPairs, sharedPlacement);
+
+            return (placement, tiedPairs.Distinct().ToList(), sharedPlacement);
+        }
+
+        private static void CalculateFinalPlacements(
+            Dictionary<string, Dictionary<int, float>> individual,
+            ref Dictionary<int, int> placement,
+            List<int> tiedPairs,
+            Dictionary<int, List<int>> sharedPlacement)
+        {
+            var sortedPairs = placement.ToList();
+            sortedPairs.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value)); // Seřadit podle skóre
+
+            for (int i = 0; i < sortedPairs.Count; i++)
+            {
+                for (int j = i + 1; j < sortedPairs.Count; j++)
+                {
+                    if (sortedPairs[i].Value == sortedPairs[j].Value) // Pokud mají stejné skóre
+                    {
+                        if (!ResolveTie(individual, sortedPairs[i].Key, sortedPairs[j].Key, tiedPairs))
+                        {
+                            tiedPairs.Add(sortedPairs[i].Key);
+                            tiedPairs.Add(sortedPairs[j].Key);
+                            AddToSharedPlacement(sharedPlacement, i + 1, sortedPairs[i].Key, sortedPairs[j].Key);
+                        }
+                        else // Rozhodnuto pravidly 10a nebo 10b
+                        {
+                            if (sortedPairs[i].Value < sortedPairs[j].Value)
+                            {
+                                // Swap if pair2 has better score after applying rules 10a or 10b
+                                var temp = sortedPairs[i];
+                                sortedPairs[i] = sortedPairs[j];
+                                sortedPairs[j] = temp;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Update final placement
+            for (int i = 0; i < sortedPairs.Count; i++)
+            {
+                placement[sortedPairs[i].Key] = i + 1; // Upravit umístění na základě konečného řazení
+            }
+        }
+
+        private static void AddToSharedPlacement(Dictionary<int, List<int>> sharedPlacement, int placement, params int[] pairs)
+        {
+            if (!sharedPlacement.ContainsKey(placement))
+            {
+                sharedPlacement[placement] = new List<int>();
+            }
+
+            foreach (var pair in pairs)
+            {
+                if (!sharedPlacement[placement].Contains(pair))
+                {
+                    sharedPlacement[placement].Add(pair);
+                }
+            }
+        }
+
+        private static bool ResolveTie(
+            Dictionary<string, Dictionary<int, float>> individual,
+            int pair1,
+            int pair2,
+            List<int> tiedPairs)
+        {
+            var danceCounts1 = CountBetterOrEqualPlacements(individual, pair1);
+            var danceCounts2 = CountBetterOrEqualPlacements(individual, pair2);
+
+            if (danceCounts1.Count > danceCounts2.Count)
+            {
+                return true; // pair1 vítězí
+            }
+            else if (danceCounts2.Count > danceCounts1.Count)
+            {
+                return true; // pair2 vítězí
+            }
+
+            // Pravidlo 10b: Kontrola součtu umístění
+            var sumPlacements1 = danceCounts1.Sum(kv => kv.Value);
+            var sumPlacements2 = danceCounts2.Sum(kv => kv.Value);
+
+            return sumPlacements1 != sumPlacements2; // Rozhodnuto, pokud nejsou součty stejné
+        }
+
+        private static Dictionary<int, float> CountBetterOrEqualPlacements(
+            Dictionary<string, Dictionary<int, float>> individual,
+            int pair)
+        {
+            return individual
+                .SelectMany(dance => dance.Value.Where(p => p.Key == pair && p.Value <= individual[dance.Key][pair]))
+                .GroupBy(p => p.Key)
+                .ToDictionary(group => group.Key, group => group.Sum(p => p.Value));
+        }
+
+
+
+    /// <summary>
+    /// Evaluates a single dance
+    /// Can be used outside of class if the right input is guaranteed.
+    /// </summary>
+    /// <param name="dance">A dance you want to evaluate</param>
+    /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
         private Dictionary<int, float> EvaluateDance(Dictionary<int, int[]> dance)
         {
             Dictionary<int, float> order = new Dictionary<int, float>();
