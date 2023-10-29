@@ -276,9 +276,20 @@ namespace skating_system
 
         private void export_btn_Click(object sender, EventArgs e)
         {
-            string[] pth = Path.GetFullPath(@"x").Split(@"\");
-            string user = pth[Array.IndexOf(pth, "Users") + 1];
-            using (StreamWriter writer = new StreamWriter($"{Path.GetFullPath(@$"\Users\{user}\Documents\")}{Form1.ContestName}.txt"))
+            string path;
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    path = sfd.FileName;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(path))
             {
                 writer.WriteLine($"Název soutěže: {Form1.ContestName}");
                 writer.WriteLine("Datum: " + DateTime.Today.ToString("dd. MMMM yyyy"));
@@ -304,7 +315,7 @@ namespace skating_system
                 }
             }
 
-            MessageBox.Show($"Exportováno do {Path.GetFullPath(@$"\Users\{user}\Documents\")}{Form1.ContestName}.txt", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Exportováno do {path}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
