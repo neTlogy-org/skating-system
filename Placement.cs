@@ -262,23 +262,64 @@ namespace skating_system
             int stage = 1;
             while (dance.Count > 0)
             {
-                // TODO: Check for rule 7a
-                List<int> dancers_numbers = FindMajority(dance, stage);
-                if (dancers_numbers.Count != 0)
+                Dictionary<int, int> dancers_numbers = FindMajority(dance, stage);
+                if (dancers_numbers.Count == 1)
                 {
-                    int total = 0;
-                    for (int i = 1; i <= dancers_numbers.Count; i++)
-                    {
-                        total += order.Count + i;
-                    }
-                    float placement = total / dancers_numbers.Count;
-
-                    foreach (int dancers_number in dancers_numbers)
-                    {
-                        order.Add(dancers_number, placement);
-                        dance.Remove(dancers_number);
-                    }
+                    order.Add(dancers_numbers.Keys.First(), order.Count + 1);
+                    dance.Remove(dancers_numbers.Keys.First());
                     stage = 1;
+                }
+                else if (dancers_numbers.Count > 1)
+                {
+                    // Rule 7
+                    int lowest_sum = dancers_numbers.Values.First();
+                    List<int> same_sums = new List<int>();
+                    foreach (var dancer in dancers_numbers)
+                    {
+                        if (dancer.Value < lowest_sum)
+                        {
+                            if (dancer.Value < lowest_sum)
+                            {
+                                same_sums = new List<int> { dancer.Key };
+                            }
+                            else if (dancer.Value == lowest_sum)
+                            {
+                                same_sums.Add(dancer.Key);
+                            }
+                        }
+                    }
+
+                    if (same_sums.Count == 1)
+                    {
+                        order.Add(same_sums.First(), order.Count + 1);
+                        dance.Remove(same_sums.First());
+                        stage = 1;
+                    }
+                    else
+                    {
+                        // Rule 7b
+                        int number_of_judges = dance.Values.First().Length;
+                        if (stage < number_of_judges)
+                        {
+                            stage++;
+                        }
+                        else
+                        {
+                            int total = 0;
+                            for (int i = 1; i <= dancers_numbers.Count; i++)
+                            {
+                                total += order.Count + i;
+                            }
+                            float placement = total / dancers_numbers.Count;
+
+                            foreach (int dancers_number in dancers_numbers.Keys)
+                            {
+                                order.Add(dancers_number, placement);
+                                dance.Remove(dancers_number);
+                            }
+                            stage = 1;
+                        }
+                    }
                 }
                 stage++;
             }
@@ -292,28 +333,32 @@ namespace skating_system
         /// <param name="dance"></param>
         /// <param name="stage"></param>
         /// <returns>Number of dancer or -1 if no Dancer meets the requirements</returns>
-        private List<int> FindMajority(Dictionary<int, int[]> dance, int stage)
+        private Dictionary<int, int> FindMajority(Dictionary<int, int[]> dance, int stage)
         {
             int max_count = 0;
-            List<int> dancers_numbers = new List<int>();
+            Dictionary<int, int> dancers_numbers = new Dictionary<int, int>();
 
             foreach (var dancer in dance)
             {
                 int count = 0;
+                int sum = 0;
                 foreach (int mark in dancer.Value)
                 {
                     if (mark <= stage)
+                    {
                         count++;
+                        sum += mark;
+                    }
                 }
 
                 if (count > max_count)
                 {
                     max_count = count;
-                    dancers_numbers = new List<int> { dancer.Key };
+                    dancers_numbers = new Dictionary<int, int> { { dancer.Key, sum } };
                 }
                 else if (count == max_count)
                 {
-                    dancers_numbers.Add(dancer.Key);
+                    dancers_numbers.Add(dancer.Key, sum);
                 }
             }
 
@@ -323,7 +368,7 @@ namespace skating_system
             }
             else
             {
-                return new List<int>();
+                return new Dictionary<int, int>();
             }
         }
 
