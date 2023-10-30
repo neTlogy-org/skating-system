@@ -141,7 +141,7 @@ namespace skating_system
                 {
                     if (x == 0)
                     {
-                        string place = order[y].Value.ToString("F1");
+                        string place = order[y].Value.ToString() + ".";
                         string spaces = "";
                         for(int i = 0; i < 8 - place.Length; i++)
                         {
@@ -150,7 +150,7 @@ namespace skating_system
                         place += spaces;
                         couple_names[y] = new Label
                         {
-                            Text = $"{place}Pár č. {order[y].Key} ",
+                            Text = $"{place:0.0}Pár č. {order[y].Key} ",
                             Width = (int)(scale * 100),
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleRight,
@@ -160,7 +160,7 @@ namespace skating_system
                     }
                     couple_totals[y] = new Label
                     {
-                        Text = resultsStruct.total[order[y].Key].ToString(),
+                        Text = resultsStruct.total[order[y].Key].ToString("F1"),
                         Width = (int)(scale * 50),
                         Parent = panel1,
                         TextAlign = ContentAlignment.MiddleCenter,
@@ -183,7 +183,7 @@ namespace skating_system
                     }
                     couple_dance_placement[x, y] = new Label
                     {
-                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][order[y].Key]})",
+                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][order[y].Key]:0.0})",
                         Width = (int)(scale * Form1.JudgeCnt * judge_name_width),
                         Parent = panel1,
                         TextAlign = ContentAlignment.MiddleCenter,
@@ -253,7 +253,7 @@ namespace skating_system
                 var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
                 foreach (var pair in sorted_couples)
                 {
-                    if (pair.Key < 10) 
+                    if (pair.Key < 100) 
                         writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.}.)\t\t");
                     else
                         writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.}.)\t");

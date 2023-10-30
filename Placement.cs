@@ -22,9 +22,9 @@ namespace skating_system
         public Dictionary<int, float> total;
         public Dictionary<int, Dictionary<string, string>> rating;
 
-        public Dictionary<int, float> placement;
+        public Dictionary<int, int> placement;
 
-        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating, Dictionary<int, float> placement)
+        public Results(Dictionary<string, Dictionary<int, float>> individual, Dictionary<int, float> total, Dictionary<int, Dictionary<string, string>> rating, Dictionary<int, int> placement)
         {
             this.total = total;
             this.individual = individual;
@@ -126,7 +126,7 @@ namespace skating_system
                 }
             }
 
-            Dictionary<int, float> placement = new Dictionary<int, float>();
+            Dictionary<int, int> placement = new Dictionary<int, int>();
             Dictionary<int, List<int>> collisions = new Dictionary<int, List<int>>();
             var ordered = total.OrderBy(x => x.Value).ToList();
             for (int i = 0; i < ordered.Count - 1; i++)
@@ -229,7 +229,7 @@ namespace skating_system
                                 int placement_count = placement.Count;
                                 foreach (var pair in ordered_final)
                                 {
-                                    placement.Add(pair.Key, placement_count + pair.Value);
+                                    placement.Add(pair.Key, placement_count + Convert.ToInt32(pair.Value));
                                 }
 
                                 collision.Value.Clear();
@@ -345,7 +345,7 @@ namespace skating_system
                             {
                                 total += order.Count + i;
                             }
-                            float placement = total / dancers_numbers.Count;
+                            float placement = (float)total / dancers_numbers.Count;
 
                             foreach (int dancers_number in dancers_numbers.Keys)
                             {
