@@ -253,10 +253,10 @@ namespace skating_system
                 var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value);
                 foreach (var pair in sorted_couples)
                 {
-                    if (pair.Key <= 1) 
-                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.0})\t\t");
+                    if (pair.Key < 10) 
+                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.}.)\t\t");
                     else
-                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.0})\t");
+                        writer.Write($"{pair.Key} ({resultsStruct.placement[pair.Key]:0.}.)\t");
                     foreach (var dance in dances.DancesArr)
                         writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
                     writer.WriteLine($"{pair.Value:0.0}");
