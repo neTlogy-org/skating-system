@@ -165,7 +165,7 @@ namespace skating_system
             {
                 foreach (var collision in collisions)
                 {
-                    for (int i = placement.Count + 1; i < collision.Key; i++)
+                    for (int i = placement.Count; i < collision.Key - 1; i++)
                     {
                         placement.Add(ordered[i].Key, placement.Count + 1);
                     }
@@ -185,13 +185,14 @@ namespace skating_system
                         // Rule 10b
                         else
                         {
-                            int lowest_sum = dancers_numbers.Values.First();
+                            int lowest_sum = int.MaxValue;
                             List<int> same_sums = new List<int>();
                             foreach (var pair in dancers_numbers)
                             {
                                 if (pair.Value < lowest_sum)
                                 {
                                     same_sums = new List<int> { pair.Key };
+                                    lowest_sum = pair.Value;
                                 }
                                 else if (pair.Value == lowest_sum)
                                 {
@@ -264,24 +265,23 @@ namespace skating_system
                     order.Add(dancers_numbers.Keys.First(), order.Count + 1);
                     dance.Remove(dancers_numbers.Keys.First());
                     stage = 1;
+                    continue;
                 }
                 else if (dancers_numbers.Count > 1)
                 {
                     // Rule 7
-                    int lowest_sum = dancers_numbers.Values.First();
+                    int lowest_sum = int.MaxValue;
                     List<int> same_sums = new List<int>();
                     foreach (var dancer in dancers_numbers)
                     {
                         if (dancer.Value < lowest_sum)
                         {
-                            if (dancer.Value < lowest_sum)
-                            {
-                                same_sums = new List<int> { dancer.Key };
-                            }
-                            else if (dancer.Value == lowest_sum)
-                            {
-                                same_sums.Add(dancer.Key);
-                            }
+                            same_sums = new List<int> { dancer.Key };
+                            lowest_sum = dancer.Value;
+                        }
+                        else if (dancer.Value == lowest_sum)
+                        {
+                            same_sums.Add(dancer.Key);
                         }
                     }
 
@@ -290,15 +290,55 @@ namespace skating_system
                         order.Add(same_sums.First(), order.Count + 1);
                         dance.Remove(same_sums.First());
                         stage = 1;
+                        continue;
                     }
                     else
                     {
                         // Rule 7b
-                        if (stage < number_of_judges)
+                        var only_colliding_dancers_marks = new Dictionary<int, int[]>();
+                        foreach (var dancer in dance)
                         {
-                            stage++;
+                            if (dancers_numbers.Keys.Contains(dancer.Key))
+                            {
+                                only_colliding_dancers_marks.Add(dancer.Key, dancer.Value);
+                            }
                         }
-                        else
+                        while (stage <= number_of_judges)
+                        {
+                            Dictionary<int, int> colliding_dancers_numbers = FindMajority(only_colliding_dancers_marks, ++stage);
+                            if (colliding_dancers_numbers.Count == 1)
+                            {
+                                order.Add(colliding_dancers_numbers.Keys.First(), order.Count + 1);
+                                dance.Remove(colliding_dancers_numbers.Keys.First());
+                                break;
+                            }
+                            else
+                            {
+                                int lowest_sum_colliding = int.MaxValue;
+                                List<int> same_sums_colliding = new List<int>();
+                                foreach (var dancer in colliding_dancers_numbers)
+                                {
+                                    if (dancer.Value < lowest_sum_colliding)
+                                    {
+                                        same_sums_colliding = new List<int> { dancer.Key };
+                                        lowest_sum_colliding = dancer.Value;
+                                    }
+                                    else if (dancer.Value == lowest_sum_colliding)
+                                    {
+                                        same_sums_colliding.Add(dancer.Key);
+                                    }
+                                }
+
+                                if (same_sums_colliding.Count == 1)
+                                {
+                                    order.Add(same_sums_colliding.First(), order.Count + 1);
+                                    dance.Remove(same_sums_colliding.First());
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (stage > number_of_judges)
                         {
                             int total = 0;
                             for (int i = 1; i <= dancers_numbers.Count; i++)
@@ -312,8 +352,9 @@ namespace skating_system
                                 order.Add(dancers_number, placement);
                                 dance.Remove(dancers_number);
                             }
-                            stage = 1;
                         }
+                        stage = 1;
+                        continue;
                     }
                 }
                 stage++;
