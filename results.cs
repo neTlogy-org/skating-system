@@ -32,7 +32,6 @@ namespace skating_system
 
         int[] spacing = { 40, 40, 40 };
         int[] offset = { 20, 20 };
-        int headerSpace = 60;
         int headerOffset = 4;
         int size = 30;
         int maxTitleSize = 0;
@@ -279,10 +278,6 @@ namespace skating_system
         private void back_btn_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
         }
     }
 }

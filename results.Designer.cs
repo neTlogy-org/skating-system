@@ -68,10 +68,6 @@
             exit_btn.UseVisualStyleBackColor = true;
             exit_btn.Click += exit_btn_Click;
             // 
-            // saveFileDialog1
-            // 
-            saveFileDialog1.FileOk += saveFileDialog1_FileOk;
-            // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
