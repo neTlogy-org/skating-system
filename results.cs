@@ -26,7 +26,6 @@ namespace skating_system
         Label[,] couple_marks = new Label[Form1.JudgeCnt, Form1.CoupleCnt];
         Label[,] couple_dance_placement = new Label[Form1.DanceCnt, Form1.CoupleCnt];
         Label[] couple_totals = new Label[Form1.CoupleCnt];
-        int[] couple_order = new int[Form1.CoupleCnt];
         Dictionary<int, int> couple_names_dict = new Dictionary<int, int>();
 
         Label[] dancesNames = new Label[dances.DancesArr.Length];
@@ -50,15 +49,6 @@ namespace skating_system
             }
 
             resultsStruct = placement.Evaluate();
-
-            var sorted_couples = resultsStruct.placement.OrderByDescending(pair => pair.Value);
-
-            int a = 0;
-            foreach (KeyValuePair<int, int> couple in sorted_couples)
-            {
-                couple_order[a] = couple.Key;
-                a++;
-            }
 
             for (int i = 0; i < Form1.CoupleCnt; i++)
             {
@@ -110,8 +100,7 @@ namespace skating_system
                 Width = (int)(scale * 50),
             };
 
-            int first_same = -1;
-            string place = "";
+            var order = resultsStruct.placement.OrderBy(x => x.Value).ToList();
 
             for (int x = 0; x < DancesArr.Length; x++)
             {
@@ -153,47 +142,7 @@ namespace skating_system
                 {
                     if (x == 0)
                     {
-                        /*if (first_same != -1)
-                        {
-                            if(resultsStruct.placement[couple_order[y]].ToString() != resultsStruct.placement[couple_order[y - 1]].ToString())
-                            {
-                                first_same = -1;
-                            }
-                        }
-                        for (int i = y+1; i < Form1.CoupleCnt; i++)
-                        {
-                            if (resultsStruct.placement[couple_order[y]].ToString() == resultsStruct.placement[couple_order[i]].ToString())
-                            {
-                                last_same = i;
-                                if(first_same == -1)
-                                {
-                                    first_same = y;
-                                }
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }*/
-                        if (resultsStruct.tied_pairs.Contains(couple_order[y]) && first_same == -1)
-                        {
-                            first_same = y;
-                        }
-                        if (!resultsStruct.tied_pairs.Contains(couple_order[y]))
-                        {
-                            first_same = -1;
-                            //place = "";
-                        }
-                        
-                        if(first_same == -1)
-                        {
-                            place = (y+1).ToString() + ".";
-                        }
-                        else if(place == "")
-                        {
-                            place = $"{first_same + 1}-{first_same + resultsStruct.tied_positions[y+1].Count}.";
-                        }
-
+                        string place = order[y].Value.ToString("F1");
                         string spaces = "";
                         for(int i = 0; i < 8 - place.Length; i++)
                         {
@@ -202,21 +151,17 @@ namespace skating_system
                         place += spaces;
                         couple_names[y] = new Label
                         {
-                            Text = $"{place}Pár č. {couple_order[y]} ",
+                            Text = $"{place}Pár č. {order[y].Key} ",
                             Width = (int)(scale * 100),
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleRight,
                             Visible = true,
                             Location = new Point(offset[0] - (int)(scale * 10), Convert.ToInt32(offset[1] + (y + 1.25) * spacing[1] * 1.5)),
                         };
-                        if (!resultsStruct.tied_pairs.Contains(couple_order[y]))
-                        {
-                            place = "";
-                        }
                     }
                     couple_totals[y] = new Label
                     {
-                        Text = resultsStruct.total[couple_order[y]].ToString(),
+                        Text = resultsStruct.total[order[y].Key].ToString(),
                         Width = (int)(scale * 50),
                         Parent = panel1,
                         TextAlign = ContentAlignment.MiddleCenter,
@@ -228,7 +173,7 @@ namespace skating_system
                     {
                         couple_marks[z, y] = new Label
                         {
-                            Text = DancesArr[x].Marks[couple_names_dict[couple_order[y]]][z].ToString(),
+                            Text = DancesArr[x].Marks[couple_names_dict[order[y].Key]][z].ToString(),
                             Width = (int)(scale * judge_name_width),
                             Parent = panel1,
                             TextAlign = ContentAlignment.MiddleCenter,
@@ -239,7 +184,7 @@ namespace skating_system
                     }
                     couple_dance_placement[x, y] = new Label
                     {
-                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][couple_order[y]]})",
+                        Text = $"({resultsStruct.individual[DancesArr[x].Dance_title][order[y].Key]})",
                         Width = (int)(scale * Form1.JudgeCnt * judge_name_width),
                         Parent = panel1,
                         TextAlign = ContentAlignment.MiddleCenter,

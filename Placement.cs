@@ -39,6 +39,7 @@ namespace skating_system
         /// A list of lists of dancers, which represents individual dances
         /// </summary>
         Dictionary<string, Dictionary<int, int[]>> rating;
+        Dictionary<string, Dictionary<int, int[]>> rating_copy;
         int number_of_judges;
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace skating_system
         {
             this.number_of_judges = number_of_judges;
             this.rating = rating;
+            this.rating_copy = rating;
         }
 
         /// <summary>
@@ -68,6 +70,18 @@ namespace skating_system
                 rating_tmp.Add(dance.Dance_title, pairs);
             }
             this.rating = rating_tmp;
+
+            Dictionary<string, Dictionary<int, int[]>> rating_tmp_copy = new Dictionary<string, Dictionary<int, int[]>>();
+            foreach (Dance dance in dances)
+            {
+                Dictionary<int, int[]> pairs = new Dictionary<int, int[]>();
+                for (int i = 0; i < dance.Couples_nums.Length; i++)
+                {
+                    pairs.Add(dance.Couples_nums[i], dance.Marks[i]);
+                }
+                rating_tmp_copy.Add(dance.Dance_title, pairs);
+            }
+            this.rating_copy = rating_tmp_copy;
             this.number_of_judges = dances[0].JudgeCnt;
         }
 
@@ -79,6 +93,7 @@ namespace skating_system
         {
             Dictionary<string, Dictionary<int, float>> individual = new Dictionary<string, Dictionary<int, float>>();
             Dictionary<int, Dictionary<string, string>> rating_tmp = new Dictionary<int, Dictionary<string, string>>();
+
             foreach (var dance in rating)
             {
                 foreach (var pair in dance.Value)
@@ -150,7 +165,7 @@ namespace skating_system
             {
                 foreach (var collision in collisions)
                 {
-                    for (int i = placement.Count; i < collision.Key; i++)
+                    for (int i = placement.Count + 1; i < collision.Key; i++)
                     {
                         placement.Add(ordered[i].Key, placement.Count + 1);
                     }
@@ -193,7 +208,7 @@ namespace skating_system
                             {
                                 // Rule 11
                                 Dictionary<int, int[]> all_dances = new Dictionary<int, int[]>();
-                                foreach (var dance in rating)
+                                foreach (var dance in rating_copy)
                                 {
                                     foreach (var pair in dance.Value)
                                     {
@@ -201,38 +216,19 @@ namespace skating_system
                                         {
                                             if (!all_dances.TryAdd(pair.Key, pair.Value))
                                             {
-                                                all_dances[pair.Key].Concat(pair.Value);
+                                                all_dances[pair.Key] = all_dances[pair.Key].Concat(pair.Value).ToArray();
                                             }
                                         }
                                     }
                                 }
 
                                 var final_results = EvaluateDance(all_dances);
-                                bool collisions_final = false;
-                                var ordered_final = total.OrderBy(x => x.Value).ToList();
-                                for (int i = 0; i < ordered_final.Count - 1; i++)
-                                {
-                                    if (ordered_final[i].Value == ordered_final[i + 1].Value)
-                                    {
-                                        collisions_final = true;
-                                        break;
-                                    }
-                                }
+                                var ordered_final = final_results.OrderBy(x => x.Value).ToList();
 
-                                if (collisions_final)
+                                int placement_count = placement.Count;
+                                foreach (var pair in ordered_final)
                                 {
-                                    for (int i = 0; i < ordered_final.Count; i++)
-                                    {
-                                        placement.Add(ordered_final[i].Key, placement.Count + 1);
-                                    }
-                                }
-                                else
-                                {
-                                    int placement_count = placement.Count;
-                                    foreach (var pair in ordered_final)
-                                    {
-                                        placement.Add(pair.Key, placement_count + pair.Value);
-                                    }
+                                    placement.Add(pair.Key, placement_count + pair.Value);
                                 }
 
                                 collision.Value.Clear();
@@ -249,12 +245,12 @@ namespace skating_system
             return new Results(individual, total, rating_tmp, placement);
         }
 
-    /// <summary>
-    /// Evaluates a single dance
-    /// Can be used outside of class if the right input is guaranteed.
-    /// </summary>
-    /// <param name="dance">A dance you want to evaluate</param>
-    /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
+        /// <summary>
+        /// Evaluates a single dance
+        /// Can be used outside of class if the right input is guaranteed.
+        /// </summary>
+        /// <param name="dance">A dance you want to evaluate</param>
+        /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
         private Dictionary<int, float> EvaluateDance(Dictionary<int, int[]> dance)
         {
             Dictionary<int, float> order = new Dictionary<int, float>();
@@ -298,7 +294,6 @@ namespace skating_system
                     else
                     {
                         // Rule 7b
-                        int number_of_judges = dance.Values.First().Length;
                         if (stage < number_of_judges)
                         {
                             stage++;
