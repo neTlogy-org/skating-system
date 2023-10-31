@@ -226,13 +226,13 @@ namespace skating_system
                                     }
                                 }
 
-                                var final_results = EvaluateDance(all_dances);
+                                var final_results = EvaluateDanceRule11(all_dances);
                                 var ordered_final = final_results.OrderBy(x => x.Value).ToList();
 
                                 int placement_count = placement.Count;
                                 foreach (var pair in ordered_final)
                                 {
-                                    placement.Add(pair.Key, placement_count + 1);
+                                    placement.Add(pair.Key, placement_count + pair.Value);
                                 }
 
                                 collision.Value.Clear();
@@ -353,6 +353,118 @@ namespace skating_system
                             foreach (int dancers_number in dancers_numbers.Keys)
                             {
                                 order.Add(dancers_number, placement);
+                                dance.Remove(dancers_number);
+                            }
+                        }
+                        stage = 1;
+                        continue;
+                    }
+                }
+                stage++;
+            }
+
+            return order;
+        }
+        
+        /// <summary>
+        /// Evaluates a single dance
+        /// Can be used outside of class if the right input is guaranteed.
+        /// </summary>
+        /// <param name="dance">A dance you want to evaluate</param>
+        /// <returns>Dictionary with dancers numbers as key with their mark as value</returns>
+        private Dictionary<int, int> EvaluateDanceRule11(Dictionary<int, int[]> dance)
+        {
+            Dictionary<int, int> order = new Dictionary<int, int>();
+
+            int stage = 1;
+            while (dance.Count > 0)
+            {
+                Dictionary<int, int> dancers_numbers = FindMajority(dance, stage);
+                if (dancers_numbers.Count == 1)
+                {
+                    order.Add(dancers_numbers.Keys.First(), order.Count + 1);
+                    dance.Remove(dancers_numbers.Keys.First());
+                    stage = 1;
+                    continue;
+                }
+                else if (dancers_numbers.Count > 1)
+                {
+                    // Rule 7
+                    int lowest_sum = int.MaxValue;
+                    List<int> same_sums = new List<int>();
+                    foreach (var dancer in dancers_numbers)
+                    {
+                        if (dancer.Value < lowest_sum)
+                        {
+                            same_sums = new List<int> { dancer.Key };
+                            lowest_sum = dancer.Value;
+                        }
+                        else if (dancer.Value == lowest_sum)
+                        {
+                            same_sums.Add(dancer.Key);
+                        }
+                    }
+
+                    if (same_sums.Count == 1)
+                    {
+                        order.Add(same_sums.First(), order.Count + 1);
+                        dance.Remove(same_sums.First());
+                        stage = 1;
+                        continue;
+                    }
+                    else
+                    {
+                        // Rule 7b
+                        var only_colliding_dancers_marks = new Dictionary<int, int[]>();
+                        foreach (var dancer in dance)
+                        {
+                            if (dancers_numbers.Keys.Contains(dancer.Key))
+                            {
+                                only_colliding_dancers_marks.Add(dancer.Key, dancer.Value);
+                            }
+                        }
+                        while (stage <= number_of_judges)
+                        {
+                            Dictionary<int, int> colliding_dancers_numbers = FindMajority(only_colliding_dancers_marks, ++stage);
+                            if (colliding_dancers_numbers.Count == 1)
+                            {
+                                order.Add(colliding_dancers_numbers.Keys.First(), order.Count + 1);
+                                dance.Remove(colliding_dancers_numbers.Keys.First());
+                                break;
+                            }
+                            else
+                            {
+                                int lowest_sum_colliding = int.MaxValue;
+                                List<int> same_sums_colliding = new List<int>();
+                                foreach (var dancer in colliding_dancers_numbers)
+                                {
+                                    if (dancer.Value < lowest_sum_colliding)
+                                    {
+                                        same_sums_colliding = new List<int> { dancer.Key };
+                                        lowest_sum_colliding = dancer.Value;
+                                    }
+                                    else if (dancer.Value == lowest_sum_colliding)
+                                    {
+                                        same_sums_colliding.Add(dancer.Key);
+                                    }
+                                }
+
+                                if (same_sums_colliding.Count == 1)
+                                {
+                                    order.Add(same_sums_colliding.First(), order.Count + 1);
+                                    dance.Remove(same_sums_colliding.First());
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (stage > number_of_judges)
+                        {
+                            int order_count = order.Count;
+
+                            foreach (int dancers_number in dancers_numbers.Keys)
+                            {
+                                order.Add(dancers_number, order_count);
                                 dance.Remove(dancers_number);
                             }
                         }
