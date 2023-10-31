@@ -176,7 +176,7 @@ namespace skating_system
             {
                 foreach (var collision in collisions)
                 {
-                    for (int i = placement.Count; i < collision.Key - 1; i++)
+                    for (int i = placement.Count; i < collision.Key; i++) // here
                     {
                         placement.Add(ordered[i].Key, placement.Count + 1);
                     }
