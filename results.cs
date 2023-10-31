@@ -268,20 +268,10 @@ namespace skating_system
                 int i = 0;
                 foreach (var pair in sorted_couples)
                 {
-                    string place = $"{resultsStruct.placement[pair.Key]:0.}";
-                    if (i < sorted_couples.Count - 1)
+                    string place = $"{resultsStruct.placement[pair.Key]:0.}.";
+                    if (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() > 0)
                     {
-                        if (sorted_couples[i].Value == sorted_couples[i + 1].Value)
-                        {
-                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
-                        }
-                    }
-                    else
-                    {
-                        if (sorted_couples[i].Value == sorted_couples[i - 1].Value)
-                        {
-                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
-                        }
+                        place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + resultsStruct.placement[sorted_couples[i].Key] - 1) + ".";
                     }
                     string write = $"{pair.Key} ({place})";
                     if (write.Length < 8) 
