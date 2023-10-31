@@ -131,14 +131,17 @@ namespace skating_system
             var ordered = total.OrderBy(x => x.Value).ToList();
             for (int i = 0; i < ordered.Count - 1; i++)
             {
-                if (ordered[i].Value == ordered[i + 1].Value)
+                for (int j = i; j < ordered.Count - 1; j++)
                 {
-                    if (!collisions.TryAdd(i + 1, new List<int> { ordered[i].Key, ordered[i + 1].Key }))
+                    if (ordered[j].Value == ordered[j + 1].Value)
                     {
-                        collisions[i + 1].Add(ordered[i + 1].Key);
+                        if (!collisions.TryAdd(i + 1, new List<int> { ordered[j].Key, ordered[j + 1].Key }))
+                        {
+                            collisions[i + 1].Add(ordered[j + 1].Key);
+                        }
                     }
-                    i++;
                 }
+                i += collisions[i + 1].Count - 1;
             }
 
             // Rule 10
@@ -229,7 +232,7 @@ namespace skating_system
                                 int placement_count = placement.Count;
                                 foreach (var pair in ordered_final)
                                 {
-                                    placement.Add(pair.Key, placement_count + Convert.ToInt32(pair.Value));
+                                    placement.Add(pair.Key, placement_count + 1);
                                 }
 
                                 collision.Value.Clear();
