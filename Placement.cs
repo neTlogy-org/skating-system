@@ -141,7 +141,15 @@ namespace skating_system
                         }
                     }
                 }
-                i += collisions[i + 1].Count - 1;
+                List<int> tmp = new List<int>();
+                if (collisions.TryGetValue(i + 1, out tmp))
+                {
+                    i += tmp.Count - 1;
+                }
+                else
+                {
+                    i++;
+                }
             }
 
             // Rule 10
