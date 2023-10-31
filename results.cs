@@ -264,14 +264,24 @@ namespace skating_system
                 }
                 writer.WriteLine("Součet");
 
-                var sorted_couples = resultsStruct.total.OrderBy(pair => pair.Value).ToList();
+                var sorted_couples = resultsStruct.placement.OrderBy(pair => pair.Value).ToList();
                 int i = 0;
                 foreach (var pair in sorted_couples)
                 {
-                    string place = $"{resultsStruct.placement[pair.Key]:0.}.";
-                    if (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() > 0)
+                    string place = $"{pair.Value:0.}.";
+                    if (i < sorted_couples.Count - 1)
                     {
-                        place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + resultsStruct.placement[sorted_couples[i].Key] - 1) + ".";
+                        if (sorted_couples[i].Value == sorted_couples[i + 1].Value)
+                        {
+                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
+                        }
+                    }
+                    else
+                    {
+                        if (sorted_couples[i].Value == sorted_couples[i - 1].Value)
+                        {
+                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
+                        }
                     }
                     string write = $"{pair.Key} ({place})";
                     if (write.Length < 8) 
@@ -281,7 +291,7 @@ namespace skating_system
 
                     foreach (var dance in dances.DancesArr)
                         writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
-                    writer.WriteLine($"{pair.Value:0.0}");
+                    writer.WriteLine($"{resultsStruct.total[pair.Key]:0.0}");
                     i++;
                 }
             }
