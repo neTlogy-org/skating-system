@@ -285,9 +285,9 @@ namespace skating_system
                     }
                     string write = $"{pair.Key} ({place})";
                     if (write.Length < 8) 
-                        writer.Write($"{pair.Key} (place)\t\t");
+                        writer.Write($"{pair.Key} ({place})\t\t");
                     else
-                        writer.Write($"{pair.Key} (place)\t");
+                        writer.Write($"{pair.Key} ({place})\t");
 
                     foreach (var dance in dances.DancesArr)
                         writer.Write($"{resultsStruct.rating[pair.Key][dance.Dance_title]} ({resultsStruct.individual[dance.Dance_title][pair.Key]:0.0})\t");
