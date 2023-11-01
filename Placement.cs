@@ -129,27 +129,11 @@ namespace skating_system
             Dictionary<int, int> placement = new Dictionary<int, int>();
             Dictionary<int, List<int>> collisions = new Dictionary<int, List<int>>();
             var ordered = total.OrderBy(x => x.Value).ToList();
-            for (int i = 0; i < ordered.Count - 1; i++)
+            for (int i = 0; i < ordered.Count; i++)
             {
-                for (int j = i; j < ordered.Count - 1; j++)
-                {
-                    if (ordered[j].Value == ordered[j + 1].Value)
-                    {
-                        if (!collisions.TryAdd(i + 1, new List<int> { ordered[j].Key, ordered[j + 1].Key }))
-                        {
-                            collisions[i + 1].Add(ordered[j + 1].Key);
-                        }
-                    }
-                }
-                List<int> tmp = new List<int>();
-                if (collisions.TryGetValue(i + 1, out tmp))
-                {
-                    i += tmp.Count - 1;
-                }
-                else
-                {
-                    i++;
-                }
+                var tmp2 = ordered.Where(x => x.Value == ordered[i].Value).ToDictionary(x => x.Key, x => x.Value).Keys.ToList();
+                collisions.Add(i + 1, tmp2);
+                i += tmp2.Count - 1;
             }
 
             // Rule 10
@@ -176,7 +160,7 @@ namespace skating_system
             {
                 foreach (var collision in collisions)
                 {
-                    for (int i = placement.Count; i < collision.Key; i++) // here
+                    for (int i = placement.Count; i < collision.Key - 1; i++)
                     {
                         placement.Add(ordered[i].Key, placement.Count + 1);
                     }
@@ -472,7 +456,7 @@ namespace skating_system
 
                             foreach (int dancers_number in dancers_numbers.Keys)
                             {
-                                order.Add(dancers_number, order_count);
+                                order.Add(dancers_number, order_count + 1);
                                 dance.Remove(dancers_number);
                             }
                         }
