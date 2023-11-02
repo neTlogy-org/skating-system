@@ -179,6 +179,7 @@ namespace skating_system
                         {
                             placement.Add(dancers_numbers.Keys.First(), placement.Count + 1);
                             collision.Value.Remove(dancers_numbers.Keys.First());
+                            individual_by_pairs_only_colliding.Remove(dancers_numbers.Keys.First());
                         }
                         // Rule 10b
                         else
@@ -202,6 +203,7 @@ namespace skating_system
                             {
                                 placement.Add(same_sums.First(), placement.Count + 1);
                                 collision.Value.Remove(same_sums.First());
+                                individual_by_pairs_only_colliding.Remove(same_sums.First());
                             }
                             else
                             {
