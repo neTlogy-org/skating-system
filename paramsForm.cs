@@ -198,8 +198,10 @@ namespace skating_system
             }
         }
 
-        string[] stt = { "Waltz", "Tango", "Valčík", "Quickstep", "Slowfox" };
-        string[] lat = { "Chacha", "Samba", "Rumba", "Jive", "Paso Doble" };
+        string[] stt4 = { "Waltz", "Tango", "Valčík", "Quickstep"};
+        string[] lat4 = { "Chacha", "Samba", "Rumba", "Jive"};
+        string[] stt5 = { "Waltz", "Tango", "Valčík", "Slowfox", "Quickstep"};
+        string[] lat5 = { "Chacha", "Samba", "Rumba", "Paso Doble", "Jive"};
 
         private void stt4_btn_Click(object sender, EventArgs e)
         {
@@ -209,7 +211,7 @@ namespace skating_system
             }
             for (int i = 0; i < 4; i++)
             {
-                dancesNames[i].Text = stt[i];
+                dancesNames[i].Text = stt4[i];
             }
         }
 
@@ -221,7 +223,7 @@ namespace skating_system
             }
             for (int i = 0; i < 5; i++)
             {
-                dancesNames[i].Text = stt[i];
+                dancesNames[i].Text = stt5[i];
             }
         }
 
@@ -233,7 +235,7 @@ namespace skating_system
             }
             for (int i = 0; i < 4; i++)
             {
-                dancesNames[i].Text = lat[i];
+                dancesNames[i].Text = lat4[i];
             }
         }
 
@@ -245,7 +247,7 @@ namespace skating_system
             }
             for (int i = 0; i < 5; i++)
             {
-                dancesNames[i].Text = lat[i];
+                dancesNames[i].Text = lat5[i];
             }
         }
     }
