@@ -132,8 +132,11 @@ namespace skating_system
             for (int i = 0; i < ordered.Count; i++)
             {
                 var tmp2 = ordered.Where(x => x.Value == ordered[i].Value).ToDictionary(x => x.Key, x => x.Value).Keys.ToList();
-                collisions.Add(i + 1, tmp2);
-                i += tmp2.Count - 1;
+                if (tmp2.Count > 1)
+                {
+                    collisions.Add(i + 1, tmp2);
+                    i += tmp2.Count - 1;
+                }
             }
 
             // Rule 10
