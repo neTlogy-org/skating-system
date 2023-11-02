@@ -142,19 +142,10 @@ namespace skating_system
                     if (x == 0)
                     {
                         string place = order[y].Value.ToString() + ".";
-                        if (y < order.Count - 1)
+                        int num_collisions = order.Where(x => x.Value == order[y].Value).Count();
+                        if (num_collisions > 1)
                         {
-                            if (order[y].Value == order[y + 1].Value)
-                            {
-                                place += "-" + (order.Select(x => x.Value == order[y].Value).Count() + order[y].Value - 1) + ".";
-                            }
-                        }
-                        else
-                        {
-                            if (order[y].Value == order[y - 1].Value)
-                            {
-                                place += "-" + (order.Select(x => x.Value == order[y].Value).Count() + order[y].Value - 1) + ".";
-                            }
+                            place += "-" + (num_collisions + order[y].Value - 1) + ".";
                         }
                         string spaces = "";
                         for(int i = 0; i < 8 - place.Length; i++)
@@ -269,19 +260,10 @@ namespace skating_system
                 foreach (var pair in sorted_couples)
                 {
                     string place = $"{pair.Value:0.}.";
-                    if (i < sorted_couples.Count - 1)
+                    int num_collisions = sorted_couples.Where(x => x.Value == sorted_couples[i].Value).Count();
+                    if (num_collisions > 1)
                     {
-                        if (sorted_couples[i].Value == sorted_couples[i + 1].Value)
-                        {
-                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
-                        }
-                    }
-                    else
-                    {
-                        if (sorted_couples[i].Value == sorted_couples[i - 1].Value)
-                        {
-                            place += "-" + (sorted_couples.Select(x => x.Value == sorted_couples[i].Value).Count() + sorted_couples[i].Value - 1) + ".";
-                        }
+                        place += "-" + (num_collisions + sorted_couples[i].Value - 1) + ".";
                     }
                     string write = $"{pair.Key} ({place})";
                     if (write.Length < 8) 
